@@ -1,9 +1,9 @@
 import { Button, StyleSheet, Text, View } from "react-native";
 
-export default function HistoryScreen({ navigation }) {
+export default function CustomersScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>History</Text>
+      <Text style={styles.title}>Customers</Text>
       <Button
         title="Sign Out"
         onPress={() => {
