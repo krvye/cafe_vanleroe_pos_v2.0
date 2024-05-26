@@ -6,11 +6,22 @@ import HistoryScreen from "../screens/History";
 import InventoryScreen from "../screens/Inventory";
 import CustomersScreen from "../screens/Customers";
 
+import CustomTabBar from "../components/CustomTabBar";
+
 const Tab = createMaterialTopTabNavigator();
 
 export default function TabNavigator() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: "#FF5C00",
+        tabBarInactiveTintColor: "#828487",
+        tabBarIndicatorStyle: {
+          backgroundColor: "#FF5C00",
+        },
+      }}
+      tabBar={(props) => <CustomTabBar {...props} />}
+    >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Queue" component={QueueScreen} />
       <Tab.Screen name="History" component={HistoryScreen} />
