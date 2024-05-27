@@ -1,9 +1,4 @@
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-} from "react-native";
+import { View, Text, Image, StyleSheet } from "react-native";
 
 // Import Icons
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
@@ -91,7 +86,18 @@ export default function TodaySales() {
           </View>
         </View>
         <View style={styles.onsiteContainer}>
-            <Text style={{marginTop: 12, textAlign: 'center', color: '#F9BC4D', fontSize: '20px', fontWeight: 'bold', marginBottom: 32}}>Onsite</Text>
+          <Text
+            style={{
+              marginTop: 12,
+              textAlign: "center",
+              color: "#F9BC4D",
+              fontSize: "20px",
+              fontWeight: "bold",
+              marginBottom: 32,
+            }}
+          >
+            Onsite
+          </Text>
           <View style={styles.salesAmountContainer}>
             <Text style={styles.amountText}>200</Text>
             <Text style={styles.salesText}>Total Customers</Text>
@@ -126,7 +132,18 @@ export default function TodaySales() {
           </View>
         </View>
         <View style={styles.cashContainer}>
-            <Text style={{marginTop: 12, textAlign: 'center', color: '#b66619', fontSize: '20px', fontWeight: 'bold', marginBottom: 32}}>Cash</Text>
+          <Text
+            style={{
+              marginTop: 12,
+              textAlign: "center",
+              color: "#b66619",
+              fontSize: "20px",
+              fontWeight: "bold",
+              marginBottom: 32,
+            }}
+          >
+            Cash
+          </Text>
           <View style={styles.salesAmountContainer}>
             <Text style={styles.amountText}>200</Text>
             <Text style={styles.salesText}>Total Customers</Text>
