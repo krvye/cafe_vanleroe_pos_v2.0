@@ -1,23 +1,24 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import TodaySales from "../components/History/TodaySales";
 
-export default function HistoryScreen({ navigation }) {
+export default function HistoryScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>History</Text>
-      <Button
-        title="Sign Out"
-        onPress={() => {
-          navigation.navigate("SignInScreen");
-        }}
-      />
+      <TodaySales />
+      {/* <Text style={styles.title}>History</Text>
+        <Button
+          title="Sign Out"
+          onPress={() => {
+            navigation.navigate("SignInScreen");
+          }}
+        /> */}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
+    flexDirection: "column",
     justifyContent: "center",
   },
   title: {
