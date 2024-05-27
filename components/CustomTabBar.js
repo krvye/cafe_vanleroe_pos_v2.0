@@ -1,5 +1,12 @@
 // React Native Core Components
-import { View, TouchableOpacity, Text, Image, StyleSheet } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  Image,
+  StyleSheet,
+  useWindowDimensions,
+} from "react-native";
 
 // Expo Icons
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -9,6 +16,16 @@ import { MaterialIcons } from "@expo/vector-icons";
 import DefaultProfilePicture from "../assets/default-profile-picture.jpg";
 
 export default function CustomTabBar({ state, descriptors, navigation }) {
+  // Get device window dimensions
+  const { width, scale, fontScale } = useWindowDimensions();
+
+  // Get styles
+  const styles = makeStyles(scale);
+
+  // Declaring icon size responsive to device dimensions
+  const baseIconSize = 30;
+  const iconSize = baseIconSize;
+
   return (
     <View style={styles.container}>
       {/* Back Icon */}
@@ -18,7 +35,7 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
       >
         <MaterialCommunityIcons
           name="arrow-left-thin-circle-outline"
-          size={24}
+          size={iconSize}
           color="#FF5C00"
         />
       </TouchableOpacity>
@@ -72,32 +89,32 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
               {route.name === "Home" && (
                 <MaterialCommunityIcons
                   name="home-variant"
-                  size={24}
+                  size={iconSize}
                   color={color}
                 />
               )}
               {route.name === "Queue" && (
                 <MaterialCommunityIcons
                   name="clipboard-list-outline"
-                  size={24}
+                  size={iconSize}
                   color={color}
                 />
               )}
               {route.name === "History" && (
                 <MaterialCommunityIcons
                   name="clock-outline"
-                  size={24}
+                  size={iconSize}
                   color={color}
                 />
               )}
               {route.name === "Inventory" && (
-                <MaterialIcons name="inventory" size={24} color={color} />
+                <MaterialIcons name="inventory" size={iconSize} color={color} />
               )}
               {route.name === "Customers" && (
-                <MaterialIcons name="person" size={24} color={color} />
+                <MaterialIcons name="person" size={iconSize} color={color} />
               )}
 
-              <Text style={{ color }}>{label}</Text>
+              <Text style={{ color, fontSize: 20 * fontScale }}>{label}</Text>
             </View>
           </TouchableOpacity>
         );
@@ -107,23 +124,29 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 40,
-    borderBottomWidth: 1,
-    borderBottomColor: "#FF5C00",
-    paddingBottom: 10,
-  },
-  backButton: { marginLeft: 30 },
-  tabButton: { flex: 1, marginLeft: 40 },
-  tabButtonContainer: { flexDirection: "row", alignItems: "center", gap: 5 },
-  profilePicture: {
-    borderRadius: 300,
-    height: 30,
-    width: 30,
-    marginRight: 30,
-  },
-});
+const makeStyles = (scale) =>
+  StyleSheet.create({
+    container: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: 17 * scale,
+      borderBottomWidth: 1,
+      borderBottomColor: "#FF5C00",
+      paddingBottom: 10,
+      justifyContent: "space-around",
+      alignItems: "center",
+    },
+    backButton: {},
+    tabButton: {},
+    tabButtonContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 5,
+    },
+    profilePicture: {
+      height: 80 / scale,
+      width: 80 / scale,
+      borderRadius: 80 / scale / 2,
+    },
+  });
