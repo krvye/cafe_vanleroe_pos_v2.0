@@ -114,7 +114,7 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
                 <MaterialIcons name="person" size={iconSize} color={color} />
               )}
 
-              <Text style={{ color, fontSize: 20 * fontScale }}>{label}</Text>
+              <Text style={{ color, fontSize: 16 * fontScale }}>{label}</Text>
             </View>
           </TouchableOpacity>
         );
@@ -142,11 +142,11 @@ const makeStyles = (scale) =>
     tabButtonContainer: {
       flexDirection: "row",
       alignItems: "center",
-      gap: 5,
+      gap: 10,
     },
     profilePicture: {
-      height: 80 / scale,
-      width: 80 / scale,
-      borderRadius: 80 / scale / 2,
+      height: 18 * scale,
+      width: 18 * scale,
+      borderRadius: (18 * scale) / 2,
     },
   });
