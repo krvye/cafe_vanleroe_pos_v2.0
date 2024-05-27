@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import TodaySales from "../components/History/TodaySales.js";
+import TodaySales from "../components/History/TodaySales";
 
 export default function HistoryScreen() {
   return (
