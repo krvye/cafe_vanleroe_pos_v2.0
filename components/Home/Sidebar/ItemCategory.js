@@ -18,6 +18,8 @@ export default function ItemCategory({ categoryName, onPress, active }) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
+    borderRightWidth: 1,
+    borderRightColor: "#E4E4E4",
   },
   activeButton: {
     justifyContent: "center",
