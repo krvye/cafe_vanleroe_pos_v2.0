@@ -3,7 +3,7 @@
     "name": "P.O.S",
     "slug": "Cafe_Vanleroe_POS",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "landscape",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -24,14 +24,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      [
-        "expo-screen-orientation",
-        {
-          "initialOrientation": "LANDSCAPE"
-        }
-      ]
-    ],
     "extra": {
       "eas": {
         "projectId": "c9668a64-270f-4309-9cd9-1d0b8c5c1377"
