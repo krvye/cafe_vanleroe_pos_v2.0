@@ -34,7 +34,7 @@ const makeStyles = (height) =>
     contentContainer: {
       flexDirection: "row",
       flexWrap: "wrap",
-      justifyContent: "space-between",
+      justifyContent: "space-around",
     },
     productContainer: {
       alignItems: "center",
