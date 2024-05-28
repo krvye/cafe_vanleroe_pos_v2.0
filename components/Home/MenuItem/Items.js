@@ -15,6 +15,7 @@ export default function Items() {
     <ScrollView
       contentContainerStyle={styles.contentContainer}
       style={styles.container}
+      nestedScrollEnabled={true}
     >
       {itemData.map((item, index) => (
         <View style={styles.productContainer} key={index}>
@@ -29,7 +30,7 @@ export default function Items() {
 
 const makeStyles = (height) =>
   StyleSheet.create({
-    container: { maxHeight: height * 0.67 },
+    container: { maxHeight: height * 0.6, marginVertical: 20 },
     contentContainer: {
       flexDirection: "row",
       flexWrap: "wrap",
@@ -37,7 +38,7 @@ const makeStyles = (height) =>
     },
     productContainer: {
       alignItems: "center",
-      paddingVertical: 30,
+      paddingVertical: 20,
     },
     productImage: {
       width: 200,
