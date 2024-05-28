@@ -24,7 +24,7 @@ export default function TodaySales() {
               name="coins"
               size={15}
               color="red"
-              style={{ marginLeft: 8, marginTop: 8, marginBottom: 50 }}
+              style={{ marginLeft: 8, marginTop: 8, marginBottom: 45 }}
             />
             <View style={styles.salesAmountContainer}>
               <Text style={styles.amountText}>₱ 2000.00</Text>
