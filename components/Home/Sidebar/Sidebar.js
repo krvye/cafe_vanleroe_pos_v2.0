@@ -13,17 +13,17 @@ import ItemCategory from "./ItemCategory";
 import itemCategories from "../../../utils/Home/SidebarFakeData";
 
 export default function Sidebar() {
-  const [active, setActive] = useState(null);
+  const [active, setActive] = useState(0);
 
   return (
     <View style={styles.container}>
       <FlatList
         data={itemCategories}
-        renderItem={({ item }) => (
+        renderItem={({ item, index }) => (
           <ItemCategory
             categoryName={item}
-            onPress={() => setActive(item)}
-            active={active === item}
+            onPress={() => setActive(index)}
+            active={active === index}
           />
         )}
         showsVerticalScrollIndicator={false}

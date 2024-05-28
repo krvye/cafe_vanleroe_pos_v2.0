@@ -5,13 +5,13 @@ import ItemSelected from "../components/Home/ItemSelected";
 import PayNowSelected from "../components/Home/PayNowSelected";
 import PlaceOrderSelected from "../components/Home/PlaceOrderSelected";
 import Sidebar from "../components/Home/Sidebar/Sidebar";
-import Items from "../components/Home/Items";
+import MenuItems from "../components/Home/MenuItem/MenuItems";
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <Sidebar />
-      <Items />
+      <MenuItems />
     </View>
   );
 }
