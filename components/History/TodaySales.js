@@ -36,7 +36,7 @@ export default function TodaySales() {
               name="order-bool-ascending-variant"
               size={15}
               color="#F9BC4D"
-              style={{ marginLeft: 8, marginTop: 8, marginBottom: 50 }}
+              style={{ marginLeft: 8, marginTop: 8, marginBottom: 46 }}
             />
             <View style={styles.salesAmountContainer}>
               <Text style={styles.amountText}>200</Text>
@@ -48,7 +48,7 @@ export default function TodaySales() {
               name="people"
               size={15}
               color="#E052ED"
-              style={{ marginLeft: 8, marginTop: 8, marginBottom: 50 }}
+              style={{ marginLeft: 8, marginTop: 8, marginBottom: 45 }}
             />
             <View style={styles.salesAmountContainer}>
               <Text style={styles.amountText}>200</Text>
@@ -171,8 +171,7 @@ export default function TodaySales() {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    height: "100%",
-    backgroundColor: "yellow",
+    height: 150,
     flexDirection: "row",
     justifyContent: "center",
     marginTop: "1%",
@@ -202,6 +201,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
     marginTop: 5,
+    overflow: 'scroll',
   },
   todayTotalSales: {
     height: "100%",
@@ -210,6 +210,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     flexDirection: "column",
     marginRight: "2%",
+    overflow: 'scroll',
   },
   todayTotalCount: {
     height: "100%",
@@ -218,6 +219,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     flexDirection: "column",
     marginRight: "2%",
+    overflow: 'scroll',
   },
   todayTotalCustomers: {
     height: "100%",
@@ -225,6 +227,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#e052ed52",
     borderRadius: 5,
     flexDirection: "column",
+    overflow: 'scroll',
   },
   salesAmountContainer: {
     width: "90%",
@@ -251,6 +254,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
+    overflow: 'scroll',
   },
   grabContainer: {
     height: "90%",
@@ -260,6 +264,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginRight: "1%",
     alignItems: "center",
+    overflow: 'scroll',
   },
   foodpandaContainer: {
     height: "90%",
@@ -269,6 +274,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginRight: "1%",
     alignItems: "center",
+    overflow: 'scroll',
   },
   onsiteContainer: {
     height: "90%",
@@ -278,6 +284,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginRight: "1%",
     alignItems: "center",
+    overflow: 'scroll',
   },
   facebookContainer: {
     height: "90%",
@@ -287,6 +294,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginRight: "1%",
     alignItems: "center",
+    overflow: 'scroll',
   },
   gcashContainer: {
     height: "90%",
@@ -296,6 +304,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginRight: "1%",
     alignItems: "center",
+    overflow: 'scroll',
   },
   cashContainer: {
     height: "90%",
@@ -305,6 +314,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginRight: "1%",
     alignItems: "center",
+    overflow: 'scroll',
   },
   paymayaContainer: {
     height: "90%",
@@ -313,5 +323,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     flexDirection: "column",
     alignItems: "center",
+    overflow: 'scroll',
   },
 });
