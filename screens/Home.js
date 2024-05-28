@@ -1,27 +1,23 @@
 import { Button, StyleSheet, Text, View } from "react-native";
 
-export default function HomeScreen({ navigation }) {
+import AddOrder from "../components/Home/AddOrder";
+import ItemSelected from "../components/Home/ItemSelected";
+import PayNowSelected from "../components/Home/PayNowSelected";
+import PlaceOrderSelected from "../components/Home/PlaceOrderSelected";
+import Sidebar from "../components/Home/Sidebar/Sidebar";
+import Items from "../components/Home/Items";
+
+export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Home</Text>
-      <Button
-        title="Sign Out"
-        onPress={() => {
-          navigation.navigate("SignInScreen");
-        }}
-      />
+      <Sidebar />
+      <Items />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 32,
-    marginBottom: 16,
+    flexDirection: "row",
   },
 });
