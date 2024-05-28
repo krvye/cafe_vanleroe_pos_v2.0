@@ -130,7 +130,7 @@ const makeStyles = (scale) =>
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "center",
-      // marginTop: 11 * scale,
+      marginTop: 10 * scale,
       borderBottomWidth: 1,
       borderBottomColor: "#FF5C00",
       paddingVertical: 10,
