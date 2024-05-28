@@ -34,7 +34,7 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
         onPress={() => navigation.goBack()}
       >
         <MaterialCommunityIcons
-          name="arrow-left-thin-circle-outline"
+          name="arrow-left"
           size={iconSize}
           color="#FF5C00"
         />
