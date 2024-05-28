@@ -5,13 +5,6 @@ export default function HistoryScreen() {
   return (
     <View style={styles.container}>
       <TodaySales />
-      {/* <Text style={styles.title}>History</Text>
-        <Button
-          title="Sign Out"
-          onPress={() => {
-            navigation.navigate("SignInScreen");
-          }}
-        /> */}
     </View>
   );
 }

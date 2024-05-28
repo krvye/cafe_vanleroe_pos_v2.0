@@ -91,7 +91,7 @@ export default function TodaySales() {
               marginTop: 12,
               textAlign: "center",
               color: "#F9BC4D",
-              fontSize: "20px",
+              fontSize: 20,
               fontWeight: "bold",
               marginBottom: 32,
             }}
@@ -137,7 +137,7 @@ export default function TodaySales() {
               marginTop: 12,
               textAlign: "center",
               color: "#b66619",
-              fontSize: "20px",
+              fontSize: 20,
               fontWeight: "bold",
               marginBottom: 32,
             }}
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   todaySalesText: {
     marginTop: 8,
     marginLeft: 10,
-    fontSize: "16px",
+    fontSize: 16,
     fontWeight: "bold",
   },
   totalSalesContainer: {
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
-    marginTop: "5px",
+    marginTop: 5,
   },
   todayTotalSales: {
     height: "100%",
@@ -232,11 +232,11 @@ const styles = StyleSheet.create({
   },
   amountText: {
     fontWeight: "bold",
-    fontSize: "12px",
+    fontSize: 12,
   },
   salesText: {
     fontWeight: "light",
-    fontSize: "8px",
+    fontSize: 8,
   },
   paymentModeContainer: {
     height: "100%",
