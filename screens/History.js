@@ -1,12 +1,14 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import TodaySales from "../components/History/TodaySales";
 import SalesTable from "../components/History/SalesTable";
 
 export default function HistoryScreen() {
   return (
     <View style={styles.container}>
-      <TodaySales />
-      <SalesTable/>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <TodaySales />
+        <SalesTable/>
+      </ScrollView>
     </View>
   );
 }
@@ -14,8 +16,10 @@ export default function HistoryScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
     backgroundColor: '#FFFFFF',
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
   },
 });

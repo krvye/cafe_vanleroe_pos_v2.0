@@ -41,9 +41,9 @@ export default function SalesTable() {
       "Waltermart Taytay",
       "Cash",
       "Onsite",
-      1,
-      "Pantropiko",
-      160.0,
+      3,
+      ["Pantropiko", "Wild Strawberry", "Americano"].join('\n'),
+      520.0,
     ],
   ];
 
@@ -75,6 +75,8 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 4,
     borderRadius: 10,
+    height: 500, 
+    maxHeight: 500,
   },
   header: {
     height: 40,
@@ -83,7 +85,9 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
   },
   row: {
-    height: 35,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   headerText: {
     fontWeight: 'bold',
