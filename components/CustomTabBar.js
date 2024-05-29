@@ -13,7 +13,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 
 // Custom Profile Picture
-import DefaultProfilePicture from "../assets/default-profile-picture.jpg";
+import DefaultProfilePicture from "@assets/default-profile-picture.jpg";
 
 export default function CustomTabBar({ state, descriptors, navigation }) {
   // Get device window dimensions

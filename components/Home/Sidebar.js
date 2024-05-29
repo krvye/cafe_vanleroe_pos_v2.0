@@ -8,9 +8,9 @@ import {
   View,
 } from "react-native";
 
-import ItemCategory from "./ItemCategory";
+import ItemCategory from "./SmallComponents/Sidebar/ItemCategory";
 
-import itemCategories from "../../../utils/Home/SidebarFakeData";
+import itemCategories from "@utils/Home/SidebarFakeData";
 
 export default function Sidebar() {
   const [active, setActive] = useState(0);

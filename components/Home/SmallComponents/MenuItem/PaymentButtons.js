@@ -6,7 +6,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 
-import PaymentMethod from "../../../utils/Home/PaymentMethods";
+import PaymentMethod from "@utils/Home/PaymentMethods";
 import { useState } from "react";
 
 export default function PaymentButtons() {

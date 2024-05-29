@@ -1,5 +1,4 @@
 import {
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -9,10 +8,10 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import Items from "./Items";
-import PaymentButtons from "./PaymentButtons";
+import Items from "./SmallComponents/MenuItem/Items";
+import PaymentButtons from "./SmallComponents/MenuItem/PaymentButtons";
 
-export default function MenuItems() {
+export default function MenuItems({ setModalState }) {
   const { fontScale, scale } = useWindowDimensions();
   const styles = makeStyles(scale, fontScale);
   const iconSize = 70 / scale;
@@ -20,7 +19,7 @@ export default function MenuItems() {
   return (
     <ScrollView style={styles.container}>
       <PaymentButtons />
-      <Items />
+      <Items setModalState={setModalState} />
       <View style={styles.orderButtonContainer}>
         <TouchableOpacity style={styles.cancelOrderButton}>
           <MaterialCommunityIcons name="cash" size={iconSize} color="white" />
