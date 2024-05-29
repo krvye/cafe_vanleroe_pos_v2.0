@@ -16,7 +16,7 @@ export default function ViewOrderModal({ viewOrderState, setViewOrderState }) {
         <ScrollView style={styles.container}>
           <CustomerDetails />
 
-          <View></View>
+          <View style={styles.borderLine}></View>
 
           <OrderDetails />
 
@@ -33,7 +33,13 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     height: "100%",
-    width: "30%",
+    width: "35%",
     flexDirection: "column",
+    padding: 30,
+  },
+  borderLine: {
+    borderWidth: 1,
+    borderColor: "#E4E4E4",
+    marginVertical: 20,
   },
 });
