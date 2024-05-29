@@ -1,27 +1,20 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
-export default function QueueScreen({ navigation }) {
+import QueueItems from "../components/Queue/QueueItems";
+
+export default function QueueScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Queue</Text>
-      <Button
-        title="Sign Out"
-        onPress={() => {
-          navigation.navigate("SignInScreen");
-        }}
-      />
+      <QueueItems/>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    height: '100%',
+    width: '100%',
+    backgroundColor: "#FFFFFF",
   },
-  title: {
-    fontSize: 32,
-    marginBottom: 16,
-  },
+  
 });
