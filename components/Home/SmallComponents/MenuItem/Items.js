@@ -3,13 +3,14 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
   useWindowDimensions,
 } from "react-native";
 
-import itemData from "../../../utils/Home/ItemData";
+import itemData from "@utils/Home/ItemData";
 
-export default function Items() {
+export default function Items({ setModalState }) {
   const styles = makeStyles(useWindowDimensions().height);
   return (
     <ScrollView
@@ -18,11 +19,17 @@ export default function Items() {
       nestedScrollEnabled={true}
     >
       {itemData.map((item, index) => (
-        <View style={styles.productContainer} key={index}>
+        <TouchableOpacity
+          style={styles.productContainer}
+          key={index}
+          onPress={() => {
+            setModalState(true);
+          }}
+        >
           <Image source={item.image} style={styles.productImage} />
           <Text style={styles.productName}>{item.name}</Text>
           <Text style={styles.productPrice}>{item.price}</Text>
-        </View>
+        </TouchableOpacity>
       ))}
     </ScrollView>
   );

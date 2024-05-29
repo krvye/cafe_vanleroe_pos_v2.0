@@ -1,12 +1,12 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
-import HomeScreen from "../screens/Home";
-import QueueScreen from "../screens/Queue";
-import HistoryScreen from "../screens/History";
-import InventoryScreen from "../screens/Inventory";
-import CustomersScreen from "../screens/Customers";
+import HomeScreen from "@screens/Home";
+import QueueScreen from "@screens/Queue";
+import HistoryScreen from "@screens/History";
+import InventoryScreen from "@screens/Inventory";
+import CustomersScreen from "@screens/Customers";
 
-import CustomTabBar from "../components/CustomTabBar";
+import CustomTabBar from "@components/CustomTabBar";
 
 const Tab = createMaterialTopTabNavigator();
 
