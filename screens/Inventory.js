@@ -1,45 +1,177 @@
-import React from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
-import { Table, Row } from 'react-native-table-component';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, TextInput } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
+import InvTable from "../components/Inventory/InvTable";
 
 export default function InventoryScreen({ navigation }) {
-  const tableHead = ['Item Code', 'Item Name', 'Date Checked', 'Branch', 'Category', 'Display QTY', 'Stock QTY', 'AM Shift Staff', 'PM Shift Staff', 'Item Status'];
-  const tableData = [
-    ['MT12345', 'Matcha Powder', '03/16/2024', 'Taytay', 'Ingredient', '500', '1000', 'Bhenjie Cabarlo', '', 'Full'],
-    ['TP12321', 'Cream', '03/12/2024', 'Taytay', 'Ingredient', '10', '0', 'Austin Casquijo', '', 'Needs to be replenished'],
-    ['CPES421', 'Sugar', '03/12/2024', 'Ayala Feliz', 'Ingredient', '10', '0', 'Austin Casquijo', '', 'Needs to be replenished'],
-    ['CPE0911', 'Croissant', '03/11/2024', 'Ayala Feliz', 'Food', '5', '10', 'Austin Casquijo', '', 'Half Full'],
-  ];
+  const [modalVisible, setModalVisible] = useState(false);
+  const [isAM, setIsAM] = useState(true); // To check which button was clicked (AM or PM)
+  const [formData, setFormData] = useState({
+    itemName: '',
+    itemCode: '',
+    itemCategory: '',
+    branchCode: '',
+    dateChecked: '',
+    ctbStockQty: '',
+    ctbDisplayQty: '',
+    blkStockQty: '',
+    blkDisplayQty: 'FULL', // Default value for dropdown
+    amEmployeeId: '',
+    pmEmployeeId: '',
+  });
+
+  const handleInputChange = (name, value) => {
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleAddInventory = () => {
+    // Handle the form submission
+    setModalVisible(false);
+  };
+
+  const openModal = (isAMInventory) => {
+    setIsAM(isAMInventory);
+    setModalVisible(true);
+  };
 
   return (
     <ScrollView style={styles.invMainCon}>
       <View style={styles.invContainer}>
         <View style={styles.header}>
-          <TouchableOpacity style={styles.buttonAM} onPress={() => {}}>
+          <TouchableOpacity style={styles.buttonAM} onPress={() => openModal(true)}>
             <Text style={styles.buttonText}>Add AM Inventory</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonPM} onPress={() => {}}>
+          <TouchableOpacity style={styles.buttonPM} onPress={() => openModal(false)}>
             <Text style={styles.buttonText}>Add PM Inventory</Text>
           </TouchableOpacity>
         </View>
-        <Table borderStyle={{ borderWidth: 1, borderColor: '#E1E1E1', borderRadius: 10 }}>
-          <Row data={tableHead} style={styles.head} textStyle={styles.headText} />
-          {
-            tableData.map((rowData, index) => (
-              <Row
-                key={index}
-                data={rowData.map((cell, cellIndex) => {
-                  if (cellIndex === 9) {
-                    return <Text style={getStatusStyle(cell)}>{cell}</Text>;
-                  }
-                  return cell;
-                })}
-                style={[styles.row, index % 2 && { backgroundColor: '#F8F8F8' }]}
-                textStyle={styles.text}
-              />
-            ))
-          }
-        </Table>
+        <InvTable/>
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContainer}>
+              <ScrollView style={styles.modalScroll}>
+                <Text style={styles.modalTitle}>{isAM ? 'Add AM Inventory' : 'Add PM Inventory'}</Text>
+                
+                <Text style={styles.label}>Item Name</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Item Name"
+                  value={formData.itemName}
+                  onChangeText={(text) => handleInputChange('itemName', text)}
+                />
+
+                <Text style={styles.label}>Item Code</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Item Code"
+                  value={formData.itemCode}
+                  onChangeText={(text) => handleInputChange('itemCode', text)}
+                />
+
+                <Text style={styles.label}>Item Category</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Item Category"
+                  value={formData.itemCategory}
+                  onChangeText={(text) => handleInputChange('itemCategory', text)}
+                />
+
+                <Text style={styles.label}>Branch Code</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Branch Code"
+                  value={formData.branchCode}
+                  onChangeText={(text) => handleInputChange('branchCode', text)}
+                />
+
+                <Text style={styles.label}>Date Checked</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Date Checked"
+                  value={formData.dateChecked}
+                  onChangeText={(text) => handleInputChange('dateChecked', text)}
+                />
+
+                <Text style={styles.label}>Countable Stock Quantity</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Countable Stock Quantity"
+                  value={formData.ctbStockQty}
+                  onChangeText={(text) => handleInputChange('ctbStockQty', text)}
+                />
+
+                <Text style={styles.label}>Countable Display Quantity</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Countable Display Quantity"
+                  value={formData.ctbDisplayQty}
+                  onChangeText={(text) => handleInputChange('ctbDisplayQty', text)}
+                />
+
+                <Text style={styles.label}>Bulk Stock Quantity</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Bulk Stock Quantity"
+                  value={formData.blkStockQty}
+                  onChangeText={(text) => handleInputChange('blkStockQty', text)}
+                />
+
+                <Text style={styles.label}>Bulk Display Quantity</Text>
+                <View style={styles.pickerContainer}>
+                  <Picker
+                    selectedValue={formData.blkDisplayQty}
+                    style={styles.picker}
+                    onValueChange={(itemValue) => handleInputChange('blkDisplayQty', itemValue)}
+                  >
+                    <Picker.Item label="FULL" value="FULL" />
+                    <Picker.Item label="HALF" value="HALF" />
+                    <Picker.Item label="AE" value="AE" />
+                    <Picker.Item label="EMPTY" value="EMPTY" />
+                  </Picker>
+                </View>
+
+                {isAM ? (
+                  <>
+                    <Text style={styles.label}>AM Employee ID</Text>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="AM Employee ID"
+                      value={formData.amEmployeeId}
+                      onChangeText={(text) => handleInputChange('amEmployeeId', text)}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Text style={styles.label}>PM Employee ID</Text>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="PM Employee ID"
+                      value={formData.pmEmployeeId}
+                      onChangeText={(text) => handleInputChange('pmEmployeeId', text)}
+                    />
+                  </>
+                )}
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity style={styles.addButton} onPress={handleAddInventory}>
+                    <Text style={styles.buttonText}>Add</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
+                    <Text style={styles.buttonText}>Cancel</Text>
+                  </TouchableOpacity>
+                </View>
+              </ScrollView>
+            </View>
+          </View>
+        </Modal>
       </View>
     </ScrollView>
   );
@@ -84,53 +216,76 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
-  head: {
-    height: 40,
-    backgroundColor: '#F9BC4D',
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
-  headText: {
+  modalContainer: {
+    width: 300,
+    maxHeight: '80%',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+  },
+  modalScroll: {
+    width: '100%',
+  },
+  modalTitle: {
+    fontSize: 18,
     fontWeight: 'bold',
-    textAlign: 'center',
+    marginBottom: 20,
   },
-  row: {
+  label: {
+    width: '100%',
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  input: {
+    width: '100%',
     height: 40,
-    backgroundColor: '#FFFFFF',
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 10,
   },
-  text: {
-    textAlign: 'center',
+  pickerContainer: {
+    width: '100%',
+    marginBottom: 10,
   },
-  statusFull: {
-    backgroundColor: '#00CEC9',
+  picker: {
+    height: 40,
+    width: '100%',
+    borderColor: 'gray',
+    borderWidth: 1,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginTop: 20,
+  },
+  addButton: {
+    backgroundColor: '#4CAF50',
+    padding: 10,
+    borderRadius: 5,
+    flex: 1,
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  cancelButton: {
+    backgroundColor: '#F44336',
+    padding: 10,
+    borderRadius: 5,
+    flex: 1,
+   	alignItems: 'center',
+    marginLeft: 10,
+  },
+  buttonText: {
     color: '#FFFFFF',
-    borderRadius: 15,
-    padding: 5,
-    textAlign: 'center',
-  },
-  statusReplenish: {
-    backgroundColor: '#D63031',
-    color: '#FFFFFF',
-    borderRadius: 15,
-    padding: 5,
-    textAlign: 'center',
-  },
-  statusHalf: {
-    backgroundColor: '#0984E3',
-    color: '#FFFFFF',
-    borderRadius: 15,
-    padding: 5,
-    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
-
-function getStatusStyle(status) {
-  switch (status) {
-    case 'Full':
-      return styles.statusFull;
-    case 'Needs to be replenished':
-      return styles.statusReplenish;
-    case 'Half Full':
-      return styles.statusHalf;
-    default:
-      return null;
-  }
-}
