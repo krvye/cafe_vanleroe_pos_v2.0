@@ -24,7 +24,7 @@ export default function TodaySales() {
               name="coins"
               size={15}
               color="red"
-              style={{ marginLeft: 8, marginTop: 8, marginBottom: 50 }}
+              style={{ marginLeft: 8, marginTop: 8, marginBottom: 45 }}
             />
             <View style={styles.salesAmountContainer}>
               <Text style={styles.amountText}>₱ 2000.00</Text>
@@ -36,7 +36,7 @@ export default function TodaySales() {
               name="order-bool-ascending-variant"
               size={15}
               color="#F9BC4D"
-              style={{ marginLeft: 8, marginTop: 8, marginBottom: 50 }}
+              style={{ marginLeft: 8, marginTop: 8, marginBottom: 46 }}
             />
             <View style={styles.salesAmountContainer}>
               <Text style={styles.amountText}>200</Text>
@@ -48,7 +48,7 @@ export default function TodaySales() {
               name="people"
               size={15}
               color="#E052ED"
-              style={{ marginLeft: 8, marginTop: 8, marginBottom: 50 }}
+              style={{ marginLeft: 8, marginTop: 8, marginBottom: 45 }}
             />
             <View style={styles.salesAmountContainer}>
               <Text style={styles.amountText}>200</Text>
@@ -171,8 +171,7 @@ export default function TodaySales() {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    height: "100%",
-    backgroundColor: "yellow",
+    height: 150,
     flexDirection: "row",
     justifyContent: "center",
     marginTop: "1%",
