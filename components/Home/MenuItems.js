@@ -11,7 +11,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Items from "./SmallComponents/MenuItem/Items";
 import PaymentButtons from "./SmallComponents/MenuItem/PaymentButtons";
 
-export default function MenuItems({ setModalState }) {
+export default function MenuItems({ setModalState, setViewOrderState }) {
   const { fontScale, scale } = useWindowDimensions();
   const styles = makeStyles(scale, fontScale);
   const iconSize = 70 / scale;
@@ -25,7 +25,12 @@ export default function MenuItems({ setModalState }) {
           <MaterialCommunityIcons name="cash" size={iconSize} color="white" />
           <Text style={styles.orderButtonText}>Cancel Order</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.viewOrderButton}>
+        <TouchableOpacity
+          style={styles.viewOrderButton}
+          onPress={() => {
+            setViewOrderState(true);
+          }}
+        >
           <MaterialCommunityIcons name="cash" size={iconSize} color="white" />
           <Text style={styles.orderButtonText}>View Order</Text>
         </TouchableOpacity>
