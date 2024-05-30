@@ -19,11 +19,11 @@ export default function HomeScreen() {
         setViewOrderState={setViewOrderState}
       />
       <AddOrder modalState={modalState} setModalState={setModalState} />
-      <ViewOrderModal
+      {/* <ViewOrderModal
         viewOrderState={viewOrderState}
         setViewOrderState={setViewOrderState}
-      />
-      <PaymentDetails />
+      /> */}
+      {/* <PaymentDetails /> */}
     </View>
   );
 }
