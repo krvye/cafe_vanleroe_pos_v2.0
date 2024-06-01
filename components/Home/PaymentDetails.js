@@ -3,7 +3,6 @@ import { Modal, ScrollView, StyleSheet, View } from "react-native";
 import Header from "./SmallComponents/PayNowDetails/Header";
 import AmountDetails from "./SmallComponents/PayNowDetails/AmountDetails";
 import PaymentMethod from "./SmallComponents/PayNowDetails/PaymentMethod";
-import InputAmount from "./SmallComponents/PayNowDetails/InputAmount";
 
 export default function PaymentDetails() {
   return (
