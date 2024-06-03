@@ -14,6 +14,7 @@ import kurt from "../assets/kurt.jpg";
 import jane from "../assets/jane.jpg";
 import cj from "../assets/cj.jpg";
 import mika from "../assets/mika.jpg";
+import { StatusBar } from "expo-status-bar";
 
 export default function SignInScreen({ navigation }) {
   const [time, setTime] = useState({ hours: "", amOrPM: "" });
@@ -28,7 +29,7 @@ export default function SignInScreen({ navigation }) {
       const amOrPM = hours >= 12 ? "PM" : "AM";
 
       hours = hours % 12;
-      hours = hours ? hours : 12; 
+      hours = hours ? hours : 12;
 
       const formattedHours = hours < 10 ? `0${hours}` : hours;
       const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
@@ -74,9 +75,9 @@ export default function SignInScreen({ navigation }) {
     };
 
     updateTime();
-    const intervalId = setInterval(updateTime, 60000); 
+    const intervalId = setInterval(updateTime, 60000);
 
-    return () => clearInterval(intervalId); 
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleLogIn = () => {
@@ -94,10 +95,10 @@ export default function SignInScreen({ navigation }) {
   const handleToggleAvatarSize = (index) => {
     setSelectedAvatarIndex((prevIndex) => (prevIndex === index ? null : index));
   };
-  
 
   return (
     <ScrollView style={styles.container}>
+      <StatusBar backgroundColor="transparent" translucent={true} />
       <ImageBackground
         source={imageBG}
         resizeMode="cover"
@@ -249,7 +250,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: "white",
     justifyContent: "center",
-    alignSelf: "center"
+    alignSelf: "center",
   },
   avatarImage: {
     height: "100%",

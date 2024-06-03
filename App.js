@@ -5,10 +5,5 @@ import * as ScreenOrientation from "expo-screen-orientation";
 export default function App() {
   ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
 
-  return (
-    <>
-      <StatusBar backgroundColor="transparent" translucent={true} />
-      <RootNavigator />
-    </>
-  );
+  return <RootNavigator />;
 }
