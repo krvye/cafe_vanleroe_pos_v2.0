@@ -6,6 +6,7 @@ import {
   View,
   ImageBackground,
   Image,
+  ScrollView,
 } from "react-native";
 import imageBG from "../assets/bg4.jpg";
 import alexia from "../assets/alexia.jpg";
@@ -96,7 +97,7 @@ export default function SignInScreen({ navigation }) {
   
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <ImageBackground
         source={imageBG}
         resizeMode="cover"
@@ -180,7 +181,7 @@ export default function SignInScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </ImageBackground>
-    </View>
+    </ScrollView>
   );
 }
 
