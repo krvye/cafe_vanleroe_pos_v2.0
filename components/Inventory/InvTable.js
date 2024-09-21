@@ -4,12 +4,12 @@ import { Table, Row, Rows } from 'react-native-table-component';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 export default function InvTable() {
-  const tableHead = ['Item Code', 'Item Name', 'Date Checked', 'Branch', 'Category', 'Display QTY', 'Stock QTY', 'AM Shift Staff', 'PM Shift Staff', 'Item Status', ''];
+  const tableHead = ['Item Code', 'Item Name', 'Category', 'Display QTY', 'Stock QTY', 'Staff', ''];
   const initialTableData = [
-    ['MT12345', 'Matcha Powder', '03/16/2024', 'Taytay', 'Ingredient', '500', '1000', 'Bhenjie Cabarlo', '', 'Full'],
-    ['TP12321', 'Cream', '03/12/2024', 'Taytay', 'Ingredient', '10', '0', 'Austin Casquijo', '', 'Needs to be replenished'],
-    ['CPES421', 'Sugar', '03/12/2024', 'Ayala Feliz', 'Ingredient', '10', '0', 'Austin Casquijo', '', 'Needs to be replenished'],
-    ['CPE0911', 'Croissant', '03/11/2024', 'Ayala Feliz', 'Food', '5', '10', 'Austin Casquijo', '', 'Half Full'],
+    ['MT12345', 'Matcha Powder', 'Ingredient', '500', '1000', 'Bhenjie Cabarlo'],
+    ['TP12321', 'Cream', 'Ingredient', '10', '0', 'Austin Casquijo',],
+    ['CPES421', 'Sugar', 'Ingredient', '10', '0', 'Austin Casquijo',],
+    ['CPE0911', 'Croissant', 'Food', '5', '10', 'Austin Casquijo'],
   ];
 
   const [tableData, setTableData] = useState(initialTableData);

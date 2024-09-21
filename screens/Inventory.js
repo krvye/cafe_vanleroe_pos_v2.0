@@ -42,10 +42,7 @@ export default function InventoryScreen({ navigation }) {
       <View style={styles.invContainer}>
         <View style={styles.header}>
           <TouchableOpacity style={styles.buttonAM} onPress={() => openModal(true)}>
-            <Text style={styles.buttonText}>Add AM Inventory</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonPM} onPress={() => openModal(false)}>
-            <Text style={styles.buttonText}>Add PM Inventory</Text>
+            <Text style={styles.buttonText}>Add Inventory</Text>
           </TouchableOpacity>
         </View>
         <InvTable/>
