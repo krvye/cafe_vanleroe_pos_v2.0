@@ -1,15 +1,23 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+} from "react-native";
 
 export default function AddNote() {
   return (
-    <View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <Text style={styles.headerText}>Add note</Text>
       <TextInput
         style={styles.textInput}
         placeholder="Type your note here.."
         placeholderTextColor={"#C2C2C2"}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

@@ -25,7 +25,9 @@ export default function ItemQuantitySelector() {
       <View style={styles.counterContainer}>
         <TouchableOpacity
           onPress={() => {
-            setQuantity(quantity - 1);
+            if (quantity > 0) {
+              setQuantity(quantity - 1);
+            }
           }}
         >
           <AntDesign name="minuscircle" size={30} color="gray" />

@@ -3,17 +3,22 @@ import { Modal, ScrollView, StyleSheet, View } from "react-native";
 import Header from "./SmallComponents/PayNowDetails/Header";
 import AmountDetails from "./SmallComponents/PayNowDetails/AmountDetails";
 import PaymentMethod from "./SmallComponents/PayNowDetails/PaymentMethod";
+import InputAmount from "./SmallComponents/PayNowDetails/InputAmount";
 
-export default function PaymentDetails() {
+export default function PaymentDetails({
+  paymentDetailsState,
+  setPaymentDetailsState,
+  setPaymentMethod,
+}) {
   return (
-    <Modal visible={true} transparent={true}>
+    <Modal visible={paymentDetailsState} transparent={true}>
       <View style={styles.background}>
         <ScrollView style={styles.container}>
-          <Header />
+          <Header setModalState={setPaymentDetailsState} />
 
           <AmountDetails />
 
-          <PaymentMethod />
+          <PaymentMethod setPaymentMethod={setPaymentMethod} />
 
           <InputAmount />
         </ScrollView>

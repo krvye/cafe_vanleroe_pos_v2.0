@@ -7,10 +7,13 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { useState } from "react";
 
 export default function OrderDetails() {
   const { height } = useWindowDimensions();
   const styles = makeStyles(height);
+
+  const [quantity, setQuantity] = useState(1);
   return (
     <View>
       <Text style={styles.headerText}>Order Details</Text>
@@ -34,17 +37,19 @@ export default function OrderDetails() {
         </View>
         <View style={styles.counterContainer}>
           <TouchableOpacity
-          // onPress={() => {
-          //   setQuantity(quantity - 1);
-          // }}
+            onPress={() => {
+              if (quantity > 0) {
+                setQuantity(quantity - 1);
+              }
+            }}
           >
             <AntDesign name="minuscircle" size={30} color="gray" />
           </TouchableOpacity>
-          <Text style={styles.counterText}>1</Text>
+          <Text style={styles.counterText}>{quantity}</Text>
           <TouchableOpacity
-          // onPress={() => {
-          //   setQuantity(quantity + 1);
-          // }}
+            onPress={() => {
+              setQuantity(quantity + 1);
+            }}
           >
             <AntDesign name="pluscircle" size={30} color="black" />
           </TouchableOpacity>

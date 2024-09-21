@@ -19,7 +19,7 @@ import AddOns from "./SmallComponents/AddOrder/AddOns";
 import itemSizes from "@utils/Home/ItemSizes";
 import AddNote from "./SmallComponents/AddOrder/AddNote";
 
-export default function AddOrder({ modalState, setModalState }) {
+export default function AddOrder({ modalState, setModalState, setItemSize }) {
   const [active, setActive] = useState(0);
 
   return (
@@ -41,6 +41,7 @@ export default function AddOrder({ modalState, setModalState }) {
             active={active}
             setActive={setActive}
             itemSizes={itemSizes}
+            setItemSize={setItemSize}
           />
 
           <ItemQuantitySelector />
@@ -56,7 +57,10 @@ export default function AddOrder({ modalState, setModalState }) {
               <Text style={styles.totalLabel}>Total</Text>
               <Text style={styles.totalAmount}>P120</Text>
             </View>
-            <TouchableOpacity style={styles.addButton}>
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={() => setModalState(false)}
+            >
               <Text style={styles.buttonText}>Add to order</Text>
             </TouchableOpacity>
           </View>

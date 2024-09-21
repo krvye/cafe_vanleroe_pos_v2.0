@@ -1,12 +1,18 @@
 import { AntDesign } from "@expo/vector-icons";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
-export default function Header() {
+export default function Header({ setModalState }) {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>Order payment</Text>
-        <AntDesign name="close" size={24} color="black" />
+        <Pressable
+          onPress={() => {
+            setModalState(false);
+          }}
+        >
+          <AntDesign name="close" size={24} color="black" />
+        </Pressable>
       </View>
       <Text style={styles.orderNoText}>Order #102</Text>
     </View>

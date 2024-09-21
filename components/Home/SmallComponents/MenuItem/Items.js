@@ -37,7 +37,10 @@ export default function Items({ setModalState }) {
 
 const makeStyles = (height) =>
   StyleSheet.create({
-    container: { maxHeight: height * 0.6, marginVertical: 20 },
+    container: {
+      maxHeight: height * 0.6,
+      marginVertical: 20,
+    },
     contentContainer: {
       flexDirection: "row",
       flexWrap: "wrap",

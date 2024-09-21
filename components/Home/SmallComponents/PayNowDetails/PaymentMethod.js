@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Image,
   Pressable,
@@ -7,24 +8,65 @@ import {
   View,
 } from "react-native";
 
-export default function PaymentMethod() {
+export default function PaymentMethod({ setPaymentMethod }) {
+  const [selectedButton, setSelectedButton] = useState(null);
+
+  const handlePress = (button) => {
+    setSelectedButton((prevButton) => (prevButton === button ? 0 : button));
+    if (button === "cash") {
+      setPaymentMethod((prevButton) =>
+        prevButton === "cash" ? "cash" : "cash"
+      );
+    } else if (button === "gcash") {
+      setPaymentMethod((prevButton) =>
+        prevButton === "gcash" ? "cash" : "gcash"
+      );
+    } else if (button === "maya") {
+      setPaymentMethod((prevButton) =>
+        prevButton === "maya" ? "cash" : "maya"
+      );
+    }
+  };
+
+  const getButtonColor = (button) => {
+    return selectedButton === button ? "#d1d3de" : "#fff";
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Payment method</Text>
       <View style={styles.methodContainer}>
-        <Pressable style={styles.imageContainer}>
+        <Pressable
+          style={[
+            styles.imageContainer,
+            { backgroundColor: getButtonColor("cash") },
+          ]}
+          onPress={() => handlePress("cash")}
+        >
           <Image
             style={styles.cashImage}
             source={require("@assets/cash.png")}
           />
         </Pressable>
-        <Pressable style={styles.imageContainer}>
+        <Pressable
+          style={[
+            styles.imageContainer,
+            { backgroundColor: getButtonColor("gcash") },
+          ]}
+          onPress={() => handlePress("gcash")}
+        >
           <Image
             style={styles.methodImage}
             source={require("@assets/gcash.png")}
           />
         </Pressable>
-        <Pressable style={styles.imageContainer}>
+        <Pressable
+          style={[
+            styles.imageContainer,
+            { backgroundColor: getButtonColor("maya") },
+          ]}
+          onPress={() => handlePress("maya")}
+        >
           <Image
             style={styles.methodImage}
             source={require("@assets/maya.png")}
@@ -76,6 +118,7 @@ const styles = StyleSheet.create({
     flex: 1,
     minWidth: 100,
     justifyContent: "center",
+    backgroundColor: "#fff",
   },
   methodImage: {
     width: 80,
