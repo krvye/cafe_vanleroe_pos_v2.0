@@ -5,10 +5,13 @@ import {
   Pressable,
   Text,
   TextInput,
+  ScrollView
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useState } from "react"; 
 import { AntDesign } from "@expo/vector-icons";
+
+import AddItem from "../Expenses/smallComponents/AddItem"; 
 
 export default function AddExpenseModal({ openAddExpense, setOpenAddExpense }) {
   const [addItem, setAddItem] = useState(false); 
@@ -21,7 +24,7 @@ export default function AddExpenseModal({ openAddExpense, setOpenAddExpense }) {
   return (
     <Modal visible={openAddExpense} transparent={true}>
       <View style={styles.container}>
-        <View style={styles.addExpenseContainer}>
+        <ScrollView style={styles.addExpenseContainer}>
           <View style={styles.exitContainer}>
             <Pressable onPress={() => setOpenAddExpense(false)}>
               <AntDesign
@@ -107,16 +110,15 @@ export default function AddExpenseModal({ openAddExpense, setOpenAddExpense }) {
           </View>
 
           {addItem ? (
-            <View>
-            </View>
+            <AddItem
+            />
           ): (
           <Pressable onPress={handleAddItem} style={styles.addItemContainer}>
             <Text style={styles.addItemText}>Add Item?</Text>
           </Pressable>
           )}
 
-          
-        </View>
+        </ScrollView>
       </View>
     </Modal>
   );
@@ -130,8 +132,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   addExpenseContainer: {
-    height: "60%",
-    width: "30%",
+    maxHeight: 500,
+    width: "30%", 
     backgroundColor: "#FFFFFF",
     borderRadius: 10,
   },
