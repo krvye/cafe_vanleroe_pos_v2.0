@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { Table, Row } from 'react-native-table-component';
 
