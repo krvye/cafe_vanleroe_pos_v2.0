@@ -5,10 +5,18 @@ import AddOrder from "@components/Home/AddOrder";
 import Sidebar from "@components/Home/Sidebar";
 import MenuItems from "@components/Home/MenuItems";
 import ViewOrderModal from "@components/Home/ViewOrderModal";
+import PaymentDetails from "@components/Home/PaymentDetails";
 
 export default function HomeScreen() {
   const [modalState, setModalState] = useState(false);
   const [viewOrderState, setViewOrderState] = useState(false);
+  const [paymentDetailsState, setPaymentDetailsState] = useState(false);
+  const [foodService, setFoodService] = useState("Dine In");
+  const [itemSize, setItemSize] = useState("Small");
+  const [discount, setDiscount] = useState(0);
+  const [paymentMethod, setPaymentMethod] = useState("cash");
+
+  console.log(paymentMethod);
 
   return (
     <View style={styles.container}>
@@ -16,11 +24,23 @@ export default function HomeScreen() {
       <MenuItems
         setModalState={setModalState}
         setViewOrderState={setViewOrderState}
+        setFoodService={setFoodService}
       />
-      <AddOrder modalState={modalState} setModalState={setModalState} />
+      <AddOrder
+        modalState={modalState}
+        setModalState={setModalState}
+        setItemSize={setItemSize}
+      />
       <ViewOrderModal
         viewOrderState={viewOrderState}
         setViewOrderState={setViewOrderState}
+        setPaymentDetailsState={setPaymentDetailsState}
+        setDiscount={setDiscount}
+      />
+      <PaymentDetails
+        paymentDetailsState={paymentDetailsState}
+        setPaymentDetailsState={setPaymentDetailsState}
+        setPaymentMethod={setPaymentMethod}
       />
     </View>
   );

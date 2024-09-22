@@ -1,7 +1,12 @@
 import { StyleSheet } from "react-native";
 import { Pressable, Text, View } from "react-native";
 
-export default function ItemSizesButtons({ active, setActive, itemSizes }) {
+export default function ItemSizesButtons({
+  active,
+  setActive,
+  itemSizes,
+  setItemSize,
+}) {
   return (
     <View style={styles.container}>
       {itemSizes.map((size, index) => (
@@ -10,7 +15,10 @@ export default function ItemSizesButtons({ active, setActive, itemSizes }) {
             index === active ? styles.activeButton : styles.inactiveButton,
           ]}
           key={index}
-          onPress={() => setActive(index)}
+          onPress={() => {
+            setItemSize(size);
+            setActive(index);
+          }}
         >
           <Text style={{ fontSize: 16 }}>{size}</Text>
         </Pressable>

@@ -11,14 +11,18 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Items from "./SmallComponents/MenuItem/Items";
 import PaymentButtons from "./SmallComponents/MenuItem/PaymentButtons";
 
-export default function MenuItems({ setModalState, setViewOrderState }) {
+export default function MenuItems({
+  setModalState,
+  setViewOrderState,
+  setFoodService,
+}) {
   const { fontScale, scale } = useWindowDimensions();
   const styles = makeStyles(scale, fontScale);
   const iconSize = 70 / scale;
 
   return (
     <ScrollView style={styles.container}>
-      <PaymentButtons />
+      <PaymentButtons setFoodService={setFoodService} />
       <Items setModalState={setModalState} />
       <View style={styles.orderButtonContainer}>
         <TouchableOpacity style={styles.cancelOrderButton}>

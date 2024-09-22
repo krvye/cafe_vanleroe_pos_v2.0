@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Table, Row, Rows } from 'react-native-table-component';
+import { StyleSheet, View, ScrollView } from 'react-native';
+import { Table, Row } from 'react-native-table-component';
 
 export default function SalesTable() {
   const salesTableHeader = [
@@ -13,7 +13,7 @@ export default function SalesTable() {
     "Ordered Items",
     "Price",
   ];
-  
+
   const salesTableData = [
     [
       "Mikaela Faye Popes",
@@ -45,13 +45,155 @@ export default function SalesTable() {
       ["Pantropiko", "Wild Strawberry", "Americano"].join('\n'),
       520.0,
     ],
+    [
+      "Alexia Marie Roque",
+      "05:20",
+      "Waltermart Taytay",
+      "Cash",
+      "Onsite",
+      3,
+      ["Pantropiko", "Wild Strawberry", "Americano"].join('\n'),
+      520.0,
+    ],
+    [
+      "Alexia Marie Roque",
+      "05:20",
+      "Waltermart Taytay",
+      "Cash",
+      "Onsite",
+      3,
+      ["Pantropiko", "Wild Strawberry", "Americano"].join('\n'),
+      520.0,
+    ],
+    [
+      "Alexia Marie Roque",
+      "05:20",
+      "Waltermart Taytay",
+      "Cash",
+      "Onsite",
+      3,
+      ["Pantropiko", "Wild Strawberry", "Americano"].join('\n'),
+      520.0,
+    ],
+    [
+      "Alexia Marie Roque",
+      "05:20",
+      "Waltermart Taytay",
+      "Cash",
+      "Onsite",
+      3,
+      ["Pantropiko", "Wild Strawberry", "Americano"].join('\n'),
+      520.0,
+    ],
+    [
+      "Alexia Marie Roque",
+      "05:20",
+      "Waltermart Taytay",
+      "Cash",
+      "Onsite",
+      3,
+      ["Pantropiko", "Wild Strawberry", "Americano"].join('\n'),
+      520.0,
+    ],
+    [
+      "Alexia Marie Roque",
+      "05:20",
+      "Waltermart Taytay",
+      "Cash",
+      "Onsite",
+      3,
+      ["Pantropiko", "Wild Strawberry", "Americano"].join('\n'),
+      520.0,
+    ],
+    [
+      "Alexia Marie Roque",
+      "05:20",
+      "Waltermart Taytay",
+      "Cash",
+      "Onsite",
+      3,
+      ["Pantropiko", "Wild Strawberry", "Americano"].join('\n'),
+      520.0,
+    ],
+    [
+      "Alexia Marie Roque",
+      "05:20",
+      "Waltermart Taytay",
+      "Cash",
+      "Onsite",
+      3,
+      ["Pantropiko", "Wild Strawberry", "Americano"].join('\n'),
+      520.0,
+    ],
+    [
+      "Alexia Marie Roque",
+      "05:20",
+      "Waltermart Taytay",
+      "Cash",
+      "Onsite",
+      3,
+      ["Pantropiko", "Wild Strawberry", "Americano"].join('\n'),
+      520.0,
+    ],
+    [
+      "Alexia Marie Roque",
+      "05:20",
+      "Waltermart Taytay",
+      "Cash",
+      "Onsite",
+      3,
+      ["Pantropiko", "Wild Strawberry", "Americano"].join('\n'),
+      520.0,
+    ],
+    [
+      "Alexia Marie Roque",
+      "05:20",
+      "Waltermart Taytay",
+      "Cash",
+      "Onsite",
+      3,
+      ["Pantropiko", "Wild Strawberry", "Americano"].join('\n'),
+      520.0,
+    ],
+    [
+      "Alexia Marie Roque",
+      "05:20",
+      "Waltermart Taytay",
+      "Cash",
+      "Onsite",
+      3,
+      ["Pantropiko", "Wild Strawberry", "Americano"].join('\n'),
+      520.0,
+    ],
+    [
+      "Alexia Marie Roque",
+      "05:20",
+      "Waltermart Taytay",
+      "Cash",
+      "Onsite",
+      3,
+      ["Pantropiko", "Wild Strawberry", "Americano"].join('\n'),
+      520.0,
+    ],
+    
   ];
 
   return (
     <View style={styles.container}>
       <Table borderStyle={styles.tableBorder} style={styles.tableShadow}>
-        <Row data={salesTableHeader} style={styles.header} textStyle={styles.headerText}/>
-        <Rows data={salesTableData} textStyle={styles.rowText} style={styles.row}/>
+        <Row data={salesTableHeader} style={styles.header} textStyle={styles.headerText} />
+        <ScrollView>
+        {
+          salesTableData.map((rowData, index) => (
+            <Row
+              key={index}
+              data={rowData}
+              style={[styles.row, index % 2 && { backgroundColor: '#F8F8F8' }]}
+              textStyle={styles.rowText}
+            />
+          ))
+        }
+        </ScrollView>
       </Table>
     </View>
   );
@@ -75,7 +217,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 4,
     borderRadius: 10,
-    height: 500, 
+    height: 450,
     maxHeight: 500,
   },
   header: {
@@ -88,13 +230,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
+
   },
   headerText: {
     fontWeight: 'bold',
     textAlign: 'center',
-  }, 
+  },
   rowText: {
-    fontWeight: 'regular',
     textAlign: 'center',
-  }
+  },
 });
+

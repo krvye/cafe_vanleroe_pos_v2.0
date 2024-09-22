@@ -5,26 +5,28 @@ import OrderDetails from "./SmallComponents/ViewOrder/OrderDetails";
 import Discounts from "./SmallComponents/ViewOrder/Discounts";
 import PayNow from "./SmallComponents/ViewOrder/PayNow";
 
-export default function ViewOrderModal({ viewOrderState, setViewOrderState }) {
+export default function ViewOrderModal({
+  viewOrderState,
+  setViewOrderState,
+  setPaymentDetailsState,
+  setDiscount,
+}) {
   return (
     <Modal visible={viewOrderState} transparent={true}>
-      <Pressable
-        onPress={() => {
-          setViewOrderState(false);
-        }}
-      >
-        <ScrollView style={styles.container}>
-          <CustomerDetails />
+      <ScrollView style={styles.container}>
+        <CustomerDetails setModalState={setViewOrderState} />
 
-          <View style={styles.borderLine}></View>
+        <View style={styles.borderLine}></View>
 
-          <OrderDetails />
+        <OrderDetails />
 
-          <Discounts />
+        <Discounts setDiscount={setDiscount} />
 
-          <PayNow />
-        </ScrollView>
-      </Pressable>
+        <PayNow
+          setViewOrderState={setViewOrderState}
+          setPaymentDetailsState={setPaymentDetailsState}
+        />
+      </ScrollView>
     </Modal>
   );
 }

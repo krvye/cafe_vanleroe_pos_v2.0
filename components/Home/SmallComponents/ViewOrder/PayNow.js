@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function PayNow() {
+export default function PayNow({ setViewOrderState, setPaymentDetailsState }) {
   return (
     <View style={styles.container}>
       <View style={styles.amountContainer}>
@@ -18,7 +18,13 @@ export default function PayNow() {
         <Text style={styles.amountLabel}>Total</Text>
         <Text style={styles.totalAmount}>P593</Text>
       </View>
-      <TouchableOpacity style={styles.payNowButton}>
+      <TouchableOpacity
+        style={styles.payNowButton}
+        onPress={() => {
+          setViewOrderState(false);
+          setPaymentDetailsState(true);
+        }}
+      >
         <Text style={styles.payNowText}>Pay Now</Text>
       </TouchableOpacity>
     </View>

@@ -9,7 +9,7 @@ import {
 import PaymentMethod from "@utils/Home/PaymentMethods";
 import { useState } from "react";
 
-export default function PaymentButtons() {
+export default function PaymentButtons({ setFoodService }) {
   const [active, setActive] = useState(0);
 
   const styles = makeStyles(useWindowDimensions().height);
@@ -22,7 +22,10 @@ export default function PaymentButtons() {
             index === active ? styles.activeButton : styles.inactiveButton,
           ]}
           key={index}
-          onPress={() => setActive(index)}
+          onPress={() => {
+            setActive(index);
+            setFoodService(method);
+          }}
         >
           <Text style={{ fontSize: 16 }}>{method}</Text>
         </Pressable>
