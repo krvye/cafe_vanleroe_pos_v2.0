@@ -31,11 +31,8 @@ export default function InvTable() {
 
   const handleSave = () => {
     const updatedData = [...tableData];
-    updatedData[editIndex][2] = editData.dateChecked;
     updatedData[6] = editData.stockQty;
     updatedData[5] = editData.displayQty;
-    updatedData[7] = editData.amEmployeeId;
-    updatedData[8] = editData.pmEmployeeId;
     setTableData(updatedData);
     setModalVisible(false);
   };
@@ -51,7 +48,7 @@ export default function InvTable() {
               data={[
                 ...rowData,
                 <TouchableOpacity onPress={() => handleEdit(index)}>
-                  <AntDesign name="edit" size={24} color="black" />
+                  <AntDesign name="edit" size={24} color="black" style={styles.text} />
                 </TouchableOpacity>
               ]}
               style={[styles.row, index % 2 && { backgroundColor: '#F8F8F8' }]}
@@ -71,12 +68,6 @@ export default function InvTable() {
             <Text style={styles.modalTitle}>Edit Item</Text>
             <TextInput
               style={styles.input}
-              placeholder="Date Checked"
-              value={editData.dateChecked}
-              onChangeText={(text) => setEditData({ ...editData, dateChecked: text })}
-            />
-            <TextInput
-              style={styles.input}
               placeholder="Stock QTY"
               value={editData.stockQty}
               onChangeText={(text) => setEditData({ ...editData, stockQty: text })}
@@ -86,18 +77,6 @@ export default function InvTable() {
               placeholder="Display QTY"
               value={editData.displayQty}
               onChangeText={(text) => setEditData({ ...editData, displayQty: text })}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="AM Shift Staff"
-              value={editData.amEmployeeId}
-              onChangeText={(text) => setEditData({ ...editData, amEmployeeId: text })}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="PM Shift Staff"
-              value={editData.pmEmployeeId}
-              onChangeText={(text) => setEditData({ ...editData, pmEmployeeId: text })}
             />
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.saveButton} onPress={handleSave}>

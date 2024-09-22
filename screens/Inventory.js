@@ -56,7 +56,11 @@ export default function InventoryScreen({ navigation }) {
           <View style={styles.modalOverlay}>
             <View style={styles.modalContainer}>
               <ScrollView style={styles.modalScroll}>
-                <Text style={styles.modalTitle}>{isAM ? 'Add AM Inventory' : 'Add PM Inventory'}</Text>
+                <Text style={styles.modalTitle}>Add Item Inventory</Text>
+
+                <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
+                  <Text style={styles.closeButtonText}>X</Text>
+                </TouchableOpacity>
                 
                 <Text style={styles.label}>Item Name</Text>
                 <TextInput
@@ -280,6 +284,19 @@ const styles = StyleSheet.create({
    	alignItems: 'center',
     marginLeft: 10,
   },
+
+  closeButton: {
+    position: 'absolute',
+    right: 10,
+    padding: 5,
+  },
+  
+  closeButtonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+
   buttonText: {
     color: '#FFFFFF',
     fontWeight: 'bold',
