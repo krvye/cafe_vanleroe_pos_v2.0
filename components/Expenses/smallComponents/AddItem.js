@@ -1,15 +1,7 @@
 import { StyleSheet, View, TextInput, Text, Pressable } from "react-native";
 
-export default function AddItem( {}) {
+export default function AddItem({ index, handleAddItem, handleRemoveItem }) {
 
-  const handleAddAnotherItem = () => {
-        
-      console.log("Added another item!");
-  }
-
-  const handleRemoveItem = () => {
-    console.log("Removed item");
-  }
   return (
     <View style={styles.container}>
       <View style={styles.inputTitleCon}>
@@ -52,10 +44,10 @@ export default function AddItem( {}) {
       </View>
 
       <View style={styles.rmAndAddCon}>
-        <Pressable onPress={handleRemoveItem}>
+        <Pressable onPress={() => handleRemoveItem(index)}>
             <Text style={styles.rmAndAddText}>Remove</Text>
         </Pressable>
-        <Pressable onPress={handleAddAnotherItem}>
+        <Pressable onPress={handleAddItem}>
           <Text style={styles.rmAndAddText}>Add Item?</Text>
         </Pressable>
       </View>
@@ -106,5 +98,6 @@ const styles = StyleSheet.create({
     color: "#FF6600",
     textDecorationLine: "underline",
     marginRight: 5,
+    marginBottom: "15%",
   },
 });

@@ -5,28 +5,58 @@ import {
   Pressable,
   Text,
   TextInput,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import { useState } from "react"; 
+import { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 
-import AddItem from "../Expenses/smallComponents/AddItem"; 
+import AddItem from "../Expenses/smallComponents/AddItem";
 
 export default function AddExpenseModal({ openAddExpense, setOpenAddExpense }) {
-  const [addItem, setAddItem] = useState(false); 
+  const [addItem, setAddItem] = useState(false);
+  const [items, setItems] = useState([]);
+  const [addAllItems, setAddAllItems] = useState(false);
 
   const handleAddItem = () => {
     setAddItem(true);
-    console.log("Added One Item!"); 
-  }
+    setItems([...items, items.length]);
+    console.log("Added One Item!");
+  };
+
+  const handleRemoveItem = (index) => {
+    if (items.length >= 1) {
+      setItems(items.filter((_, idx) => idx !== index));
+      console.log("Removed Item!");
+      if (items.length == 1) {
+        setAddItem(false);
+      }
+    }
+  };
+
+  const handleAddAllItems = () => {
+    setAddAllItems(true);
+    setAddItem(false);
+    setOpenAddExpense(false);
+    console.log("Add all items!");
+  };
+
+  const handleExitModal = () => {
+    setOpenAddExpense(false);
+    setItems([]);
+    setAddItem(false);
+  };
 
   return (
-    <Modal visible={openAddExpense} transparent={true}>
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={openAddExpense}
+    >
       <View style={styles.container}>
         <ScrollView style={styles.addExpenseContainer}>
           <View style={styles.exitContainer}>
-            <Pressable onPress={() => setOpenAddExpense(false)}>
+            <Pressable onPress={handleExitModal}>
               <AntDesign
                 name="close"
                 size={25}
@@ -110,14 +140,33 @@ export default function AddExpenseModal({ openAddExpense, setOpenAddExpense }) {
           </View>
 
           {addItem ? (
-            <AddItem
-            />
-          ): (
-          <Pressable onPress={handleAddItem} style={styles.addItemContainer}>
-            <Text style={styles.addItemText}>Add Item?</Text>
-          </Pressable>
+            <View>
+              {items.map((_, index) => (
+                <AddItem
+                  key={index}
+                  index={index}
+                  handleAddItem={handleAddItem}
+                  handleRemoveItem={handleRemoveItem}
+                />
+              ))}
+            </View>
+          ) : (
+            <Pressable onPress={handleAddItem} style={styles.addItemContainer}>
+              <Text style={styles.addItemText}>Add Item?</Text>
+            </Pressable>
           )}
 
+          <View style={styles.addAllCon}>
+            <Pressable onPress={handleAddAllItems} style={styles.addAllButton}>
+              <Text style={styles.addAllText}>Add</Text>
+            </Pressable>
+            <Pressable
+              onPress={handleExitModal}
+              style={styles.cancelButton}
+            >
+              <Text style={styles.addAllText}>Cancel</Text>
+            </Pressable>
+          </View>
         </ScrollView>
       </View>
     </Modal>
@@ -133,7 +182,7 @@ const styles = StyleSheet.create({
   },
   addExpenseContainer: {
     maxHeight: 500,
-    width: "30%", 
+    width: "30%",
     backgroundColor: "#FFFFFF",
     borderRadius: 10,
   },
@@ -177,12 +226,43 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: "45%",
     // backgroundColor: "pink"
   },
   addItemText: {
-    fontSize: 14, 
-    color: '#FF6600',
-    textDecorationLine: "underline", 
+    fontSize: 14,
+    color: "#FF6600",
+    textDecorationLine: "underline",
   },
-
+  addAllCon: {
+    height: 60,
+    width: "100%",
+    // backgroundColor: "pink",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+  },
+  addAllButton: {
+    height: "65%",
+    width: "42%",
+    borderRadius: 5,
+    backgroundColor: "#4CAF50",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: "3%",
+  },
+  addAllText: {
+    fontSize: 15,
+    color: "#FFFFFF",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  cancelButton: {
+    height: "65%",
+    width: "42%",
+    borderRadius: 5,
+    backgroundColor: "#F44336",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });
