@@ -113,6 +113,9 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
               {route.name === "Customers" && (
                 <MaterialIcons name="person" size={iconSize} color={color} />
               )}
+              {route.name === "Menu" && (
+                <MaterialIcons name="menu-book" size={iconSize} color={color} />
+              )}
 
               <Text style={{ color, fontSize: 16 * fontScale }}>{label}</Text>
             </View>
