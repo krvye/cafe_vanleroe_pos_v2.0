@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 
-export default function PaymentMethod({ setPaymentMethod }) {
+export default function PaymentMethod({ paymentMethod, setPaymentMethod }) {
   const [selectedButton, setSelectedButton] = useState(null);
 
   const handlePress = (button) => {
@@ -73,11 +73,14 @@ export default function PaymentMethod({ setPaymentMethod }) {
           />
         </Pressable>
       </View>
-      <TextInput
-        style={styles.referenceInput}
-        placeholder="Input Reference Number"
-        placeholderTextColor={"#C2C2C2"}
-      />
+
+      {(paymentMethod === "gcash" || paymentMethod === "maya") && (
+        <TextInput
+          style={styles.referenceInput}
+          placeholder="Input Reference Number"
+          placeholderTextColor={"#C2C2C2"}
+        />
+      )}
     </View>
   );
 }

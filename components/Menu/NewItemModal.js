@@ -16,7 +16,6 @@ import { useState } from "react";
 
 export default function DrinksModal({ newItemState, setNewItemState }) {
   const [itemType, setItemType] = useState("Drinks");
-  console.log(itemType);
 
   return (
     <Modal visible={newItemState} transparent={true}>

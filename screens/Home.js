@@ -16,7 +16,7 @@ export default function HomeScreen() {
   const [discount, setDiscount] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("cash");
 
-  console.log(paymentMethod);
+  console.log(foodService);
 
   return (
     <View style={styles.container}>
@@ -36,10 +36,12 @@ export default function HomeScreen() {
         setViewOrderState={setViewOrderState}
         setPaymentDetailsState={setPaymentDetailsState}
         setDiscount={setDiscount}
+        foodService={foodService}
       />
       <PaymentDetails
         paymentDetailsState={paymentDetailsState}
         setPaymentDetailsState={setPaymentDetailsState}
+        paymentMethod={paymentMethod}
         setPaymentMethod={setPaymentMethod}
       />
     </View>
