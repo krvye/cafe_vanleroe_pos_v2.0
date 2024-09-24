@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
   },
   addItemText: {
     fontSize: 14,
-    color: "#FF6600",
+    color: "#B66619",
     textDecorationLine: "underline",
   },
   addAllCon: {

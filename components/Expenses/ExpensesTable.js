@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   },
   header: {
     height: 40,
-    backgroundColor: "#FF6600",
+    backgroundColor: "#F9BC4D",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
@@ -88,7 +88,6 @@ const styles = StyleSheet.create({
   headerText: {
     fontWeight: "bold",
     textAlign: "center",
-    color: "#FFFFFF"
   },
   rowText: {
     textAlign: "center",

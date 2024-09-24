@@ -36,7 +36,7 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
         <MaterialCommunityIcons
           name="arrow-left"
           size={iconSize}
-          color="#FF5C00"
+          color="#B66619"
         />
       </TouchableOpacity>
 
@@ -72,7 +72,7 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
           });
         };
 
-        const color = isFocused ? "#FF5C00" : "#828487";
+        const color = isFocused ? "#B66619" : "#828487";
 
         return (
           <TouchableOpacity
@@ -115,6 +115,9 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
               )}
               {route.name === "Menu" && (
                 <MaterialIcons name="menu-book" size={iconSize} color={color} />
+              )}
+              {route.name === "Expenses" && (
+                <MaterialIcons name="monetization-on" size={iconSize} color={color} />
               )}
 
               <Text style={{ color, fontSize: 16 * fontScale }}>{label}</Text>

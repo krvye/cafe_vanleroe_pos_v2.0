@@ -19,7 +19,7 @@ export default function TodayExpenses({ setOpenAddExpense }) {
     <View style={styles.expMainContainer}>
       <View style={styles.expenseDetailsContainer}>
         <View style={styles.expenseIcon}>
-          <ShoppingCartIcon style={{color: "#FFFFFF"}}/>
+          <ShoppingCartIcon style={{color: "#FFFF"}}/>
         </View>
         <Text style={styles.amountText}>TOTAL EXPENSES: </Text>
         <Text style={styles.expenseText}>₱ 20000.00</Text>
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     borderRadius: 50,
-    backgroundColor: "#FF6600",
+    backgroundColor: "#B66619",
     alignItems: "center",
     justifyContent: "center",
     marginLeft: "2%",
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   addExpCon: {
     height: "100%",
     width: "100%",
-    backgroundColor: "black",
+    backgroundColor: "#B66619",
     shadowColor: "#000000",
     alignItems: "center",
     justifyContent: "center",
