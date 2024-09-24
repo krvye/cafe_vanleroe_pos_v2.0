@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   totalAmount: {
     fontSize: 16,
-    color: "#FF5C00",
+    color: "#B66619",
     fontWeight: "600",
   },
 
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
 
   payNowButton: {
-    backgroundColor: "#FF5C00",
+    backgroundColor: "#B66619",
     paddingVertical: 15,
     borderRadius: 60,
     alignItems: "center",

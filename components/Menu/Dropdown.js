@@ -4,7 +4,7 @@ import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 
 import itemCategories from "@utils/Home/SidebarFakeData";
 
-export default function Dropdown() {
+export default function Dropdown({ setNewItemState }) {
   return (
     <View style={styles.container}>
       <Picker style={styles.picker}>
@@ -12,7 +12,10 @@ export default function Dropdown() {
           <Picker.Item key={index} label={category} value={category} />
         ))}
       </Picker>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => setNewItemState(true)}
+      >
         <MaterialCommunityIcons
           name="food-fork-drink"
           size={24}

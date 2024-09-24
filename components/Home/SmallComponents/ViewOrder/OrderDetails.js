@@ -105,7 +105,7 @@ const makeStyles = (height) =>
     },
     productPrice: {
       fontSize: height <= 480 ? 12 : 16,
-      color: "#FF5C00",
+      color: "#B66619",
       fontWeight: "600",
     },
   });

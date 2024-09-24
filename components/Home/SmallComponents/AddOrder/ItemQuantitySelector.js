@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
   productPrice: {
     fontSize: 16,
-    color: "#FF5C00",
+    color: "#B66619",
     fontWeight: "600",
   },
 

@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   addButton: {
-    backgroundColor: "#FF5C00",
+    backgroundColor: "#B66619",
     paddingVertical: 10,
     flex: 0.5,
     alignItems: "center",

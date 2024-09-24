@@ -68,7 +68,7 @@ const makeStyles = (scale, fontScale) =>
       gap: 5,
     },
     viewOrderButton: {
-      backgroundColor: "#FF5C00",
+      backgroundColor: "#B66619",
       flex: 1,
       alignItems: "center",
       justifyContent: "center",

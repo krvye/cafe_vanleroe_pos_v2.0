@@ -29,7 +29,7 @@ export default function Discounts({ setDiscount }) {
   };
 
   const getButtonColor = (button) => {
-    return selectedButton === button ? "#592508" : "#FF5C00";
+    return selectedButton === button ? "#592508" : "#B66619";
   };
   return (
     <View style={styles.container}>
@@ -127,7 +127,7 @@ const makeStyles = (height) =>
       marginTop: 15,
     },
     discountButton: {
-      backgroundColor: "#FF5C00",
+      backgroundColor: "#B66619",
       padding: 10,
       borderRadius: 10,
       paddingHorizontal: 10,
@@ -170,7 +170,7 @@ const makeStyles = (height) =>
     applyButton: {
       flex: 1,
       paddingVertical: 10,
-      backgroundColor: "#FF5C00",
+      backgroundColor: "#B66619",
       alignItems: "center",
       borderRadius: 60,
       marginTop: 10,
