@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     height: 50,
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: "1%",
+    marginTop: "3%",
     // backgroundColor: "red",
   },
   expenseDetailsContainer: {

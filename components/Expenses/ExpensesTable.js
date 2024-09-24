@@ -1,95 +1,245 @@
-import { StyleSheet, View, ScrollView } from "react-native";
-import { Table, Row } from "react-native-table-component";
+import { StyleSheet, View, ScrollView, Text, FlatList } from "react-native";
+import { useState } from "react"; 
 
 export default function ExpensesTable() {
-  const expensesTableHeader = [
-    "Date",
-    "Receipt/OR No.",
-    "Expense Type",
-    "Item Name",
-    "QTY",
-    "Item Price",
-    "Receipt Total",
-  ];
+  const [expensesData, setExpensesData] = useState([
+    {
+      dateChecked:"09/24/2024", 
+      expenseType: "Off Cycle Employee Salary", 
+      itemName: "SLCTA MLK", 
+      itemPrice: 171, 
+      receiptNumber: "01-2345",
+      receiptTotal: 456,
+      itemQTY: 1,
+    }, {
+      dateChecked:"09/24/2024", 
+      expenseType: "Off Cycle Employee Salary", 
+      itemName: "SLCTA MLK", 
+      itemPrice: 171, 
+      receiptNumber: "01-2345",
+      receiptTotal: 456,
+      itemQTY: 1,
+    }, {
+      dateChecked:"09/24/2024", 
+      expenseType: "Off Cycle Employee Salary", 
+      itemName: "SLCTA MLK", 
+      itemPrice: 171, 
+      receiptNumber: "01-2345",
+      receiptTotal: 456,
+      itemQTY: 1,
+    }, {
+      dateChecked:"09/24/2024", 
+      expenseType: "Off Cycle Employee Salary", 
+      itemName: "SLCTA MLK", 
+      itemPrice: 171, 
+      receiptNumber: "01-2345",
+      receiptTotal: 456,
+      itemQTY: 1,
+    }, {
+      dateChecked:"09/24/2024", 
+      expenseType: "Off Cycle Employee Salary", 
+      itemName: "SLCTA MLK", 
+      itemPrice: 171, 
+      receiptNumber: "01-2345",
+      receiptTotal: 456,
+      itemQTY: 1,
+    }, {
+      dateChecked:"09/24/2024", 
+      expenseType: "Off Cycle Employee Salary", 
+      itemName: "SLCTA MLK", 
+      itemPrice: 171, 
+      receiptNumber: "01-2345",
+      receiptTotal: 456,
+      itemQTY: 1,
+    }, {
+      dateChecked:"09/24/2024", 
+      expenseType: "Off Cycle Employee Salary", 
+      itemName: "SLCTA MLK", 
+      itemPrice: 171, 
+      receiptNumber: "01-2345",
+      receiptTotal: 456,
+      itemQTY: 1,
+    }, {
+      dateChecked:"09/24/2024", 
+      expenseType: "Off Cycle Employee Salary", 
+      itemName: "SLCTA MLK", 
+      itemPrice: 171, 
+      receiptNumber: "01-2345",
+      receiptTotal: 456,
+      itemQTY: 1,
+    }, {
+      dateChecked:"09/24/2024", 
+      expenseType: "Off Cycle Employee Salary", 
+      itemName: "SLCTA MLK", 
+      itemPrice: 171, 
+      receiptNumber: "01-2345",
+      receiptTotal: 456,
+      itemQTY: 1,
+    }, {
+      dateChecked:"09/24/2024", 
+      expenseType: "Off Cycle Employee Salary", 
+      itemName: "SLCTA MLK", 
+      itemPrice: 171, 
+      receiptNumber: "01-2345",
+      receiptTotal: 456,
+      itemQTY: 1,
+    }, {
+      dateChecked:"09/24/2024", 
+      expenseType: "Off Cycle Employee Salary", 
+      itemName: "SLCTA MLK", 
+      itemPrice: 171, 
+      receiptNumber: "01-2345",
+      receiptTotal: 456,
+      itemQTY: 1,
+    }, {
+      dateChecked:"09/24/2024", 
+      expenseType: "Off Cycle Employee Salary", 
+      itemName: "SLCTA MLK", 
+      itemPrice: 171, 
+      receiptNumber: "01-2345",
+      receiptTotal: 456,
+      itemQTY: 1,
+    }, {
+      dateChecked:"09/24/2024", 
+      expenseType: "Off Cycle Employee Salary", 
+      itemName: "SLCTA MLK", 
+      itemPrice: 171, 
+      receiptNumber: "01-2345",
+      receiptTotal: 456,
+      itemQTY: 1,
+    }, {
+      dateChecked:"09/24/2024", 
+      expenseType: "Off Cycle Employee Salary", 
+      itemName: "SLCTA MLK", 
+      itemPrice: 171, 
+      receiptNumber: "01-2345",
+      receiptTotal: 456,
+      itemQTY: 1,
+    }, {
+      dateChecked:"09/24/2024", 
+      expenseType: "Off Cycle Employee Salary", 
+      itemName: "SLCTA MLK", 
+      itemPrice: 171, 
+      receiptNumber: "01-2345",
+      receiptTotal: 456,
+      itemQTY: 1,
+    }, {
+      dateChecked:"09/24/2024", 
+      expenseType: "Off Cycle Employee Salary", 
+      itemName: "SLCTA MLK", 
+      itemPrice: 171, 
+      receiptNumber: "01-2345",
+      receiptTotal: 456,
+      itemQTY: 1,
+    }, {
+      dateChecked:"09/24/2024", 
+      expenseType: "Off Cycle Employee Salary", 
+      itemName: "SLCTA MLK", 
+      itemPrice: 171, 
+      receiptNumber: "01-2345",
+      receiptTotal: 456,
+      itemQTY: 1,
+    }, 
+  ]);
 
-  const expensesTableData = [[
-    "09/23/2024",
-    "123",
-    "Off Cycle Employee Salary", 
-    "Coffee Beans", 
-    4, 
-    1230.50
-  ], [
-    "09/23/2024",
-    "123",
-    "Cost of Goods Expense", 
-    "Americano", 
-    4, 
-    1230.50
-  ], 
-]
+  const renderItem = ({item, index}) => {
+    return (
+      <View style={styles.row}>
+        <Text style={[styles.dataText, { width: 120 }]}>
+          {item.dateChecked}
+        </Text>
+        <Text style={[styles.dataText, { width: 150 }]}>
+          {item.receiptNumber}
+        </Text>
+        <Text style={[styles.dataText, { width: 200 }]}>
+          {item.expenseType}
+        </Text>
+        <Text style={[styles.dataText, { width: 180 }]}>
+          {item.itemName}
+        </Text>
+        <Text style={[styles.dataText, { width: 80 }]}>
+          {item.itemQTY}
+        </Text>
+        <Text style={[styles.dataText, { width: 100 }]}>
+          {item.itemPrice}
+        </Text>
+        <Text style={[styles.dataText, { width: 120 }]}>
+          {item.receiptTotal}
+        </Text>
+      </View>
+    )
+  }
   return (
-    <View style={styles.container}>
-      <Table borderStyle={styles.tableBorder} style={styles.tableShadow}>
-        <Row
-          data={expensesTableHeader}
-          style={styles.header}
-          textStyle={styles.headerText}
-        />
-        <ScrollView horizontal={false}>
-          {expensesTableData.map((rowData, index) => (
-            <Row
-              key={index}
-              data={rowData}
-              style={[styles.row, index % 2 && { backgroundColor: "#F8F8F8" }]}
-              textStyle={styles.rowText}
+<View style={styles.container}>
+      <ScrollView
+        horizontal
+        style={{ borderTopLeftRadius: 5, borderTopRightRadius: 5 }}
+      >
+        <View style={styles.listContainer}>
+          <View style={styles.header}>
+            <Text style={[styles.headerText, { width: 120 }]}>
+              Date
+            </Text>
+            <Text style={[styles.headerText, { width: 150 }]}>Receipt/OR No.</Text>
+            <Text style={[styles.headerText, { width: 200 }]}>Expense Type</Text>
+            <Text style={[styles.headerText, { width: 180 }]}>Item Name</Text>
+            <Text style={[styles.headerText, { width: 80 }]}>
+              QTY
+            </Text>
+            <Text style={[styles.headerText, { width: 100 }]}>
+              Item Price
+            </Text>
+            <Text style={[styles.headerText, { width: 120 }]}>Receipt Total</Text>
+          </View>
+          <View style={styles.rowContainer}>
+            <FlatList
+              data={expensesData}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index.toString()}
             />
-          ))}
-        </ScrollView>
-      </Table>
+          </View>
+        </View>
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
-    padding: 5,
-    paddingTop: 30,
+    flex: 1,
+    padding: 16,
+    paddingTop: 25,
     alignItems: "center",
   },
-  tableBorder: {
-    borderWidth: 1,
-    borderRadius: 10,
-    borderColor: "#FFFFFF",
-  },
-  tableShadow: {
-    shadowColor: "#000000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 4,
-    borderRadius: 10,
-    height: 580,
-    width: "95%",
-    maxHeight: 800,
+  listContainer: {
+      flex: 1,
+      flex: 1,
+    borderRadius: 5,
   },
   header: {
-    height: 40,
+    height: 60,
+    flexDirection: "row",
     backgroundColor: "#F9BC4D",
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    alignItems: "center",
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
   },
   row: {
-    textAlign: "center",
+    flexDirection: "row",
+    paddingVertical: 10,
+    backgroundColor: "#fbfbfa",
     alignItems: "center",
-    justifyContent: "center",
   },
   headerText: {
     fontWeight: "bold",
     textAlign: "center",
   },
-  rowText: {
+  dataText: {
+    fontSize: 14,
     textAlign: "center",
+  },
+  rowContainer: {
+    height: 500,
+    borderBottomEndRadius: 5,
   },
 });
