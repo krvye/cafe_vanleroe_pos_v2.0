@@ -5,6 +5,7 @@ import QueueScreen from "@screens/Queue";
 import HistoryScreen from "@screens/History";
 import InventoryScreen from "@screens/Inventory";
 import ExpensesScreen from "@screens/Expenses";
+import MenuScreen from "@screens/Menu";
 
 import CustomTabBar from "@components/CustomTabBar";
 import { StatusBar } from "expo-status-bar";
@@ -29,7 +30,8 @@ export default function TabNavigator() {
         <Tab.Screen name="Queue" component={QueueScreen} />
         <Tab.Screen name="History" component={HistoryScreen} />
         <Tab.Screen name="Inventory" component={InventoryScreen} />
-        <Tab.Screen name="Expenses" component={ExpensesScreen} />
+        {/* <Tab.Screen name="Expenses" component={ExpensesScreen} /> */}
+        <Tab.Screen name="Menu" component={MenuScreen} />
       </Tab.Navigator>
     </>
   );
