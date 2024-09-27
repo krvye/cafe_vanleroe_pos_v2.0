@@ -77,19 +77,19 @@ const styles = StyleSheet.create({
       doneButton: {
         height: '45%',
         width: '20%',
-        backgroundColor: '#FF5C00',
+        backgroundColor: '#F9BC4D',
         borderRadius: 30,
         justifyContent: 'center',
         marginRight: 60,
         marginTop: 10,
       }, 
       orderItemText: {
-        color: "#828487",
+        color: "#0e0e0e",
         fontSize: 15,
         fontWeight: 500,
       },
       doneButtonText: {
-        color: "#FFFFFF", 
+        color: "#0e0e0e", 
         fontSize: 15, 
         fontWeight: 600, 
         textAlign: 'center',

@@ -143,15 +143,15 @@ export default function SignInScreen({ navigation }) {
               <TouchableOpacity
                 style={[
                   styles.timeInAndOutButton,
-                  { backgroundColor: "#FF5C00" },
+                  { backgroundColor: "#B66619" },
                 ]}
               >
-                <Text style={{ color: "#FFF", fontSize: 16 }}>Time In</Text>
+                <Text style={{ color: "#fff", fontSize: 16, fontWeight: 500 }}>Time In</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.timeInAndOutButton, { backgroundColor: "#FFF" }]}
+                style={[styles.timeInAndOutButton, { backgroundColor: "#FFF", borderColor: "#B66619", borderWidth: 2 }]}
               >
-                <Text style={{ color: "#FF5C00", fontSize: 16 }}>Time Out</Text>
+                <Text style={{ color: "#B66619", fontSize: 16, fontWeight: 500 }}>Time Out</Text>
               </TouchableOpacity>
             </View>
 
@@ -159,18 +159,21 @@ export default function SignInScreen({ navigation }) {
               <TouchableOpacity
                 style={[
                   styles.breakInAndOutButton,
-                  { backgroundColor: "#FF5C00" },
+                  { backgroundColor: "#B66619" },
                 ]}
               >
-                <Text style={{ color: "#FFF", fontSize: 16 }}>Break In</Text>
+                <Text style={{ color: "#fff", fontSize: 16, fontWeight: 500 }}>Break In</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[
                   styles.breakInAndOutButton,
-                  { backgroundColor: "#FFF" },
+                  { backgroundColor: "#FFF",
+                    borderColor: "#B66619", 
+                    borderWidth: 2,
+                   },
                 ]}
               >
-                <Text style={{ color: "#FF5C00", fontSize: 16 }}>
+                <Text style={{ color: "#B66619", fontSize: 16, fontWeight: 500 }}>
                   Break Out
                 </Text>
               </TouchableOpacity>
@@ -268,16 +271,17 @@ const styles = StyleSheet.create({
     width: 400,
     borderWidth: 1,
     borderRadius: 20,
-    borderColor: "#FF5C00",
+    borderColor: "#F9BC4D",
     justifyContent: "center",
     alignSelf: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    backgroundColor: "#F9BC4D",
     marginTop: 10,
   },
   signInText: {
     fontSize: 16,
-    color: "#FF5C00",
+    color: "#0e0e0e",
     textAlign: "center",
+    fontWeight: 500
   },
   buttonsContainer: {
     justifyContent: "center",

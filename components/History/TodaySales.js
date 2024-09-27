@@ -59,7 +59,7 @@ export default function TodaySales() {
       </View>
       {/*Mode of Payment Section*/}
       <View style={styles.paymentModeContainer}>
-        <ScrollView style={styles.grabContainer}>
+        <View style={styles.grabContainer}>
           <Image
             source={Grab}
             style={{ height: 50, width: 50, marginBottom: 20 }}
@@ -71,7 +71,7 @@ export default function TodaySales() {
             <Text style={styles.amountText}>₱ 2000.00</Text>
             <Text style={styles.salesText}>Total Sales</Text>
           </View>
-        </ScrollView>
+        </View>
         <View style={styles.foodpandaContainer} size={10}>
           <Image
             source={Foodpanda}

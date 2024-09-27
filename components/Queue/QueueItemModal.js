@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   voidAllButton: {
     height: '40%',  
     width: '40%', 
-    borderColor: '#FF5C00',
+    borderColor: '#B66619',
     borderWidth: 1, 
     borderRadius: 50, 
     alignItems: 'center', 
@@ -118,18 +118,18 @@ const styles = StyleSheet.create({
   allDoneButton: {
     height: '40%', 
     width: '40%',
-    backgroundColor: '#FF5C00',
+    backgroundColor: '#F9BC4D',
     borderRadius: 50, 
     alignItems: 'center', 
     justifyContent: 'center',
   }, 
   voidAllText: {
-    color: '#FF5C00',
+    color: '#B66619',
     fontSize: 16, 
     fontWeight: 600,
   }, 
   allDoneText: {
-    color: '#FFFFFF', 
+    color: '#0e0e0e', 
     fontSize: 16, 
     fontWeight: 600,
   }

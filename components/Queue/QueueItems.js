@@ -24,7 +24,7 @@ export default function QueueItems({setVoidQueueItem, setOpenQueueItem}) {
             <View style={styles.horizontalLine}/>
             <View style={styles.buttonContainer}>
               <Pressable style={styles.voidButton} onPress={handleVoidQueueItem}>
-                <Text style={styles.buttonText}>Void</Text>
+                <Text style={styles.voidButtonText}>Void</Text>
               </Pressable>
               <Pressable style={styles.openButton} onPress={handleOpenQueueItem}>
                 <Text style={styles.buttonText}>Open</Text>
@@ -45,7 +45,7 @@ export default function QueueItems({setVoidQueueItem, setOpenQueueItem}) {
             <View style={styles.horizontalLine}/>
             <View style={styles.buttonContainer}>
               <Pressable style={styles.voidButton} onPress={handleVoidQueueItem}>
-                <Text style={styles.buttonText}>Void</Text>
+                <Text style={styles.voidButtonText}>Void</Text>
               </Pressable>
               <Pressable style={styles.openButton} onPress={handleOpenQueueItem}>
                 <Text style={styles.buttonText}>Open</Text>
@@ -66,7 +66,7 @@ export default function QueueItems({setVoidQueueItem, setOpenQueueItem}) {
             <View style={styles.horizontalLine}/>
             <View style={styles.buttonContainer}>
               <Pressable style={styles.voidButton} onPress={handleVoidQueueItem}>
-                <Text style={styles.buttonText}>Void</Text>
+                <Text style={styles.voidButtonText}>Void</Text>
               </Pressable>
               <Pressable style={styles.openButton} onPress={handleOpenQueueItem}>
                 <Text style={styles.buttonText}>Open</Text>
@@ -87,7 +87,7 @@ export default function QueueItems({setVoidQueueItem, setOpenQueueItem}) {
             <View style={styles.horizontalLine}/>
             <View style={styles.buttonContainer}>
               <Pressable style={styles.voidButton} onPress={handleVoidQueueItem}>
-                <Text style={styles.buttonText}>Void</Text>
+                <Text style={styles.voidButtonText}>Void</Text>
               </Pressable>
               <Pressable style={styles.openButton} onPress={handleOpenQueueItem}>
                 <Text style={styles.buttonText}>Open</Text>
@@ -120,8 +120,8 @@ const styles = StyleSheet.create({
   queueItem: {
     width: "90%",
     height: 150,
-    backgroundColor: "#FF5C00",
-    borderRadius: 20,
+    backgroundColor: "#F9BC4D",
+    borderRadius: 15,
     justifyContent: 'center',
   },
   queueItemDetailsContainer: {
@@ -130,24 +130,24 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: '100%',
     flexDirection: 'row', 
-    height: 40, 
+    height: "30%", 
     alignItems: 'center',
     justifyContent: 'space-around',
     marginTop: 10,
   },
   voidButton: {
-    backgroundColor: '#FF5C00', 
-    borderColor: '#FFFFFF',
+    backgroundColor: '#F9BC4D', 
+    borderColor: '#B66619',
     borderWidth: 1,
     height: '100%', 
-    width: 80, 
+    width: "40%", 
     borderRadius: 20, 
     justifyContent: 'center', 
     alignItems: 'center',
   },
   openButton: {
     height: '100%', 
-    width: 80, 
+    width: "40%", 
     borderRadius: 20,
     justifyContent: 'center', 
     alignItems: 'center',
@@ -161,18 +161,24 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 18,
     marginLeft: 20,
-    color: "#FFFFFF",
+    color: "#0e0e0e",
   },
   buttonText: {
     fontWeight: 'bold', 
     fontSize: 15, 
     textAlign: 'center', 
-    color: '#FFFFFF',
+    color: '#0e0e0e',
   },
   horizontalLine: {
     height: 1, 
     width: '100%', 
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#B66619',
     marginTop: 15,
+  },
+  voidButtonText: {
+    fontWeight: 'bold', 
+    fontSize: 15, 
+    textAlign: 'center', 
+    color: '#B66619',
   }
 });

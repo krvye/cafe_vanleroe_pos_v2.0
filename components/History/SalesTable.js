@@ -188,8 +188,8 @@ export default function SalesTable() {
           {item.customerName}
         </Text>
         <Text style={[styles.dataText, { width: 80 }]}>{item.time}</Text>
-        <Text style={[styles.dataText, { width: 180 }]}>{item.branch}</Text>
-        <Text style={[styles.dataText, { width: 100 }]}>
+        {/* <Text style={[styles.dataText, { width: 180 }]}>{item.branch}</Text> */}
+        <Text style={[styles.dataText, { width: 150 }]}>
           {item.modeOfPayment}
         </Text>
         <Text style={[styles.dataText, { width: 120 }]}>{item.orderMode}</Text>
@@ -234,8 +234,8 @@ export default function SalesTable() {
               Customer Name
             </Text>
             <Text style={[styles.headerText, { width: 80 }]}>Time</Text>
-            <Text style={[styles.headerText, { width: 180 }]}>Branch</Text>
-            <Text style={[styles.headerText, { width: 100 }]}>
+            {/* <Text style={[styles.headerText, { width: 180 }]}>Branch</Text> */}
+            <Text style={[styles.headerText, { width: 150 }]}>
               Mode of Payment
             </Text>
             <Text style={[styles.headerText, { width: 120 }]}>Order Mode</Text>
@@ -267,7 +267,6 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingTop: 25,
     alignItems: "center",
-    justifyContent: "center",
   },
   listContainer: {
       flex: 1,
