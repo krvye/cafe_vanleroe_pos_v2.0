@@ -6,16 +6,23 @@ import { useState } from "react";
 
 import DrinksModal from "@components/Menu/DrinksModal";
 import NonDrinkModal from "@components/Menu/NonDrinkModal";
+import NewItemModal from "@components/Menu/NewItemModal";
 
 export default function MenuScreen() {
   const [modalState, setModalState] = useState(false);
+  const [newItemState, setNewItemState] = useState(false);
+
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Menu Management</Text>
-      <Dropdown />
+      <Dropdown setNewItemState={setNewItemState} />
       <Items setModalState={setModalState} />
       <DrinksModal modalState={modalState} setModalState={setModalState} />
       {/* <NonDrinkModal modalState={modalState} setModalState={setModalState} /> */}
+      <NewItemModal
+        newItemState={newItemState}
+        setNewItemState={setNewItemState}
+      />
     </View>
   );
 }

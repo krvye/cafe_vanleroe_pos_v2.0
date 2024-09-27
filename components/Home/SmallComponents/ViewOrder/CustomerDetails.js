@@ -1,7 +1,7 @@
 import { AntDesign } from "@expo/vector-icons";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
-export default function CustomerDetails({ setModalState }) {
+export default function CustomerDetails({ setModalState, foodService }) {
   return (
     <View>
       <View style={styles.headerContainer}>
@@ -15,7 +15,15 @@ export default function CustomerDetails({ setModalState }) {
         </Pressable>
       </View>
       <TextInput placeholder="Customer name" style={styles.customerInput} />
-      <TextInput placeholder="Order number" style={styles.customerInput} />
+
+      {(foodService === "Dine In" || foodService === "Take Out") && (
+        <TextInput placeholder="Retekess Number" style={styles.customerInput} />
+      )}
+
+      {(foodService === "Foodpanda" || foodService === "Grab") && (
+        <TextInput placeholder="Order number" style={styles.customerInput} />
+      )}
+
       <TextInput placeholder="Add Note" style={styles.customerInput} />
     </View>
   );

@@ -10,11 +10,15 @@ export default function ViewOrderModal({
   setViewOrderState,
   setPaymentDetailsState,
   setDiscount,
+  foodService,
 }) {
   return (
     <Modal visible={viewOrderState} transparent={true}>
       <ScrollView style={styles.container}>
-        <CustomerDetails setModalState={setViewOrderState} />
+        <CustomerDetails
+          setModalState={setViewOrderState}
+          foodService={foodService}
+        />
 
         <View style={styles.borderLine}></View>
 

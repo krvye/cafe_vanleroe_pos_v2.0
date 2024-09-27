@@ -8,6 +8,7 @@ import InputAmount from "./SmallComponents/PayNowDetails/InputAmount";
 export default function PaymentDetails({
   paymentDetailsState,
   setPaymentDetailsState,
+  paymentMethod,
   setPaymentMethod,
 }) {
   return (
@@ -18,7 +19,10 @@ export default function PaymentDetails({
 
           <AmountDetails />
 
-          <PaymentMethod setPaymentMethod={setPaymentMethod} />
+          <PaymentMethod
+            paymentMethod={paymentMethod}
+            setPaymentMethod={setPaymentMethod}
+          />
 
           <InputAmount />
         </ScrollView>

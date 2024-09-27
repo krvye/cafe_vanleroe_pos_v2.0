@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   amountText: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#FF5C00",
+    color: "#B66619",
   },
   amountDeducted: {
     fontSize: 20,

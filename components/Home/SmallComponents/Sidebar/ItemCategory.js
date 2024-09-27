@@ -35,7 +35,7 @@ const makeStyles = (fontScale) =>
       padding: 20,
       backgroundColor: "#FFF5EE",
       borderRightWidth: 4,
-      borderRightColor: "#FF5C00",
+      borderRightColor: "#B66619",
       marginVertical: 15,
     },
     inactiveButton: {
@@ -44,7 +44,7 @@ const makeStyles = (fontScale) =>
       marginVertical: 15,
     },
     activeText: {
-      color: "#FF5C00",
+      color: "#B66619",
       fontSize: 18 * fontScale,
       fontWeight: "600",
     },

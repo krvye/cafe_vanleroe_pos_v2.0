@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
   orangeText: {
     fontWeight: "600",
     fontSize: 28,
-    color: "#FF5C00",
+    color: "#B66619",
   },
   blueText: {
     fontWeight: "600",
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
   printButton: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#FF5C00",
+    backgroundColor: "#B66619",
     borderRadius: 15,
     paddingVertical: 10,
     gap: 10,
