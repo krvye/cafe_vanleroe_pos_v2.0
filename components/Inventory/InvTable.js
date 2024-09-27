@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Modal, TextInput } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Modal, TextInput, ScrollView } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
@@ -39,24 +39,29 @@ export default function InvTable() {
 
   return (
     <View style={styles.invTableContainer}>
-      <Table borderStyle={styles.invBorder} style={styles.invShadow}>
-        <Row data={tableHead} style={styles.head} textStyle={styles.headText} />
-        {
-          tableData.map((rowData, index) => (
-            <Row
-              key={index}
-              data={[
-                ...rowData,
-                <TouchableOpacity onPress={() => handleEdit(index)}>
-                  <AntDesign name="edit" size={24} color="black" style={styles.text} />
-                </TouchableOpacity>
-              ]}
-              style={[styles.row, index % 2 && { backgroundColor: '#F8F8F8' }]}
-              textStyle={styles.text}
-            />
-          ))
-        }
-      </Table>
+      <ScrollView horizontal={true}>
+        <View style={styles.invlist}>
+          <Table borderStyle={styles.invBorder}>
+            <Row data={tableHead} style={styles.head} textStyle={styles.headText} />
+            {
+              tableData.map((rowData, index) => (
+                <Row
+                  key={index}
+                  data={[
+                    ...rowData,
+                    <TouchableOpacity onPress={() => handleEdit(index)}>
+                      <AntDesign name="edit" size={24} color="black" style={styles.text} widthArr={[100, 150, 100, 100, 100, 150, 50]} />
+                    </TouchableOpacity>
+                  ]}
+                  style={[styles.row, index % 2 && { backgroundColor: '#F8F8F8' }]}
+                  textStyle={styles.text}
+                  widthArr={[100, 150, 100, 100, 100, 150, 50]}
+                />
+              ))
+            }
+          </Table>
+        </View>
+      </ScrollView>
 
       <Modal
         visible={modalVisible}
@@ -96,12 +101,20 @@ export default function InvTable() {
 const styles = StyleSheet.create({
   invTableContainer: {
     width: '100%',
-    height: '500rem'
+    height: '500rem',
+    flex: 1,
+    justifyContent: 'center', // Centers the table vertically
+    alignItems: 'center',     // Centers the table horizontally
+    alignSelf: 'center',     // Ensures the container is centered within its parent
   },
+
+  invlist: {
+    width:'100%'
+},
+
   invBorder: {
-    borderWidth: 1,
+    borderWidth: 0,
     borderRadius: 10,
-    borderColor: '#FFFFFF',
   },
   invShadow: {
     shadowColor: "#000000",
@@ -110,6 +123,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 4,
     borderRadius: 10,
+    width: '90%',
     height: 500,
     maxHeight: 500,
   },
@@ -127,6 +141,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
+    borderBottomWidth: 0,
   },
   text: {
     fontWeight: 'regular',

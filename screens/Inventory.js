@@ -86,14 +86,6 @@ export default function InventoryScreen({ navigation }) {
                   onChangeText={(text) => handleInputChange('itemCategory', text)}
                 />
 
-                <Text style={styles.label}>Branch Code</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Branch Code"
-                  value={formData.branchCode}
-                  onChangeText={(text) => handleInputChange('branchCode', text)}
-                />
-
                 <Text style={styles.label}>Date Checked</Text>
                 <TextInput
                   style={styles.input}
@@ -142,7 +134,7 @@ export default function InventoryScreen({ navigation }) {
 
                 {isAM ? (
                   <>
-                    <Text style={styles.label}>AM Employee ID</Text>
+                    <Text style={styles.label}>Staff Name</Text>
                     <TextInput
                       style={styles.input}
                       placeholder="AM Employee ID"
@@ -193,16 +185,18 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center', // Center the button horizontally
+    alignItems: 'center',     // Center the button vertically
     marginBottom: 16,
   },
   buttonAM: {
-    backgroundColor: '#000000',
+    backgroundColor: '#B66619',
     padding: 15,
     borderRadius: 5,
-    flex: 1,
+    //flex: 1,
     alignItems: 'center',
     marginRight: 10,
+    width:200,
   },
   buttonPM: {
     backgroundColor: '#FF6600',
@@ -269,7 +263,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   addButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#B66619',
     padding: 10,
     borderRadius: 5,
     flex: 1,
