@@ -6,7 +6,7 @@ import {
   // ImageBackground,
 } from "react-native";
 
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Foundation from '@expo/vector-icons/Foundation';
 // import expensesBg from "@assets/expensesBg.svg";
 
 export default function TodayExpenses({ setOpenAddExpense }) {
@@ -19,7 +19,7 @@ export default function TodayExpenses({ setOpenAddExpense }) {
     <View style={styles.expMainContainer}>
       <View style={styles.expenseDetailsContainer}>
         <View style={styles.expenseIcon}>
-          <ShoppingCartIcon style={{color: "#FFFF"}}/>
+          <Foundation name="shopping-cart" size={24} color="#FFFF" />
         </View>
         <Text style={styles.amountText}>TOTAL EXPENSES: </Text>
         <Text style={styles.expenseText}>₱ 20000.00</Text>

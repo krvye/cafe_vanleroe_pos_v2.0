@@ -28,9 +28,9 @@ export default function TabNavigator() {
       >
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Queue" component={QueueScreen} />
-        {/* <Tab.Screen name="History" component={HistoryScreen} /> */}
+        <Tab.Screen name="History" component={HistoryScreen} />
         <Tab.Screen name="Inventory" component={InventoryScreen} />
-        {/* <Tab.Screen name="Expenses" component={ExpensesScreen} /> */}
+        <Tab.Screen name="Expenses" component={ExpensesScreen} />
         <Tab.Screen name="Menu" component={MenuScreen} />
       </Tab.Navigator>
     </>

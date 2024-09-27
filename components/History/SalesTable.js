@@ -8,8 +8,7 @@ import {
 } from "react-native";
 import { useState } from "react";
 
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function SalesTable() {
   const [visibleItems, setVisibleItems] = useState({});
@@ -209,19 +208,16 @@ export default function SalesTable() {
         <Text style={[styles.dataText, { width: 80 }]}>{item.price}</Text>
 
         {item.orderItems.length > 1 ? (
-          <Pressable
-            style={styles.eyeIconCon}
-            onPress={() => handleVisibleItems(index)}
-          >
-            {visibleItems[index] ? (
-              <VisibilityIcon style={{ width: 80, color: "#B66619" }} />
-            ) : (
-              <VisibilityOffIcon style={{ width: 80, color: "#B66619" }} />
-            )}
-          </Pressable>
-        ) : (
-          <View />
-        )}
+        <Pressable style={styles.eyeIconCon} onPress={() => handleVisibleItems(index)}>
+          {visibleItems[index] ? (
+            <Ionicons name="eye" size={24} color="#B66619" />
+          ) : (
+            <Ionicons name="eye-off" size={24} color="#B66619" />
+          )}
+        </Pressable>
+      ) : (
+        <View />
+      )}
       </View>
     );
   };
@@ -270,6 +266,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     paddingTop: 25,
+    alignItems: "center",
+    justifyContent: "center",
   },
   listContainer: {
       flex: 1,
