@@ -1,0 +1,12 @@
+{
+    "branches": [
+        {
+            "branchCode" : "WMT",
+            "branchDesc" : "Waltermart Taytay"
+        },
+        {
+            "branchCode" : "AYF", 
+            "branchDesc" : "Ayala Malls Feliz"
+        }
+    ] 
+}

@@ -1,8 +1,13 @@
 import { StyleSheet, View, ScrollView } from "react-native";
+
 import TodaySales from "../components/History/TodaySales";
 import SalesTable from "../components/History/SalesTable";
 
+// import { SalesInformation } from "../services/firebase/History/RetrieveSales";
+
 export default function HistoryScreen() {
+  // const salesInfo = SalesInformation(); 
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
