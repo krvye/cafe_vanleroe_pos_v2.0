@@ -3,10 +3,11 @@ import { StyleSheet, View, ScrollView } from "react-native";
 import TodaySales from "../components/History/TodaySales";
 import SalesTable from "../components/History/SalesTable";
 
-// import { SalesInformation } from "../services/firebase/History/RetrieveSales";
+import { SalesInformation } from "../services/firebase/History/RetrieveSales";
 
 export default function HistoryScreen() {
-  // const salesInfo = SalesInformation(); 
+  const salesInfo = SalesInformation(); 
+  console.log("Sales Data: ", salesInfo);
 
   return (
     <View style={styles.container}>
