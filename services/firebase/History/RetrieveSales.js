@@ -189,7 +189,7 @@ export const SalesInformation = () => {
         );
         const facebookCustomers = facebookCount.size;
         setFbCount(facebookCustomers);
-        console.logo("Facebook Count: ", facebookCustomers);
+        console.log("Facebook Count: ", facebookCustomers);
       }
     );
 

@@ -67,7 +67,7 @@ export default function AddExpenseModal({ openAddExpense, setOpenAddExpense }) {
           </View>
           {/* Input Date */}
           <View style={styles.inputTitleCon}>
-            <Text style={[styles.inputTitleText, { fontWeight: "bold" }]}>
+            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
               Date:
             </Text>
           </View>
@@ -81,7 +81,7 @@ export default function AddExpenseModal({ openAddExpense, setOpenAddExpense }) {
 
           {/* Input Branch */}
           <View style={styles.inputTitleCon}>
-            <Text style={[styles.inputTitleText, { fontWeight: "bold" }]}>
+            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
               Branch:
             </Text>
           </View>
@@ -95,7 +95,7 @@ export default function AddExpenseModal({ openAddExpense, setOpenAddExpense }) {
 
           {/* Expense Type */}
           <View style={styles.inputTitleCon}>
-            <Text style={[styles.inputTitleText, { fontWeight: "bold" }]}>
+            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
               Expense Type:
             </Text>
           </View>
@@ -127,7 +127,7 @@ export default function AddExpenseModal({ openAddExpense, setOpenAddExpense }) {
 
           {/* Input Receipt/OR No. */}
           <View style={styles.inputTitleCon}>
-            <Text style={[styles.inputTitleText, { fontWeight: "bold" }]}>
+            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
               Receipt/OR No.:
             </Text>
           </View>
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
   addAllText: {
     fontSize: 15,
     color: "#FFFFFF",
-    fontWeight: "bold",
+    fontWeight: 500,
     textAlign: "center",
   },
   cancelButton: {

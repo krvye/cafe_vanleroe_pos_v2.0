@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerText: {
-    fontWeight: "bold",
+    fontWeight: 500,
     textAlign: "center",
   },
   dataText: {

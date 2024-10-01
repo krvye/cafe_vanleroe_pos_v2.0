@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   //   justifyContent: "center",
   // },
   amountText: {
-    fontWeight: "bold",
+    fontWeight: 500,
     fontSize: 23,
   },
   expenseText: {
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#FFFFFF",
     fontSize: 15,
-    fontWeight: "bold",
+    fontWeight: 500,
   },
   // todayExpTextCon: {
   //   height: "20%",

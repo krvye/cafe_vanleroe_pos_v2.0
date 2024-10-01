@@ -110,7 +110,7 @@ export default function TodaySales({
               textAlign: "center",
               color: "#F9BC4D",
               fontSize: 20,
-              fontWeight: "bold",
+              fontWeight: 500,
               marginBottom: 32,
             }}
           >
@@ -156,7 +156,7 @@ export default function TodaySales({
               textAlign: "center",
               color: "#b66619",
               fontSize: 20,
-              fontWeight: "bold",
+              fontWeight: 500,
               marginBottom: 32,
             }}
           >
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginLeft: 10,
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 500,
   },
   totalSalesContainer: {
     height: "100%",
@@ -248,11 +248,11 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
   },
   amountText: {
-    fontWeight: "bold",
+    fontWeight: 500,
     fontSize: 12,
   },
   salesText: {
-    fontWeight: "light",
+    fontWeight: 300,
     fontSize: 8,
   },
   paymentModeContainer: {

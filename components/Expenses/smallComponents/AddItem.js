@@ -5,7 +5,7 @@ export default function AddItem({ index, handleAddItem, handleRemoveItem }) {
   return (
     <View style={styles.container}>
       <View style={styles.inputTitleCon}>
-        <Text style={[styles.inputTitleText, { fontWeight: "bold" }]}>
+        <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
           Item Name:
         </Text>
       </View>
@@ -18,7 +18,7 @@ export default function AddItem({ index, handleAddItem, handleRemoveItem }) {
       </View>
 
       <View style={styles.inputTitleCon}>
-        <Text style={[styles.inputTitleText, { fontWeight: "bold" }]}>
+        <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
           QTY:
         </Text>
       </View>
@@ -31,7 +31,7 @@ export default function AddItem({ index, handleAddItem, handleRemoveItem }) {
       </View>
 
       <View style={styles.inputTitleCon}>
-        <Text style={[styles.inputTitleText, { fontWeight: "bold" }]}>
+        <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
           Item Price:
         </Text>
       </View>
