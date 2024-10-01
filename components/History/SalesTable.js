@@ -10,165 +10,8 @@ import { useState } from "react";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-export default function SalesTable() {
+export default function SalesTable({salesInfo, orderModeInfo, modeOfPaymentInfo}) {
   const [visibleItems, setVisibleItems] = useState({});
-  const [salesData, setSalesData] = useState([
-    {
-      customerName: "Mikaela Faye Popes",
-      time: "04:20",
-      branch: "Waltermart Taytay",
-      modeOfPayment: "Cash",
-      orderMode: "Onsite",
-      noOfOrderedItems: 1,
-      orderItems: [{"itemName" : "Americano", "itemQuantity" : 1}],
-      price: 250.55,
-    },
-    {
-      customerName: "Kurt Agripa",
-      time: "04:20",
-      branch: "Waltermart Taytay",
-      modeOfPayment: "Gcash",
-      orderMode: "Onsite",
-      noOfOrderedItems: 1,
-      orderItems: [{"itemName" : "Pantropiko", "itemQuantity" : 1}],
-      price: 160.0,
-    },
-    {
-      customerName: "Alexia Jose Roque",
-      time: "05:20",
-      branch: "Waltermart Taytay",
-      modeOfPayment: "Cash",
-      orderMode: "Onsite",
-      noOfOrderedItems: 3,
-      orderItems: [
-        { itemName: "Americano", itemQuantity: 1 },
-        { itemName: "Pantropiko", itemQuantity: 1 },
-        { itemName: "Wild Strawberry", itemQuantity: 1 },
-      ],
-      price: 520.0,
-    },
-    {
-      customerName: "Jane Blanca Ocampo",
-      time: "06:40",
-      branch: "Ayala Malls Feliz",
-      modeOfPayment: "Grab",
-      orderMode: "Online",
-      noOfOrderedItems: 1,
-      orderItems: [{"itemName" : "Spanish Latte", "itemQuantity" : 1}],
-      price: 250.55,
-    },
-    {
-      customerName: "Leila Roque",
-      time: "12:40",
-      branch: "Ayala Malls Feliz",
-      modeOfPayment: "Gcash",
-      orderMode: "Foodpanda",
-      noOfOrderedItems: 2,
-      orderItems: [
-        { itemName: "Spanish Latte", itemQuantity: 1 },
-        { itemName: "Pantropiko", itemQuantity: 1 },
-      ],
-      price: 400.5,
-    },
-    {
-      customerName: "Alexia Jose Roque",
-      time: "05:20",
-      branch: "Waltermart Taytay",
-      modeOfPayment: "Cash",
-      orderMode: "Onsite",
-      noOfOrderedItems: 3,
-      orderItems: [
-        { itemName: "Americano", itemQuantity: 1 },
-        { itemName: "Pantropiko", itemQuantity: 1 },
-        { itemName: "Wild Strawberry", itemQuantity: 1 },
-      ],
-      price: 520.0,
-    },
-    {
-      customerName: "Alexia Jose Roque",
-      time: "05:20",
-      branch: "Waltermart Taytay",
-      modeOfPayment: "Cash",
-      orderMode: "Onsite",
-      noOfOrderedItems: 3,
-      orderItems: [
-        { itemName: "Americano", itemQuantity: 1 },
-        { itemName: "Pantropiko", itemQuantity: 1 },
-        { itemName: "Wild Strawberry", itemQuantity: 1 },
-      ],
-      price: 520.0,
-    },
-    {
-      customerName: "Alexia Jose Roque",
-      time: "05:20",
-      branch: "Waltermart Taytay",
-      modeOfPayment: "Cash",
-      orderMode: "Onsite",
-      noOfOrderedItems: 3,
-      orderItems: [
-        { itemName: "Americano", itemQuantity: 1 },
-        { itemName: "Pantropiko", itemQuantity: 1 },
-        { itemName: "Wild Strawberry", itemQuantity: 1 },
-      ],
-      price: 520.0,
-    },
-    {
-      customerName: "Alexia Jose Roque",
-      time: "05:20",
-      branch: "Waltermart Taytay",
-      modeOfPayment: "Cash",
-      orderMode: "Onsite",
-      noOfOrderedItems: 3,
-      orderItems: [
-        { itemName: "Americano", itemQuantity: 1 },
-        { itemName: "Pantropiko", itemQuantity: 1 },
-        { itemName: "Wild Strawberry", itemQuantity: 1 },
-      ],
-      price: 520.0,
-    },
-    {
-      customerName: "Alexia Jose Roque",
-      time: "05:20",
-      branch: "Waltermart Taytay",
-      modeOfPayment: "Cash",
-      orderMode: "Onsite",
-      noOfOrderedItems: 3,
-      orderItems: [
-        { itemName: "Americano", itemQuantity: 1 },
-        { itemName: "Pantropiko", itemQuantity: 1 },
-        { itemName: "Wild Strawberry", itemQuantity: 1 },
-      ],
-      price: 520.0,
-    },
-    {
-      customerName: "Alexia Jose Roque",
-      time: "05:20",
-      branch: "Waltermart Taytay",
-      modeOfPayment: "Cash",
-      orderMode: "Onsite",
-      noOfOrderedItems: 3,
-      orderItems: [
-        { itemName: "Americano", itemQuantity: 1 },
-        { itemName: "Pantropiko", itemQuantity: 1 },
-        { itemName: "Wild Strawberry", itemQuantity: 1 },
-      ],
-      price: 520.0,
-    },
-    {
-      customerName: "Alexia Jose Roque",
-      time: "05:20",
-      branch: "Waltermart Taytay",
-      modeOfPayment: "Cash",
-      orderMode: "Onsite",
-      noOfOrderedItems: 3,
-      orderItems: [
-        { itemName: "Americano", itemQuantity: 1 },
-        { itemName: "Pantropiko", itemQuantity: 1 },
-        { itemName: "Wild Strawberry", itemQuantity: 1 },
-      ],
-      price: 520.0,
-    },
-  ]);
 
   const handleVisibleItems = (index) => {
     setVisibleItems((prevState) => ({
@@ -176,6 +19,40 @@ export default function SalesTable() {
       [index]: !prevState[index],
     }));
   };
+
+  // Map orderModeDesc from ORDER_MODE
+  const getOrderMode = (orderModeCode) => {
+    const orderModeData = orderModeInfo.find(
+      (item) => item.orderMode === orderModeCode 
+    ); 
+    return orderModeData ? orderModeData.orderModeDesc : " "; 
+  }
+
+  // Map modeOfPaymentDesc from MODE_OF_PAYMENT
+  const getModeOfPayment = (modeOfPaymentCode) => {
+    const modeOfPaymentData = modeOfPaymentInfo.find(
+      (item) => item.modeOfPayment === modeOfPaymentCode
+    );
+    return modeOfPaymentData ? modeOfPaymentData.modeOfPaymentDesc : " "; 
+  }
+
+  // Convert to 12-hour time format 
+  const convertToTwelveHour = (time) => {
+    let [hour, minute] = time.split(':').map(Number);; 
+    let period = 'AM'; 
+
+    if (hour >= 12) {
+      period = 'PM'; 
+    } 
+
+    if (hour === 0) {
+      hour = 12;
+    } else if (hour > 12) {
+      hour -= 12; 
+    }
+
+    return `${hour}:${minute < 10 ? '0':''}${minute} ${period}`; 
+  }
 
   const renderItem = ({ item, index }) => {
     const orderedItems = Array.isArray(item.orderItems)
@@ -187,14 +64,14 @@ export default function SalesTable() {
         <Text style={[styles.dataText, { width: 200 }]}>
           {item.customerName}
         </Text>
-        <Text style={[styles.dataText, { width: 80 }]}>{item.time}</Text>
+        <Text style={[styles.dataText, { width: 80 }]}>{convertToTwelveHour(item.orderTime)}</Text>
         {/* <Text style={[styles.dataText, { width: 180 }]}>{item.branch}</Text> */}
         <Text style={[styles.dataText, { width: 150 }]}>
-          {item.modeOfPayment}
+          {getModeOfPayment(item.modeOfPayment)}
         </Text>
-        <Text style={[styles.dataText, { width: 120 }]}>{item.orderMode}</Text>
+        <Text style={[styles.dataText, { width: 120 }]}>{getOrderMode(item.orderMode)}</Text>
         <Text style={[styles.dataText, { width: 100 }]}>
-          {item.noOfOrderedItems}
+          {Object.values(item.orderItems).reduce((total, item) => total + item.itemQuantity, 0)}
         </Text>
 
         {Array.isArray(item.orderItems) ? (
@@ -205,12 +82,12 @@ export default function SalesTable() {
           <Text style={[styles.dataText, { width: 200 }]}>{orderedItems}</Text>
         )}
 
-        <Text style={[styles.dataText, { width: 80 }]}>{item.price}</Text>
+        <Text style={[styles.dataText, { width: 80 }]}>₱ {item.totalAmount}</Text>
 
         {item.orderItems.length > 1 ? (
         <Pressable style={styles.eyeIconCon} onPress={() => handleVisibleItems(index)}>
           {visibleItems[index] ? (
-            <Ionicons name="eye" size={24} color="#B66619" />
+            <Ionicons name="eye" size={24} color="#B66619"/>
           ) : (
             <Ionicons name="eye-off" size={24} color="#B66619" />
           )}
@@ -250,7 +127,7 @@ export default function SalesTable() {
           </View>
           <View style={styles.rowContainer}>
             <FlatList
-              data={salesData}
+              data={salesInfo}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
             />
@@ -292,7 +169,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   dataText: {
-    fontSize: 14,
+    fontSize: 15,
     textAlign: "center",
   },
   rowContainer: {

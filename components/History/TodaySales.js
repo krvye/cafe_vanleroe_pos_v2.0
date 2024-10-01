@@ -12,7 +12,25 @@ import Facebook from "../../assets/facebook.png";
 import Gcash from "../../assets/gcash.png";
 import Foodpanda from "../../assets/foodpanda.png";
 
-export default function TodaySales() {
+export default function TodaySales({
+  totalSales,
+  orderCount,
+  totalCustomers,
+  gcashSales,
+  gcashCount,
+  cashOnHandSales,
+  cashOnHandCount,
+  mayaSales,
+  mayaCount,
+  grabSales,
+  grabCount,
+  fpCount,
+  fpSales,
+  onsiteSales,
+  onsiteCount,
+  fbSales,
+  fbCount,
+}) {
   return (
     <View style={styles.mainContainer}>
       {/*Today's Sales Section*/}
@@ -27,7 +45,7 @@ export default function TodaySales() {
               style={{ marginLeft: 8, marginTop: 8, marginBottom: 45 }}
             />
             <View style={styles.salesAmountContainer}>
-              <Text style={styles.amountText}>₱ 2000.00</Text>
+              <Text style={styles.amountText}>₱ {totalSales}</Text>
               <Text style={styles.salesText}>Total Sales</Text>
             </View>
           </View>
@@ -39,7 +57,7 @@ export default function TodaySales() {
               style={{ marginLeft: 8, marginTop: 8, marginBottom: 46 }}
             />
             <View style={styles.salesAmountContainer}>
-              <Text style={styles.amountText}>200</Text>
+              <Text style={styles.amountText}>{orderCount}</Text>
               <Text style={styles.salesText}>Order Count</Text>
             </View>
           </View>
@@ -51,7 +69,7 @@ export default function TodaySales() {
               style={{ marginLeft: 8, marginTop: 8, marginBottom: 45 }}
             />
             <View style={styles.salesAmountContainer}>
-              <Text style={styles.amountText}>200</Text>
+              <Text style={styles.amountText}>{totalCustomers}</Text>
               <Text style={styles.salesText}>Total Customers</Text>
             </View>
           </View>
@@ -66,9 +84,9 @@ export default function TodaySales() {
             resizeMode="contain"
           />
           <View style={styles.salesAmountContainer}>
-            <Text style={styles.amountText}>200</Text>
+            <Text style={styles.amountText}>{grabCount}</Text>
             <Text style={styles.salesText}>Total Customers</Text>
-            <Text style={styles.amountText}>₱ 2000.00</Text>
+            <Text style={styles.amountText}>₱ {grabSales}</Text>
             <Text style={styles.salesText}>Total Sales</Text>
           </View>
         </View>
@@ -79,9 +97,9 @@ export default function TodaySales() {
             resizeMode="contain"
           />
           <View style={styles.salesAmountContainer}>
-            <Text style={styles.amountText}>200</Text>
+            <Text style={styles.amountText}>{fpCount}</Text>
             <Text style={styles.salesText}>Total Customers</Text>
-            <Text style={styles.amountText}>₱ 2000.00</Text>
+            <Text style={styles.amountText}>₱ {fpSales}</Text>
             <Text style={styles.salesText}>Total Sales</Text>
           </View>
         </View>
@@ -99,9 +117,9 @@ export default function TodaySales() {
             Onsite
           </Text>
           <View style={styles.salesAmountContainer}>
-            <Text style={styles.amountText}>200</Text>
+            <Text style={styles.amountText}>{onsiteCount}</Text>
             <Text style={styles.salesText}>Total Customers</Text>
-            <Text style={styles.amountText}>₱ 2000.00</Text>
+            <Text style={styles.amountText}>₱ {onsiteSales}</Text>
             <Text style={styles.salesText}>Total Sales</Text>
           </View>
         </View>
@@ -112,9 +130,9 @@ export default function TodaySales() {
             resizeMode="contain"
           />
           <View style={styles.salesAmountContainer}>
-            <Text style={styles.amountText}>200</Text>
+            <Text style={styles.amountText}>{fbCount}</Text>
             <Text style={styles.salesText}>Total Customers</Text>
-            <Text style={styles.amountText}>₱ 2000.00</Text>
+            <Text style={styles.amountText}>₱ {fbSales}</Text>
             <Text style={styles.salesText}>Total Sales</Text>
           </View>
         </View>
@@ -125,9 +143,9 @@ export default function TodaySales() {
             resizeMode="contain"
           />
           <View style={styles.salesAmountContainer}>
-            <Text style={styles.amountText}>200</Text>
+            <Text style={styles.amountText}>{gcashCount}</Text>
             <Text style={styles.salesText}>Total Customers</Text>
-            <Text style={styles.amountText}>₱ 2000.00</Text>
+            <Text style={styles.amountText}>₱ {gcashSales}</Text>
             <Text style={styles.salesText}>Total Sales</Text>
           </View>
         </View>
@@ -145,9 +163,9 @@ export default function TodaySales() {
             Cash
           </Text>
           <View style={styles.salesAmountContainer}>
-            <Text style={styles.amountText}>200</Text>
+            <Text style={styles.amountText}>{cashOnHandCount}</Text>
             <Text style={styles.salesText}>Total Customers</Text>
-            <Text style={styles.amountText}>₱ 2000.00</Text>
+            <Text style={styles.amountText}>₱ {cashOnHandSales}</Text>
             <Text style={styles.salesText}>Total Sales</Text>
           </View>
         </View>
@@ -158,9 +176,9 @@ export default function TodaySales() {
             resizeMode="contain"
           />
           <View style={styles.salesAmountContainer}>
-            <Text style={styles.amountText}>200</Text>
+            <Text style={styles.amountText}>{mayaCount}</Text>
             <Text style={styles.salesText}>Total Customers</Text>
-            <Text style={styles.amountText}>₱ 2000.00</Text>
+            <Text style={styles.amountText}>₱ {mayaSales}</Text>
             <Text style={styles.salesText}>Total Sales</Text>
           </View>
         </View>
