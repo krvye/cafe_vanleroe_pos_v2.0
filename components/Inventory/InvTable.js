@@ -10,6 +10,34 @@ export default function InvTable() {
     ['TP12321', 'Cream', 'Ingredient', '10', '0', 'Austin Casquijo',],
     ['CPES421', 'Sugar', 'Ingredient', '10', '0', 'Austin Casquijo',],
     ['CPE0911', 'Croissant', 'Food', '5', '10', 'Austin Casquijo'],
+    ['MT12345', 'Matcha Powder', 'Ingredient', '500', '1000', 'Bhenjie Cabarlo'],
+    ['TP12321', 'Cream', 'Ingredient', '10', '0', 'Austin Casquijo',],
+    ['CPES421', 'Sugar', 'Ingredient', '10', '0', 'Austin Casquijo',],
+    ['CPE0911', 'Croissant', 'Food', '5', '10', 'Austin Casquijo'],
+    ['MT12345', 'Matcha Powder', 'Ingredient', '500', '1000', 'Bhenjie Cabarlo'],
+    ['TP12321', 'Cream', 'Ingredient', '10', '0', 'Austin Casquijo',],
+    ['CPES421', 'Sugar', 'Ingredient', '10', '0', 'Austin Casquijo',],
+    ['CPE0911', 'Croissant', 'Food', '5', '10', 'Austin Casquijo'],
+    ['MT12345', 'Matcha Powder', 'Ingredient', '500', '1000', 'Bhenjie Cabarlo'],
+    ['TP12321', 'Cream', 'Ingredient', '10', '0', 'Austin Casquijo',],
+    ['CPES421', 'Sugar', 'Ingredient', '10', '0', 'Austin Casquijo',],
+    ['CPE0911', 'Croissant', 'Food', '5', '10', 'Austin Casquijo'],
+    ['MT12345', 'Matcha Powder', 'Ingredient', '500', '1000', 'Bhenjie Cabarlo'],
+    ['TP12321', 'Cream', 'Ingredient', '10', '0', 'Austin Casquijo',],
+    ['CPES421', 'Sugar', 'Ingredient', '10', '0', 'Austin Casquijo',],
+    ['CPE0911', 'Croissant', 'Food', '5', '10', 'Austin Casquijo'],
+    ['MT12345', 'Matcha Powder', 'Ingredient', '500', '1000', 'Bhenjie Cabarlo'],
+    ['TP12321', 'Cream', 'Ingredient', '10', '0', 'Austin Casquijo',],
+    ['CPES421', 'Sugar', 'Ingredient', '10', '0', 'Austin Casquijo',],
+    ['CPE0911', 'Croissant', 'Food', '5', '10', 'Austin Casquijo'],
+    ['MT12345', 'Matcha Powder', 'Ingredient', '500', '1000', 'Bhenjie Cabarlo'],
+    ['TP12321', 'Cream', 'Ingredient', '10', '0', 'Austin Casquijo',],
+    ['CPES421', 'Sugar', 'Ingredient', '10', '0', 'Austin Casquijo',],
+    ['CPE0911', 'Croissant', 'Food', '5', '10', 'Austin Casquijo'],
+    ['MT12345', 'Matcha Powder', 'Ingredient', '500', '1000', 'Bhenjie Cabarlo'],
+    ['TP12321', 'Cream', 'Ingredient', '10', '0', 'Austin Casquijo',],
+    ['CPES421', 'Sugar', 'Ingredient', '10', '0', 'Austin Casquijo',],
+    ['CPE0911', 'Croissant', 'Food', '5', '10', 'Austin Casquijo'],
   ];
 
   const [tableData, setTableData] = useState(initialTableData);
@@ -39,10 +67,11 @@ export default function InvTable() {
 
   return (
     <View style={styles.invTableContainer}>
-      <ScrollView horizontal={true}>
+      <ScrollView vertical={true}>
         <View style={styles.invlist}>
           <Table borderStyle={styles.invBorder}>
-            <Row data={tableHead} style={styles.head} textStyle={styles.headText} />
+            <Row data={tableHead} style={styles.head} textStyle={styles.headText} widthArr={[100, 150, 100, 100, 100, 150, 50]} />
+            <ScrollView style={{ maxHeight: 400 }}>
             {
               tableData.map((rowData, index) => (
                 <Row
@@ -59,6 +88,7 @@ export default function InvTable() {
                 />
               ))
             }
+            </ScrollView>
           </Table>
         </View>
       </ScrollView>
@@ -135,7 +165,8 @@ const styles = StyleSheet.create({
   },
   headText: {
     fontWeight: 'bold',
-    textAlign: 'center',
+    textAlign: 'center',  // Ensure the header text is centered
+    alignSelf: 'center',  // Ensure proper centering inside the cell
   },
   row: {
     textAlign: 'center',
