@@ -13,10 +13,14 @@ import { AntDesign } from "@expo/vector-icons";
 
 import AddItem from "../Expenses/smallComponents/AddItem";
 
-export default function AddExpenseModal({ openAddExpense, setOpenAddExpense }) {
+export default function AddExpenseModal({ openAddExpense, setOpenAddExpense, expensesTypeInfo }) {
   const [addItem, setAddItem] = useState(false);
   const [items, setItems] = useState([]);
   const [addAllItems, setAddAllItems] = useState(false);
+
+
+  // Current Date 
+  const currDate = new Date().toISOString().split("T")[0];
 
   const handleAddItem = () => {
     setAddItem(true);
@@ -74,7 +78,7 @@ export default function AddExpenseModal({ openAddExpense, setOpenAddExpense }) {
           <View style={styles.inputContainer}>
             <TextInput
               style={[styles.input, styles.inputTitleText]}
-              placeholder="Date Today"
+              placeholder={currDate}
               placeholderTextColor={"gray"}
             />
           </View>
@@ -105,23 +109,12 @@ export default function AddExpenseModal({ openAddExpense, setOpenAddExpense }) {
                 label="Select Expense Type"
                 value="Select Expense Type"
               />
-              <Picker.Item
-                label="Replenishment Expense"
-                value="Replenishment Expense"
-              />
-              <Picker.Item
-                label="Employee Deductions"
-                value="Employee Deductions"
-              />
-              <Picker.Item
-                label="Off Cycle Employee Salary"
-                value="Off Cycle Employee Salary"
-              />
-              <Picker.Item label="Reimbursement" value="Reimbursement" />
-              <Picker.Item
-                label="Cost of Goods Expense"
-                value="Cost of Goods Expense"
-              />
+              {expensesTypeInfo.map((expType) => (
+                <Picker.Item
+                  label={expType.expenseTypeDesc}
+                  value={expType.expenseTypeCd}
+                />
+              ))}
             </Picker>
           </View>
 

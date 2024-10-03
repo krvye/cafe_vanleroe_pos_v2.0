@@ -43,6 +43,19 @@ export default function AddItem({ index, handleAddItem, handleRemoveItem }) {
         />
       </View>
 
+      <View style={styles.inputTitleCon}>
+        <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+          Total Price:
+        </Text>
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={[styles.input, styles.inputTitleText]}
+          placeholder="Total Price"
+          placeholderTextColor={"gray"}
+        />
+      </View>
+
       <View style={styles.rmAndAddCon}>
         <Pressable onPress={() => handleRemoveItem(index)}>
             <Text style={styles.rmAndAddText}>Remove</Text>

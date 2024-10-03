@@ -31,10 +31,18 @@ export const SalesInformation = () => {
     const subscribeDailySales = onSnapshot(
       DAILY_SALES_COLLECTION,
       (snapshot) => {
-        const dailySalesData = [];
+        const dailySalesInfo = [];
         snapshot.forEach((doc) => {
-          dailySalesData.push({ doc_id: doc.id, ...doc.data() });
+          dailySalesInfo.push({ doc_id: doc.id, ...doc.data() });
         });
+
+        // Filter sales data based on current date 
+        const dailySalesData = dailySalesInfo.filter((sale) => {
+          const currDate = new Date().toISOString().split("T")[0];
+          console.log("Current Date: ",currDate);
+          return sale.orderDate === currDate; 
+        });
+
         setSalesData(dailySalesData);
         console.log("Daily Sales: ", dailySalesData);
 
