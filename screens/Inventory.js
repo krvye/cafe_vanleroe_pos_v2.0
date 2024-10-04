@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, TextInput } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 import InvTable from "../components/Inventory/InvTable";
+import { firestore } from "../firebase"; // Adjust import based on your file structure
+import { collection, getDocs } from 'firebase/firestore';
 
 export default function InventoryScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -20,6 +21,8 @@ export default function InventoryScreen({ navigation }) {
     pmEmployeeId: '',
   });
 
+  const [itemNames, setItemNames] = useState([]); // State to hold item names
+
   const handleInputChange = (name, value) => {
     setFormData({
       ...formData,
@@ -37,6 +40,21 @@ export default function InventoryScreen({ navigation }) {
     setModalVisible(true);
   };
 
+  useEffect(() => {
+    const fetchItemNames = async () => {
+      try {
+        const itemsCollection = collection(firestore, 'INVENTORY_ITEMS_DESC');
+        const itemSnapshot = await getDocs(itemsCollection);
+        const itemsList = itemSnapshot.docs.map(doc => doc.data().itemName); // Extract itemName from each document
+        setItemNames(itemsList); // Set the state with the fetched item names
+      } catch (error) {
+        console.error("Error fetching item names: ", error);
+      }
+    };
+
+    fetchItemNames();
+  }, []); // Empty dependency array to run once on mount
+
   return (
     <ScrollView style={styles.invMainCon}>
       <View style={styles.invContainer}>
@@ -45,7 +63,7 @@ export default function InventoryScreen({ navigation }) {
             <Text style={styles.buttonText}>Add Inventory</Text>
           </TouchableOpacity>
         </View>
-        <InvTable/>
+        <InvTable />
 
         <Modal
           animationType="slide"
@@ -61,106 +79,37 @@ export default function InventoryScreen({ navigation }) {
                 <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
                   <Text style={styles.closeButtonText}>X</Text>
                 </TouchableOpacity>
-                
-                <Text style={styles.label}>Item Name</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Item Name"
-                  value={formData.itemName}
-                  onChangeText={(text) => handleInputChange('itemName', text)}
-                />
 
-                <Text style={styles.label}>Item Code</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Item Code"
-                  value={formData.itemCode}
-                  onChangeText={(text) => handleInputChange('itemCode', text)}
-                />
+                {/* Table-Like Form Starts */}
+                <View style={styles.tableContainer}>
+                  <View style={styles.tableRow}>
+                    <Text style={styles.tableHeader}>Item</Text>
+                    <View style={styles.quantityStatusHeader}>
+                      <Text style={styles.tableHeader}>Stock</Text>
+                      <Text style={styles.tableHeader}>Display</Text>
+                    </View>
+                  </View>
 
-                <Text style={styles.label}>Item Category</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Item Category"
-                  value={formData.itemCategory}
-                  onChangeText={(text) => handleInputChange('itemCategory', text)}
-                />
+                  {/* Item Names */}
+                  <View style={styles.tableRow}>
+                    <View style={styles.tableCell}>
+                      {itemNames.map((name, index) => (
+                        <Text key={index} style={styles.itemNameText}>{name}</Text>
+                      ))}
+                    </View>
+                  </View>
 
-                <Text style={styles.label}>Date Checked</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Date Checked"
-                  value={formData.dateChecked}
-                  onChangeText={(text) => handleInputChange('dateChecked', text)}
-                />
-
-                <Text style={styles.label}>Countable Stock Quantity</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Countable Stock Quantity"
-                  value={formData.ctbStockQty}
-                  onChangeText={(text) => handleInputChange('ctbStockQty', text)}
-                />
-
-                <Text style={styles.label}>Countable Display Quantity</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Countable Display Quantity"
-                  value={formData.ctbDisplayQty}
-                  onChangeText={(text) => handleInputChange('ctbDisplayQty', text)}
-                />
-
-                <Text style={styles.label}>Bulk Stock Quantity</Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Bulk Stock Quantity"
-                  value={formData.blkStockQty}
-                  onChangeText={(text) => handleInputChange('blkStockQty', text)}
-                />
-
-                <Text style={styles.label}>Bulk Display Quantity</Text>
-                <View style={styles.pickerContainer}>
-                  <Picker
-                    selectedValue={formData.blkDisplayQty}
-                    style={styles.picker}
-                    onValueChange={(itemValue) => handleInputChange('blkDisplayQty', itemValue)}
-                  >
-                    <Picker.Item label="FULL" value="FULL" />
-                    <Picker.Item label="HALF" value="HALF" />
-                    <Picker.Item label="AE" value="AE" />
-                    <Picker.Item label="EMPTY" value="EMPTY" />
-                  </Picker>
+                  {/* Buttons */}
+                  <View style={styles.buttonContainer}>
+                    <TouchableOpacity style={styles.addButton} onPress={handleAddInventory}>
+                      <Text style={styles.buttonText}>Add</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
+                      <Text style={styles.buttonText}>Cancel</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-
-                {isAM ? (
-                  <>
-                    <Text style={styles.label}>Staff Name</Text>
-                    <TextInput
-                      style={styles.input}
-                      placeholder="AM Employee ID"
-                      value={formData.amEmployeeId}
-                      onChangeText={(text) => handleInputChange('amEmployeeId', text)}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <Text style={styles.label}>PM Employee ID</Text>
-                    <TextInput
-                      style={styles.input}
-                      placeholder="PM Employee ID"
-                      value={formData.pmEmployeeId}
-                      onChangeText={(text) => handleInputChange('pmEmployeeId', text)}
-                    />
-                  </>
-                )}
-                <View style={styles.buttonContainer}>
-                  <TouchableOpacity style={styles.addButton} onPress={handleAddInventory}>
-                    <Text style={styles.buttonText}>Add</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
-                    <Text style={styles.buttonText}>Cancel</Text>
-                  </TouchableOpacity>
-                </View>
+                {/* Table-Like Form Ends */}
               </ScrollView>
             </View>
           </View>
@@ -185,26 +134,17 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'center', // Center the button horizontally
-    alignItems: 'center',     // Center the button vertically
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 16,
   },
   buttonAM: {
     backgroundColor: '#B66619',
     padding: 15,
     borderRadius: 5,
-    //flex: 1,
     alignItems: 'center',
     marginRight: 10,
-    width:200,
-  },
-  buttonPM: {
-    backgroundColor: '#FF6600',
-    padding: 15,
-    borderRadius: 5,
-    flex: 1,
-    alignItems: 'center',
-    marginLeft: 10,
+    width: 200,
   },
   buttonText: {
     color: '#FFFFFF',
@@ -218,7 +158,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalContainer: {
-    width: 300,
+    width: 600,
     maxHeight: '80%',
     backgroundColor: 'white',
     borderRadius: 10,
@@ -233,26 +173,67 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
-  label: {
-    width: '100%',
+  closeButton: {
+    position: 'absolute',
+    right: 10,
+    padding: 5,
+  },
+  closeButtonText: {
+    fontSize: 18,
     fontWeight: 'bold',
+    color: 'black',
+  },
+  tableContainer: {
+    width: '100%',
+    marginBottom: 20,
+  },
+  tableRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  tableHeader: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    width: '50%',
+  },
+  quantityStatusHeader: {
+    flexDirection: 'row',
+    width: '50%',
+    justifyContent: 'space-between',
+  },
+  tableCell: {
+    width: '50%',
+    fontSize: 16,
+  },
+  inputGroup: {
+    flexDirection: 'column', // Change to column for the item names
+    width: '50%',
+    justifyContent: 'space-between',
+  },
+  itemNameText: {
+    fontSize: 16,
     marginBottom: 5,
   },
   input: {
+    width: '100%', // Make input take full width
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    paddingHorizontal: 10,
+  },
+  fullInput: {
     width: '100%',
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 10,
     paddingHorizontal: 10,
   },
   pickerContainer: {
-    width: '100%',
-    marginBottom: 10,
+    width: '48%',
   },
   picker: {
     height: 40,
-    width: '100%',
     borderColor: 'gray',
     borderWidth: 1,
   },
@@ -275,25 +256,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     flex: 1,
-   	alignItems: 'center',
+    alignItems: 'center',
     marginLeft: 10,
-  },
-
-  closeButton: {
-    position: 'absolute',
-    right: 10,
-    padding: 5,
-  },
-  
-  closeButtonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'black',
-  },
-
-  buttonText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-    fontSize: 16,
   },
 });
