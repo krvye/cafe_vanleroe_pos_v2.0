@@ -40,7 +40,7 @@ export const SalesInformation = () => {
         const dailySalesData = dailySalesInfo.filter((sale) => {
           const currDate = new Date().toISOString().split("T")[0];
           console.log("Current Date: ",currDate);
-          return sale.orderDate === currDate; 
+          return sale.orderDate === currDate && sale.orderStatus === "DONE"; 
         });
 
         setSalesData(dailySalesData);

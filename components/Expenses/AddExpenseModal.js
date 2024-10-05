@@ -11,52 +11,74 @@ import { Picker } from "@react-native-picker/picker";
 import { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 
-import AddItem from "../Expenses/smallComponents/AddItem";
+// import AddItem from "../Expenses/smallComponents/AddItem";
+import { StoreExpenses } from "../../services/firebase/Expenses/StoreExpenses";
 
-export default function AddExpenseModal({ openAddExpense, setOpenAddExpense, expensesTypeInfo }) {
-  const [addItem, setAddItem] = useState(false);
-  const [items, setItems] = useState([]);
+export default function AddExpenseModal({
+  openAddExpense,
+  setOpenAddExpense,
+  expensesTypeInfo,
+}) {
+  // const [addItem, setAddItem] = useState(false);
+  // const [items, setItems] = useState([]);
   const [addAllItems, setAddAllItems] = useState(false);
+  const storeExpenses = StoreExpenses();
 
+  // useState for the form
+  const [currDate, setCurrDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+  const [expenseType, setExpenseType] = useState("");
+  const [receiptNumber, setReceiptNumber] = useState("");
+  const [itemName, setItemName] = useState("");
+  const [itemQty, setItemQty] = useState("");
+  const [itemPrice, setItemPrice] = useState("");
+  const [totalPrice, setTotalPrice] = useState("");
+  const[branchCode, setBranchCode] = useState("");
 
-  // Current Date 
-  const currDate = new Date().toISOString().split("T")[0];
+  // const handleAddItem = () => {
+  //   setAddItem(true);
+  //   setItems([...items, items.length]);
+  //   console.log("Added One Item!");
+  // };
 
-  const handleAddItem = () => {
-    setAddItem(true);
-    setItems([...items, items.length]);
-    console.log("Added One Item!");
-  };
-
-  const handleRemoveItem = (index) => {
-    if (items.length >= 1) {
-      setItems(items.filter((_, idx) => idx !== index));
-      console.log("Removed Item!");
-      if (items.length == 1) {
-        setAddItem(false);
-      }
-    }
-  };
+  // const handleRemoveItem = (index) => {
+  //   if (items.length >= 1) {
+  //     setItems(items.filter((_, idx) => idx !== index));
+  //     console.log("Removed Item!");
+  //     if (items.length == 1) {
+  //       setAddItem(false);
+  //     }
+  //   }
+  // };
 
   const handleAddAllItems = () => {
     setAddAllItems(true);
-    setAddItem(false);
+    // setAddItem(false);
     setOpenAddExpense(false);
+
+    // For storing items
+    storeExpenses({
+      currDate,
+      branchCode,
+      expenseType,
+      receiptNumber,
+      itemName,
+      itemQty,
+      itemPrice,
+      totalPrice,
+    });
     console.log("Add all items!");
   };
 
   const handleExitModal = () => {
     setOpenAddExpense(false);
-    setItems([]);
-    setAddItem(false);
+    // setItems([]);
+    // setAddItem(false);
   };
 
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={openAddExpense}
-    >
+    <Modal animationType="slide" transparent={true} visible={openAddExpense}>
       <View style={styles.container}>
         <ScrollView style={styles.addExpenseContainer}>
           <View style={styles.exitContainer}>
@@ -80,6 +102,8 @@ export default function AddExpenseModal({ openAddExpense, setOpenAddExpense, exp
               style={[styles.input, styles.inputTitleText]}
               placeholder={currDate}
               placeholderTextColor={"gray"}
+              value={currDate}
+              onChangeText={setCurrDate}
             />
           </View>
 
@@ -94,6 +118,8 @@ export default function AddExpenseModal({ openAddExpense, setOpenAddExpense, exp
               style={[styles.input, styles.inputTitleText]}
               placeholder="Branch"
               placeholderTextColor={"gray"}
+              value={branchCode}
+              onChangeText={setBranchCode}
             />
           </View>
 
@@ -106,11 +132,14 @@ export default function AddExpenseModal({ openAddExpense, setOpenAddExpense, exp
           <View style={styles.inputContainer}>
             <Picker style={styles.input}>
               <Picker.Item
+                selectedValue={expenseType}
+                onValueChange={(itemValue) => setExpenseType(itemValue)}
                 label="Select Expense Type"
                 value="Select Expense Type"
               />
               {expensesTypeInfo.map((expType) => (
                 <Picker.Item
+                  key={expType.expenseTypeCd}
                   label={expType.expenseTypeDesc}
                   value={expType.expenseTypeCd}
                 />
@@ -129,10 +158,72 @@ export default function AddExpenseModal({ openAddExpense, setOpenAddExpense, exp
               style={[styles.input, styles.inputTitleText]}
               placeholder="Receipt/OR No."
               placeholderTextColor={"gray"}
+              value={receiptNumber}
+              onChangeText={setReceiptNumber}
             />
           </View>
 
-          {addItem ? (
+          <View style={styles.inputTitleCon}>
+            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+              Item Name:
+            </Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={[styles.input, styles.inputTitleText]}
+              placeholder="Item Name"
+              placeholderTextColor={"gray"}
+              value={itemName}
+              onChangeText={setItemName}
+            />
+          </View>
+
+          <View style={styles.inputTitleCon}>
+            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+              QTY:
+            </Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={[styles.input, styles.inputTitleText]}
+              placeholder="Quantity"
+              placeholderTextColor={"gray"}
+              value={itemQty}
+              onChangeText={setItemQty}
+            />
+          </View>
+
+          <View style={styles.inputTitleCon}>
+            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+              Item Price:
+            </Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={[styles.input, styles.inputTitleText]}
+              placeholder="Item Price"
+              placeholderTextColor={"gray"}
+              value={itemPrice}
+              onChangeText={setItemPrice}
+            />
+          </View>
+
+          <View style={styles.inputTitleCon}>
+            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+              Total Price:
+            </Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={[styles.input, styles.inputTitleText]}
+              placeholder="Total Price"
+              placeholderTextColor={"gray"}
+              value={totalPrice}
+              onChangeText={setTotalPrice}
+            />
+          </View>
+
+          {/* {addItem ? (
             <View>
               {items.map((_, index) => (
                 <AddItem
@@ -147,16 +238,13 @@ export default function AddExpenseModal({ openAddExpense, setOpenAddExpense, exp
             <Pressable onPress={handleAddItem} style={styles.addItemContainer}>
               <Text style={styles.addItemText}>Add Item?</Text>
             </Pressable>
-          )}
+          )} */}
 
           <View style={styles.addAllCon}>
             <Pressable onPress={handleAddAllItems} style={styles.addAllButton}>
               <Text style={styles.addAllText}>Add</Text>
             </Pressable>
-            <Pressable
-              onPress={handleExitModal}
-              style={styles.cancelButton}
-            >
+            <Pressable onPress={handleExitModal} style={styles.cancelButton}>
               <Text style={styles.addAllText}>Cancel</Text>
             </Pressable>
           </View>

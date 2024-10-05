@@ -1,24 +1,38 @@
-import { useState } from "react";
-import { getFirestore, collection, onSnapshot } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import app from "../firebaseConfig";
 
 export const StoreExpenses = () => {
-  // Set Data
-  const [expenseType, setExpenseType] = useState("");
-  const [receiptNumber, setReceiptNumber] = useState("");
-  const [itemName, setItemName] = useState("");
-  const [itemQty, setItemQty] = useState("");
-  const [itemPrice, setItemPrice] = useState("");
-  const [totalPrice, setTotalPrice] = useState("");
 
-  const handleAddExpenseItem = async () => {
-    if (
-        !expenseType || 
-        !receiptNumber || 
-        !itemName || 
-        !itemQty || 
-        !itemPrice || 
-        !totalPrice 
-    )
-  }
+  return async ({
+    date,
+    branchCode,
+    expenseType,
+    receiptNumber,
+    itemName,
+    itemQty,
+    itemPrice,
+    totalPrice,
+  }) => {
+    if (!date || !branchCode || !expenseType || !receiptNumber || !itemName || !itemQty || !itemPrice || !totalPrice) {
+      console.log("Complete all details");
+      return;
+    }
+
+    const expensesData = {
+      date,
+      branchCode,
+      expenseTypeCd: expenseType,
+      receiptNumber,
+      itemName,
+      itemQty,
+      itemPrice,
+      totalPrice,
+    };
+
+    const EXPENSE_ITEM_COLLECTION = collection(firestore, "EXPENSE_ITEM");
+
+    await addDoc(EXPENSE_ITEM_COLLECTION, expensesData);
+
+    console.log("Expense added successfully");
+  };
 };
