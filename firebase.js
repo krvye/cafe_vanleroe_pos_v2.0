@@ -1,22 +1,29 @@
 // Import the functions you need from the SDKs you need
+import { getAuth } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getStorage } from "firebase/storage";
+import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBFm6h7SNgtd6-yrsB198wrP0PLcbYHI6c",
-  authDomain: "sampleproject-f1b12.firebaseapp.com",
-  databaseURL: "https://sampleproject-f1b12-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "sampleproject-f1b12",
-  storageBucket: "sampleproject-f1b12.appspot.com",
-  messagingSenderId: "118752850697",
-  appId: "1:118752850697:web:89f987b6c6e0a357a519d8",
-  measurementId: "G-3Y72W7S9SG"
+  apiKey: "AIzaSyB2Dn2gkmeRrIcxYwUJHXM_gL0m_FCufYM",
+  authDomain: "cafe-vanleroe-system-test.firebaseapp.com",
+  projectId: "cafe-vanleroe-system-test",
+  storageBucket: "cafe-vanleroe-system-test.appspot.com",
+  messagingSenderId: "827239060830",
+  appId: "1:827239060830:web:6be801f03615eed0f2abcf",
+  measurementId: "G-PEFZXED05H"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const analytics = getAnalytics(app);
+const imgDB = getStorage(app);
+const firestore = getFirestore(app);
+
+export { app, auth, analytics, imgDB, firestore };
