@@ -61,28 +61,28 @@ export default function SalesTable({salesInfo, orderModeInfo, modeOfPaymentInfo}
 
     return (
       <View style={styles.row}>
-        <Text style={[styles.dataText, { width: 200 }]}>
+        <Text style={[styles.dataText, { width: 300 }]}>
           {item.customerName}
         </Text>
-        <Text style={[styles.dataText, { width: 80 }]}>{convertToTwelveHour(item.orderTime)}</Text>
+        <Text style={[styles.dataText, { width: 100 }]}>{convertToTwelveHour(item.orderTime)}</Text>
         {/* <Text style={[styles.dataText, { width: 180 }]}>{item.branch}</Text> */}
-        <Text style={[styles.dataText, { width: 150 }]}>
+        <Text style={[styles.dataText, { width: 180 }]}>
           {getModeOfPayment(item.modeOfPayment)}
         </Text>
-        <Text style={[styles.dataText, { width: 120 }]}>{getOrderMode(item.orderMode)}</Text>
-        <Text style={[styles.dataText, { width: 100 }]}>
+        <Text style={[styles.dataText, { width: 150 }]}>{getOrderMode(item.orderMode)}</Text>
+        <Text style={[styles.dataText, { width: 180 }]}>
           {Object.values(item.orderItems).reduce((total, item) => total + item.itemQuantity, 0)}
         </Text>
 
         {Array.isArray(item.orderItems) ? (
-          <Text style={[styles.dataText, { width: 200 }]}>
+          <Text style={[styles.dataText, { width: 230 }]}>
             {visibleItems[index] ? orderedItems : `${item.orderItems[0].itemQuantity} - ${item.orderItems[0].itemName}`}
           </Text>
         ) : (
-          <Text style={[styles.dataText, { width: 200 }]}>{orderedItems}</Text>
+          <Text style={[styles.dataText, { width: 230 }]}>{orderedItems}</Text>
         )}
 
-        <Text style={[styles.dataText, { width: 80 }]}>₱ {item.totalAmount}</Text>
+        <Text style={[styles.dataText, { width: 100 }]}>₱ {item.totalAmount}</Text>
 
         {item.orderItems.length > 1 ? (
         <Pressable style={styles.eyeIconCon} onPress={() => handleVisibleItems(index)}>
@@ -103,27 +103,27 @@ export default function SalesTable({salesInfo, orderModeInfo, modeOfPaymentInfo}
     <View style={styles.container}>
       <ScrollView
         horizontal
-        style={{ borderTopLeftRadius: 5, borderTopRightRadius: 5 }}
+        style={{ borderRadius: 5, width: "98%"}}
       >
         <View style={styles.listContainer}>
           <View style={styles.header}>
-            <Text style={[styles.headerText, { width: 200 }]}>
+            <Text style={[styles.headerText, { width: 300 }]}>
               Customer Name
             </Text>
-            <Text style={[styles.headerText, { width: 80 }]}>Time</Text>
+            <Text style={[styles.headerText, { width: 100 }]}>Time</Text>
             {/* <Text style={[styles.headerText, { width: 180 }]}>Branch</Text> */}
-            <Text style={[styles.headerText, { width: 150 }]}>
+            <Text style={[styles.headerText, { width: 180 }]}>
               Mode of Payment
             </Text>
-            <Text style={[styles.headerText, { width: 120 }]}>Order Mode</Text>
-            <Text style={[styles.headerText, { width: 100 }]}>
+            <Text style={[styles.headerText, { width: 150 }]}>Order Mode</Text>
+            <Text style={[styles.headerText, { width: 180 }]}>
               No. of Ordered Items
             </Text>
-            <Text style={[styles.headerText, { width: 200 }]}>
+            <Text style={[styles.headerText, { width: 230 }]}>
               Ordered Items
             </Text>
-            <Text style={[styles.headerText, { width: 80 }]}>Price</Text>
-            <Text style={[styles.headerText, { width: 80 }]}></Text>
+            <Text style={[styles.headerText, { width: 100 }]}>Price</Text>
+            <Text style={[styles.headerText, { width: 100 }]}></Text>
           </View>
           <View style={styles.rowContainer}>
             <FlatList
@@ -141,9 +141,9 @@ export default function SalesTable({salesInfo, orderModeInfo, modeOfPaymentInfo}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    paddingTop: 25,
+    paddingTop: 20,
     alignItems: "center",
+    justifyContent: "center",
   },
   listContainer: {
       flex: 1,

@@ -1,38 +1,49 @@
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getFirestore } from "firebase/firestore";
 import app from "../firebaseConfig";
 
-export const StoreExpenses = () => {
+export const StoreExpenses = async ({
+  dateChecked,
+  branchCode,
+  expenseTypeCd,
+  receiptNumber,
+  itemName,
+  itemQTY,
+  itemPrice,
+  receiptTotal,
+}) => {
+  if (
+    !dateChecked ||
+    !branchCode ||
+    !expenseTypeCd ||
+    !receiptNumber ||
+    !itemName ||
+    !itemQTY ||
+    !itemPrice ||
+    !receiptTotal
+  ) {
+    console.log("Complete all details");
+    return;
+  }
 
-  return async ({
-    date,
+  const expensesData = {
+    dateChecked,
     branchCode,
-    expenseType,
+    expenseTypeCd,
     receiptNumber,
     itemName,
-    itemQty,
+    itemQTY,
     itemPrice,
-    totalPrice,
-  }) => {
-    if (!date || !branchCode || !expenseType || !receiptNumber || !itemName || !itemQty || !itemPrice || !totalPrice) {
-      console.log("Complete all details");
-      return;
-    }
-
-    const expensesData = {
-      date,
-      branchCode,
-      expenseTypeCd: expenseType,
-      receiptNumber,
-      itemName,
-      itemQty,
-      itemPrice,
-      totalPrice,
-    };
-
-    const EXPENSE_ITEM_COLLECTION = collection(firestore, "EXPENSE_ITEM");
-
-    await addDoc(EXPENSE_ITEM_COLLECTION, expensesData);
-
-    console.log("Expense added successfully");
+    receiptTotal,
   };
+
+  console.log("Data to be stored:", expensesData);
+
+  try {
+    const db = getFirestore(app);
+    const EXPENSE_ITEM_COLLECTION = collection(db, "EXPENSE_ITEM");
+    await addDoc(EXPENSE_ITEM_COLLECTION, expensesData);
+    console.log("Expense added successfully");
+  } catch (error) {
+    console.error("Error adding expense:", error);
+  }
 };
