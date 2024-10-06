@@ -12,76 +12,106 @@ import { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 
 import AddItem from "../Expenses/smallComponents/AddItem";
-// import { StoreExpenses } from "../../services/firebase/Expenses/StoreExpenses";
+import { StoreExpenses } from "../../services/firebase/Expenses/StoreExpenses";
 
 export default function AddExpenseModal({
   openAddExpense,
   setOpenAddExpense,
   expensesTypeInfo,
 }) {
-  // Handling expense items 
+  // useState for adding items handler
   const [addItem, setAddItem] = useState(false);
-  const [items, setItems] = useState([]);
   const [addAllItems, setAddAllItems] = useState(false);
+  // Array for storing data to the expense form
+  const [expenseItems, setExpenseItems] = useState([]);
 
-  // States for the new item inputs
-  const [itemName, setItemName] = useState('');
-  const [itemQty, setItemQty] = useState('');
-  const [itemPrice, setItemPrice] = useState('');
-  const [totalPrice, setTotalPrice] = useState('');
-
-  // useState for the expenses form 
+  // useState for the Add Expense Item Form
   const [currDate, setCurrDate] = useState(
     new Date().toISOString().split("T")[0]
-  );
+  ); // Set current date
   const [branchCode, setBranchCode] = useState("");
   const [expenseType, setExpenseType] = useState("");
-  const [receiptNumber, setReceiptNumber] = useState("");
+  const [receiptNumber, setReceiptNumber] = useState(0);
 
-  // Handling function for adding name 
-  const handleAddItem = () => {
+  // useState for expense Items
+  const [itemName, setItemName] = useState("");
+  const [itemQTY, setItemQTY] = useState(0);
+  const [itemPrice, setItemPrice] = useState(0.0);
+  const [receiptTotal, setReceiptTotal] = useState(0.0);
+
+  // Exit modal and cancel button
+  const handleExitModal = () => {
+    setOpenAddExpense(false);
+    setAddItem(false);
+    setAddAllItems(false);
+    setExpenseItems([]);
+  };
+
+  // Handler for adding expense item
+  const handleAddItem = (itemName, itemQTY, itemPrice, receiptTotal) => {
     setAddItem(true);
+
     const expenses = {
       dateChecked: currDate,
       branchCode: branchCode,
       expenseTypeCd: expenseType,
       receiptNumber: receiptNumber,
       itemName: itemName,
-      itemyQTY: itemQty,
+      itemQTY: itemQTY,
       itemPrice: itemPrice,
-      receiptTotal: totalPrice,
+      receiptTotal: receiptTotal,
     };
-    setItems((prevItems) => [...prevItems, expenses]);
-    console.log("Expenses: ", expenses);
-    // Clear inputs after adding
-    setItemName('');
-    setItemQty('');
-    setItemPrice('');
-    setTotalPrice('');
+
+    setExpenseItems((prevItems) => [...prevItems, expenses]);
+    console.log("Expense Item Added: ", expenses);
   };
 
-  const handleRemoveItem = (index) => {
-    if (items.length > 0) {
-      setItems(items.filter((_, idx) => idx !== index));
+  // Handler for removing expense item
+  const handleRemoveItem = (expIndex) => {
+    if (expenseItems.length > 0) {
+      setExpenseItems(expenseItems.filter((_, index) => index !== expIndex));
       console.log("Removed Item!");
-      if (items.length === 1) {
+      if (expenseItems.length === 1) {
         setAddItem(false);
       }
     }
+    console.log("Expenses Data after removing one item: ", expenseItems);
   };
 
-  const handleAddAllItems = () => {
-    setAddAllItems(true);
-    setAddItem(false);
-    setOpenAddExpense(false);
+  // Handler for adding all expense items
+  const handleAddAllItems = async () => {
+    const currentExpense = {
+      dateChecked: currDate,
+      branchCode: branchCode,
+      expenseTypeCd: expenseType,
+      receiptNumber: receiptNumber,
+      itemName: itemName,
+      itemQTY: itemQTY,
+      itemPrice: itemPrice,
+      receiptTotal: receiptTotal,
+    };
+    setExpenseItems((prevItems) => [...prevItems, currentExpense]);
 
-    console.log("All items added:", items);
-  };
+    // Iterate each expense item to store in firebase
+    for (const expense of [...expenseItems, currentExpense]) {
+      await StoreExpenses(expense);
+      console.log("expense: ", expense);
+    }
 
-  const handleExitModal = () => {
+    // Reset input fields
+    setBranchCode("");
+    setExpenseType("");
+    setReceiptNumber(0);
+    setItemName("");
+    setItemQTY(0);
+    setItemPrice(0.0);
+    setReceiptTotal(0.0);
+    // Reset expenseItems
+    setExpenseItems([]);
+    // Close the modal
     setOpenAddExpense(false);
-    setItems([]);
     setAddItem(false);
+    console.log("Final Expense Items: ", [...expenseItems, currentExpense]);
   };
 
   return (
@@ -98,7 +128,7 @@ export default function AddExpenseModal({
               />
             </Pressable>
           </View>
-          
+
           {/* Input Date */}
           <View style={styles.inputTitleCon}>
             <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
@@ -146,7 +176,7 @@ export default function AddExpenseModal({
               <Picker.Item label="Select Expense Type" value="" />
               {expensesTypeInfo.map((expType) => (
                 <Picker.Item
-                  key={expType.expenseTypeCd}
+                  //   key={expType.expenseTypeCd}
                   label={expType.expenseTypeDesc}
                   value={expType.expenseTypeCd}
                 />
@@ -170,52 +200,94 @@ export default function AddExpenseModal({
             />
           </View>
 
-          {/* Add Item Form */}
-          <View>
-            <Text style={styles.inputTitleText}>Item Name:</Text>
+          {/* Item Name */}
+          <View style={styles.inputTitleCon}>
+            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+              Item Name:
+            </Text>
+          </View>
+          <View style={styles.inputContainer}>
             <TextInput
-              style={styles.input}
+              style={[styles.input, styles.inputTitleText]}
+              placeholder="Item Name"
+              placeholderTextColor={"gray"}
               value={itemName}
               onChangeText={setItemName}
-              placeholder="Item Name"
-            />
-            <Text style={styles.inputTitleText}>Item Quantity:</Text>
-            <TextInput
-              style={styles.input}
-              value={itemQty}
-              onChangeText={setItemQty}
-              placeholder="Item Quantity"
-            />
-            <Text style={styles.inputTitleText}>Item Price:</Text>
-            <TextInput
-              style={styles.input}
-              value={itemPrice}
-              onChangeText={setItemPrice}
-              placeholder="Item Price"
-            />
-            <Text style={styles.inputTitleText}>Total Price:</Text>
-            <TextInput
-              style={styles.input}
-              value={totalPrice}
-              onChangeText={setTotalPrice}
-              placeholder="Total Price"
             />
           </View>
 
-          <Pressable onPress={handleAddItem} style={styles.addItemContainer}>
-            <Text style={styles.addItemText}>Add Item</Text>
-          </Pressable>
-
-          {/* Added Items */}
-          {items.map((item, index) => (
-            <AddItem
-              key={index}
-              index={index}
-              handleRemoveItem={handleRemoveItem}
-              itemLength={items.length}
+          {/* Item Quantity */}
+          <View style={styles.inputTitleCon}>
+            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+              QTY:
+            </Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={[styles.input, styles.inputTitleText]}
+              placeholder="Quantity"
+              placeholderTextColor={"gray"}
+              value={itemQTY}
+              onChangeText={setItemQTY}
             />
-          ))}
+          </View>
 
+          {/* Item Price */}
+          <View style={styles.inputTitleCon}>
+            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+              Item Price:
+            </Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={[styles.input, styles.inputTitleText]}
+              placeholder="Item Price"
+              placeholderTextColor={"gray"}
+              value={itemPrice}
+              onChangeText={setItemPrice}
+            />
+          </View>
+
+          {/* Receipt Total */}
+          <View style={styles.inputTitleCon}>
+            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+              Receipt Total:
+            </Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={[styles.input, styles.inputTitleText]}
+              placeholder="Receipt Total"
+              placeholderTextColor={"gray"}
+              value={receiptTotal}
+              onChangeText={setReceiptTotal}
+            />
+          </View>
+
+          {addItem ? (
+            // Map another item form
+            expenseItems.map((_, index) => (
+              <AddItem
+                key={index}
+                index={index}
+                handleRemoveItem={handleRemoveItem}
+                handleAddItem={handleAddItem}
+                itemLength={expenseItems.length}
+              />
+            ))
+          ) : (
+            // Add Item Button
+            <Pressable
+              onPress={() =>
+                handleAddItem(itemName, itemQTY, itemPrice, receiptTotal)
+              }
+              style={styles.addItemContainer}
+            >
+              <Text style={styles.addItemText}>Add Item?</Text>
+            </Pressable>
+          )}
+
+          {/* Add and cancel button */}
           <View style={styles.addAllCon}>
             <Pressable onPress={handleAddAllItems} style={styles.addAllButton}>
               <Text style={styles.addAllText}>Add</Text>

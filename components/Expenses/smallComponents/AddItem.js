@@ -1,17 +1,22 @@
 import { StyleSheet, View, TextInput, Text, Pressable } from "react-native";
-import { useState, useEffect } from "react"; 
+import { useState } from "react";
 
-export default function AddItem({ index, handleAddItem, handleRemoveItem, itemLength }) {
-  const [itemName, setItemName] = useState("");
-  const [itemQty, setItemQty] = useState("");
-  const [itemPrice, setItemPrice] = useState("");
-  const [totalPrice, setTotalPrice] = useState("");
+export default function AddItem({
+  index,
+  handleRemoveItem,
+  handleAddItem,
+  itemLength,
+}) {
+  const [itemName, setItemName] = useState("");  
+  const [itemQTY, setItemQTY] = useState(0);
+  const [itemPrice, setItemPrice] = useState(0.0);
+  const [receiptTotal, setReceiptTotal] = useState(0.0); 
 
   const addItem = () => {
-    if (itemName && itemQty && itemPrice && totalPrice) {
-      handleAddItem(itemName, itemQty, itemPrice, totalPrice);
+    if (itemName && itemQTY && itemPrice && receiptTotal) {
+      handleAddItem(itemName, itemQTY, itemPrice, receiptTotal);
     }
-  };
+  }
 
   return (
     <View style={styles.container}>
@@ -38,8 +43,8 @@ export default function AddItem({ index, handleAddItem, handleRemoveItem, itemLe
           style={[styles.input, styles.inputTitleText]}
           placeholder="Quantity"
           placeholderTextColor={"gray"}
-          value={itemQty}
-          onChangeText={setItemQty}
+          value={itemQTY}
+          onChangeText={setItemQTY}
         />
       </View>
 
@@ -68,8 +73,8 @@ export default function AddItem({ index, handleAddItem, handleRemoveItem, itemLe
           style={[styles.input, styles.inputTitleText]}
           placeholder="Total Price"
           placeholderTextColor={"gray"}
-          value={totalPrice}
-          onChangeText={setTotalPrice}
+          value={receiptTotal}
+          onChangeText={setReceiptTotal}
         />
       </View>
 
