@@ -4159,6 +4159,7 @@ __metadata:
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
     react-native: "npm:0.74.5"
+    react-native-countdown-component: "npm:^2.7.1"
     react-native-elements: "npm:^3.4.3"
     react-native-gesture-handler: "npm:~2.16.1"
     react-native-pager-view: "npm:6.3.0"
@@ -8811,7 +8812,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.5.8, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -8964,6 +8965,17 @@ __metadata:
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
   checksum: 10c0/2bdb6b93fbb1820b024b496042cce405c57e2f85e777c9aabd55f9b26d145408f9f74f5934676ffdc46f3dcff656d78413a6e43968e7b3f92eea35b3052e9053
+  languageName: node
+  linkType: hard
+
+"react-native-countdown-component@npm:^2.7.1":
+  version: 2.7.1
+  resolution: "react-native-countdown-component@npm:2.7.1"
+  dependencies:
+    lodash: "npm:^4.17.13"
+    prop-types: "npm:^15.5.8"
+    sprintf-js: "npm:^1.1.1"
+  checksum: 10c0/f05bc202f76d1fff5d3096d7bb6893b69e5dec5e926ddc27ef42744a1498c70320122c82216a650efc06a592b8d67c3b9242a1a903679b6eee58c550d94323d1
   languageName: node
   linkType: hard
 
@@ -9943,7 +9955,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sprintf-js@npm:^1.1.3":
+"sprintf-js@npm:^1.1.1, sprintf-js@npm:^1.1.3":
   version: 1.1.3
   resolution: "sprintf-js@npm:1.1.3"
   checksum: 10c0/09270dc4f30d479e666aee820eacd9e464215cdff53848b443964202bf4051490538e5dd1b42e1a65cf7296916ca17640aebf63dae9812749c7542ee5f288dec

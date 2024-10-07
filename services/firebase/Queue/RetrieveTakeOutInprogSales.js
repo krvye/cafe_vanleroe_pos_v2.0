@@ -23,8 +23,7 @@ export const InProgressTakeOutOrder = () => {
             const currDate = new Date().toISOString().split("T")[0];
             return (
               order.orderStatus === "MAKE" &&
-              order.consumeMethod === "TAKEOUT" &&
-              order.orderMode === "OS" &&
+              order.consumeMethod === "TAKE" &&
               order.orderDate === currDate
             );
           }

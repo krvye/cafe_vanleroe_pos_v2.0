@@ -22,8 +22,7 @@ export const InProgressDineInOrder = () => {
           const currDate = new Date().toISOString().split("T")[0];
           return (
             order.orderStatus === "MAKE" &&
-            order.consumeMethod === "DINEIN" &&
-            order.orderMode === "OS" && 
+            order.consumeMethod === "DINE" &&
             order.orderDate === currDate 
           );
         });

@@ -10,6 +10,8 @@ import { InProgressGrabFpOrder } from "../services/firebase/Queue/RetrieveGrabFP
 import { InProgressFbOrder } from "../services/firebase/Queue/RetrieveFbSales";
 import { OrderStatus } from "../services/firebase/Queue/RetrieveOrderStatus";
 import { UpdateOrderStatus } from "../services/firebase/Queue/UpdateOrderStatus";
+import { AddOns } from "../services/firebase/Queue/RetrieveAddOns"; 
+import { NoteTemplates } from "../services/firebase/Queue/RetrieveNotes";
 
 export default function QueueScreen() {
   const [voidQueueItem, setVoidQueueItem] = useState(false);
@@ -22,6 +24,8 @@ export default function QueueScreen() {
   const inprogressFbInfo = InProgressFbOrder();
   const orderStatusInfo = OrderStatus(); 
   const updateOrderStatus = UpdateOrderStatus(); 
+  const addOnsInfo = AddOns();
+  const noteTemplatesInfo = NoteTemplates();
 
   return (
     <View style={styles.container}>
@@ -39,6 +43,8 @@ export default function QueueScreen() {
         setOpenQueueItem={setOpenQueueItem}
         selectedOrder={selectedOrder}
         orderStatusInfo={orderStatusInfo}
+        addOnsInfo={addOnsInfo}
+        noteTemplatesInfo={noteTemplatesInfo}
         handleDoneOrderStatus={updateOrderStatus.handleDoneOrderStatus}
         handleVoidOrderStatus={updateOrderStatus.handleVoidOrderStatus}
       />

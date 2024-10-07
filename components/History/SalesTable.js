@@ -124,7 +124,7 @@ export default function SalesTable({
 
   return (
     <View style={styles.container}>
-      <ScrollView horizontal style={{ borderRadius: 5, width: "98%" }}>
+      <ScrollView horizontal style={{ borderRadius: 5, width: "98%" }} showsHorizontalScrollIndicator={false}>
         <View style={styles.listContainer}>
           <View style={styles.header}>
             <Text style={[styles.headerText, { width: 300 }]}>

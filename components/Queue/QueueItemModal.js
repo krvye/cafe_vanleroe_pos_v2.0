@@ -6,6 +6,7 @@ import {
   Pressable,
   ScrollView,
 } from "react-native";
+
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 
 import OrderDetails from "./OrderDetails";
@@ -15,17 +16,29 @@ export default function QueueItemModal({
   setOpenQueueItem,
   selectedOrder,
   orderStatusInfo,
+  addOnsInfo,
+  noteTemplatesInfo,
   handleDoneOrderStatus,
   handleVoidOrderStatus,
 }) {
-  console.log("SELECTED ORDER: ", selectedOrder);
-
   const getOrderStatusDesc = (orderStatusCode) => {
     const orderStatus = orderStatusInfo.find(
       (order) => order.orderStatusCode === orderStatusCode
     );
     return orderStatus ? orderStatus.orderStatusDesc : " ";
   };
+
+  // Convert elapsed time to seconds only
+  const convertTimeToSeconds = (time) => {
+    // const [minutes, seconds] = time.split(':').map(Number);
+    // return minutes * 60 + seconds;
+    return time;
+  };
+
+  const orderElapsedTime = selectedOrder?.elapsedTime;
+  const convertTime = convertTimeToSeconds(orderElapsedTime);
+  console.log(convertTime);
+
   return (
     <Modal visible={openQueueItem} transparent={true}>
       <View style={styles.container}>
@@ -35,7 +48,7 @@ export default function QueueItemModal({
             <Text style={styles.headerText}>
               Order No. {selectedOrder?.orderNo}{" "}
               {getOrderStatusDesc(selectedOrder?.orderStatus)} -{" "}
-              {selectedOrder?.customerName}
+              {selectedOrder?.orderTakenBy}
             </Text>
             <Pressable onPress={() => setOpenQueueItem(false)}>
               <AntDesign name="close" size={25} color="#19191C" />
@@ -44,10 +57,24 @@ export default function QueueItemModal({
 
           <View style={styles.mainQueueDetailsContainer}>
             <Text style={styles.elapsedTimeText}>
-              Elapsed Time: {selectedOrder?.orderTime}
+              Elapsed Time: {selectedOrder?.elapsedTime}
+              {/* <CountDown
+                    until={convertTimeToSeconds(selectedOder?.elapsedTime)}
+                    // size={15}
+                    timeToShow={['M', 'S']}
+                    timeLabels={{ m: null, s: null }}
+                    showSeparator
+                    digitTxtStyle={{ color: isTimerDone ? '#F44336' : '#828487'}}
+                    separatorStyle={{color: isTimerDone ? '#F44336' : '#828487'}}
+                    onFinish={() => setIsTimerDone(true)}
+                  /> */}
             </Text>
             <ScrollView style={styles.orderItemContainer}>
-              <OrderDetails selectedOrder={selectedOrder} />
+              <OrderDetails
+                selectedOrder={selectedOrder}
+                addOnsInfo={addOnsInfo}
+                noteTemplatesInfo={noteTemplatesInfo}
+              />
             </ScrollView>
           </View>
 
@@ -59,7 +86,9 @@ export default function QueueItemModal({
               <Text style={styles.voidAllText}>Void All</Text>
             </Pressable>
             <Pressable
-              onPress={() => handleDoneOrderStatus(selectedOrder?.orderNo)}
+              onPress={() => {
+                handleDoneOrderStatus(selectedOrder.doc_id);
+              }}
               style={styles.allDoneButton}
             >
               <Text style={styles.allDoneText}>Mark All as Done</Text>
@@ -99,7 +128,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   headerText: {
-    fontWeight: "bold",
+    fontWeight: 600,
     fontSize: 20,
   },
   mainQueueDetailsContainer: {
@@ -112,7 +141,7 @@ const styles = StyleSheet.create({
     color: "#828487",
     fontSize: 20,
     fontWeight: 500,
-    marginLeft: 30,
+    marginLeft: 45,
   },
   orderItemContainer: {
     height: "100%",

@@ -1,34 +1,33 @@
-import { getFirestore, updateDoc, doc, QueryOrderByConstraint } from "firebase/firestore";
+import { getFirestore, updateDoc, doc } from "firebase/firestore";
 import app from "../firebaseConfig";
 
 export const UpdateOrderStatus = () => {
-    const handleDoneOrderStatus = async (orderNo) => {
-        console.log("Order No. to update as DONE: ", orderNo);
+    const handleDoneOrderStatus = async (documentId) => {
+        console.log("Order No. to update as DONE: ", documentId);
         try {
             const db = getFirestore(app); 
-            const DAILY_SALES_COLLECTION = doc(db, "DAILY_SALES", String(orderNo)); 
-
+            const DAILY_SALES_COLLECTION = doc(db, "DAILY_SALES", documentId); 
             await updateDoc(DAILY_SALES_COLLECTION, 
                 {
                     orderStatus: "DONE"
                 }
-            )
+            );
         } catch(error) {
             console.log("Error updating order status: ", error); 
         }
     }
 
-    const handleVoidOrderStatus = async (orderNo) => {
-        console.log("Order No. to update as VOID: ", orderNo);
+    const handleVoidOrderStatus = async (documentId) => {
+        console.log("Order No. to update as VOID: ", documentId);
         try {
             const db = getFirestore(app); 
-            const DAILY_SALES_COLLECTION = doc(db, "DAILY_SALES", String(orderNo)); 
+            const DAILY_SALES_COLLECTION = doc(db, "DAILY_SALES", documentId); 
 
             await updateDoc(DAILY_SALES_COLLECTION, 
                 {
                     orderStatus: "VOID"
                 }
-            )
+            );
         } catch(error) {
             console.log("Error updating order status: ", error); 
         }

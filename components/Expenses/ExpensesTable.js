@@ -37,6 +37,7 @@ export default function ExpensesTable({ expensesInfo, expensesTypeInfo }) {
       <ScrollView
         horizontal
         style={{ borderTopLeftRadius: 5, borderTopRightRadius: 5, width: "94%"}}
+        showsHorizontalScrollIndicator={false}
       >
         <View style={styles.listContainer}>
           <View style={styles.header}>
