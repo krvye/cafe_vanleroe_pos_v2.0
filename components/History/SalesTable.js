@@ -37,7 +37,7 @@ export default function SalesTable({salesInfo, orderModeInfo, modeOfPaymentInfo}
   }
 
   // Convert to 12-hour time format 
-  const convertToTwelveHour = (time) => {
+  /*const convertToTwelveHour = (time) => {
     let [hour, minute] = time.split(':').map(Number);; 
     let period = 'AM'; 
 
@@ -52,7 +52,7 @@ export default function SalesTable({salesInfo, orderModeInfo, modeOfPaymentInfo}
     }
 
     return `${hour}:${minute < 10 ? '0':''}${minute} ${period}`; 
-  }
+  }*/
 
   const renderItem = ({ item, index }) => {
     const orderedItems = Array.isArray(item.orderItems)
@@ -64,7 +64,7 @@ export default function SalesTable({salesInfo, orderModeInfo, modeOfPaymentInfo}
         <Text style={[styles.dataText, { width: 200 }]}>
           {item.customerName}
         </Text>
-        <Text style={[styles.dataText, { width: 80 }]}>{convertToTwelveHour(item.orderTime)}</Text>
+        {/*<Text style={[styles.dataText, { width: 80 }]}>{convertToTwelveHour(item.orderTime)}</Text>*/}
         {/* <Text style={[styles.dataText, { width: 180 }]}>{item.branch}</Text> */}
         <Text style={[styles.dataText, { width: 150 }]}>
           {getModeOfPayment(item.modeOfPayment)}
