@@ -33,7 +33,7 @@ export default function Items({ setModalState }) {
         >
           <Image source={{ uri: item.image }} style={styles.productImage} />
           <Text style={styles.productName}>{item.productName}</Text>
-          <Text style={styles.productPrice}>{item.amountMedium}</Text>
+          {/* <Text style={styles.productPrice}>{item.amountMedium}</Text> */}
         </TouchableOpacity>
       ))}
     </ScrollView>

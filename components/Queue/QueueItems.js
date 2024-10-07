@@ -1,26 +1,5 @@
 import { StyleSheet, View, Text, Pressable, ScrollView } from "react-native";
 
-<<<<<<< HEAD
-export default function QueueItems({
-  setVoidQueueItem,
-  setOpenQueueItem,
-  inprogressDineInfo,
-  inprogressTakeOutInfo,
-  inprogressGrabFpInfo,
-  inprogressFbInfo,
-  setSelectedOrder
-}) {
-
-  const handleVoidQueueItem = () => {
-    setVoidQueueItem(true);
-    console.log("Void item!");
-  };
-  const handleOpenQueueItem = (order) => {
-    setOpenQueueItem(true);
-    setSelectedOrder(order); 
-    console.log("Open Item!");
-  };
-=======
 export default function QueueItems({setVoidQueueItem, setOpenQueueItem}) {
   const handleVoidQueueItem = () => {
     setVoidQueueItem(true); 
@@ -30,7 +9,6 @@ export default function QueueItems({setVoidQueueItem, setOpenQueueItem}) {
     setOpenQueueItem(true); 
     console.log("Open Item!"); 
   }
->>>>>>> 6cd5d76c8d19734eee552fb706a0eb279d0631ce
 
   return (
     <View style={styles.container}>
@@ -58,39 +36,6 @@ export default function QueueItems({setVoidQueueItem, setOpenQueueItem}) {
       {/*Take Out*/}
       <View style={styles.ordermodeContainer}>
         <Text style={styles.ordermodeTextStyles}>Take Out</Text>
-<<<<<<< HEAD
-        <ScrollView contentContainerStyle={styles.queueItemsContainer} showsHorizontalScrollIndicator={false}>
-          {inprogressTakeOutInfo.map((order, orderIndex) => {
-            return (
-              <View key={orderIndex} style={styles.queueItem}>
-                <View style={styles.queueItemDetailsContainer}>
-                  <Text style={styles.queueItemTextStyles}>
-                    Order No. {order.orderNo} {order.customerName}
-                  </Text>
-                  <Text style={styles.queueItemTextStyles}>
-                    Elapsed Time: {order.orderTime}
-                  </Text>
-                </View>
-                <View style={styles.horizontalLine} />
-                <View style={styles.buttonContainer}>
-                  <Pressable
-                    style={styles.voidButton}
-                    onPress={handleVoidQueueItem}
-                  >
-                    <Text style={styles.voidButtonText}>Void</Text>
-                  </Pressable>
-                  <Pressable
-                    style={styles.openButton}
-                    onPress={() => handleOpenQueueItem(order)}
-                  >
-                    <Text style={styles.buttonText}>Open</Text>
-                  </Pressable>
-                </View>
-              </View>
-            );
-          })}
-        </ScrollView>
-=======
         <View style={styles.queueItemsContainer}>
           <View style={styles.queueItem}>
             <View style={styles.queueItemDetailsContainer}>
@@ -108,7 +53,6 @@ export default function QueueItems({setVoidQueueItem, setOpenQueueItem}) {
             </View>
           </View>
         </View>
->>>>>>> 6cd5d76c8d19734eee552fb706a0eb279d0631ce
       </View>
       {/*Foodpanda/Grab*/}
       <View style={styles.ordermodeContainer}>

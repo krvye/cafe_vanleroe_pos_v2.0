@@ -28,7 +28,7 @@ export default function Items({ setModalState }) {
         >
           <Image source={item.image} style={styles.productImage} />
           <Text style={styles.productName}>{item.name}</Text>
-          <Text style={styles.productPrice}>{item.price}</Text>
+          {/* <Text style={styles.productPrice}>{item.price}</Text> */}
         </TouchableOpacity>
       ))}
     </ScrollView>

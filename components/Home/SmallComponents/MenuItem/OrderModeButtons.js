@@ -22,7 +22,7 @@ export default function OrderModesButtons({ setFoodService }) {
 
   return (
     <View style={styles.container}>
-      {OrderMode.map((method, index) => (
+      {OrderMode.filter((method) => method !== 'Kiosk').map((method, index) => (
         <Pressable
           style={[
             index === active ? styles.activeButton : styles.inactiveButton,
