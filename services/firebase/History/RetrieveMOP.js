@@ -7,7 +7,7 @@ export const ModeOfPayment = () => {
 
     useEffect(() => {
         const db = getFirestore(app); 
-        const MODE_OF_PAYMENT_COLLECTION = collection(db, "MODE_OF_PAYMENT"); 
+        const MODE_OF_PAYMENT_COLLECTION = collection(db, "POS_PAYMENT_METHODS"); 
 
         const subscribeModeOfPayment = onSnapshot(MODE_OF_PAYMENT_COLLECTION, (snapshot) => {
             const modeOfPaymentData = []; 

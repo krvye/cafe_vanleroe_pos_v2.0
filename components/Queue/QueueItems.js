@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, View, Text, Pressable, ScrollView } from "react-native";
 
 export default function QueueItems({
   setVoidQueueItem,
@@ -7,13 +7,16 @@ export default function QueueItems({
   inprogressTakeOutInfo,
   inprogressGrabFpInfo,
   inprogressFbInfo,
+  setSelectedOrder
 }) {
+
   const handleVoidQueueItem = () => {
     setVoidQueueItem(true);
     console.log("Void item!");
   };
-  const handleOpenQueueItem = () => {
+  const handleOpenQueueItem = (order) => {
     setOpenQueueItem(true);
+    setSelectedOrder(order); 
     console.log("Open Item!");
   };
 
@@ -57,7 +60,7 @@ export default function QueueItems({
       {/*Take Out*/}
       <View style={styles.ordermodeContainer}>
         <Text style={styles.ordermodeTextStyles}>Take Out</Text>
-        <View style={styles.queueItemsContainer}>
+        <ScrollView contentContainerStyle={styles.queueItemsContainer} showsHorizontalScrollIndicator={false}>
           {inprogressTakeOutInfo.map((order, orderIndex) => {
             return (
               <View key={orderIndex} style={styles.queueItem}>
@@ -79,7 +82,7 @@ export default function QueueItems({
                   </Pressable>
                   <Pressable
                     style={styles.openButton}
-                    onPress={handleOpenQueueItem}
+                    onPress={() => handleOpenQueueItem(order)}
                   >
                     <Text style={styles.buttonText}>Open</Text>
                   </Pressable>
@@ -87,7 +90,7 @@ export default function QueueItems({
               </View>
             );
           })}
-        </View>
+        </ScrollView>
       </View>
       {/*Foodpanda/Grab*/}
       <View style={styles.ordermodeContainer}>

@@ -10,17 +10,32 @@ import { Ionicons, AntDesign } from "@expo/vector-icons";
 
 import OrderDetails from "./OrderDetails";
 
-export default function QueueItemModal({ openQueueItem, setOpenQueueItem }) {
+export default function QueueItemModal({
+  openQueueItem,
+  setOpenQueueItem,
+  selectedOrder,
+  orderStatusInfo,
+  handleDoneOrderStatus,
+  handleVoidOrderStatus,
+}) {
+  console.log("SELECTED ORDER: ", selectedOrder);
 
+  const getOrderStatusDesc = (orderStatusCode) => {
+    const orderStatus = orderStatusInfo.find(
+      (order) => order.orderStatusCode === orderStatusCode
+    );
+    return orderStatus ? orderStatus.orderStatusDesc : " ";
+  };
   return (
     <Modal visible={openQueueItem} transparent={true}>
       <View style={styles.container}>
         <View style={styles.queueItemContainer}>
-
           <View style={styles.headerContainer}>
             <Ionicons name="arrow-back-outline" size={25} color="#19191C" />
             <Text style={styles.headerText}>
-              Order #123 Dine In - Customer Name
+              Order No. {selectedOrder?.orderNo}{" "}
+              {getOrderStatusDesc(selectedOrder?.orderStatus)} -{" "}
+              {selectedOrder?.customerName}
             </Text>
             <Pressable onPress={() => setOpenQueueItem(false)}>
               <AntDesign name="close" size={25} color="#19191C" />
@@ -28,18 +43,26 @@ export default function QueueItemModal({ openQueueItem, setOpenQueueItem }) {
           </View>
 
           <View style={styles.mainQueueDetailsContainer}>
-            <Text style={styles.elapsedTimeText}>Elapsed Time: 23:45</Text>
+            <Text style={styles.elapsedTimeText}>
+              Elapsed Time: {selectedOrder?.orderTime}
+            </Text>
             <ScrollView style={styles.orderItemContainer}>
-                <OrderDetails/>
+              <OrderDetails selectedOrder={selectedOrder} />
             </ScrollView>
           </View>
 
           <View style={styles.doneAndVoidButtonContainer}>
-            <Pressable style={styles.voidAllButton}>
-                <Text style={styles.voidAllText}>Void All</Text>
+            <Pressable
+              onPress={() => handleVoidOrderStatus(selectedOrder?.orderNo)}
+              style={styles.voidAllButton}
+            >
+              <Text style={styles.voidAllText}>Void All</Text>
             </Pressable>
-            <Pressable style={styles.allDoneButton}>
-                <Text style={styles.allDoneText}>Mark All as Done</Text>
+            <Pressable
+              onPress={() => handleDoneOrderStatus(selectedOrder?.orderNo)}
+              style={styles.allDoneButton}
+            >
+              <Text style={styles.allDoneText}>Mark All as Done</Text>
             </Pressable>
           </View>
         </View>
@@ -72,7 +95,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     alignItems: "center",
     flexDirection: "row",
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     paddingHorizontal: 20,
   },
   headerText: {
@@ -98,40 +121,39 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   doneAndVoidButtonContainer: {
-    marginTop: 20, 
-    width: '100%',
-    height: '20%', 
-    justifyContent: 'space-around', 
-    alignItems: 'center', 
-    paddingHorizontal: 5, 
-    flexDirection: 'row',
-  }, 
+    marginTop: 20,
+    width: "100%",
+    height: "20%",
+    justifyContent: "space-around",
+    alignItems: "center",
+    paddingHorizontal: 5,
+    flexDirection: "row",
+  },
   voidAllButton: {
-    height: '40%',  
-    width: '40%', 
-    borderColor: '#B66619',
-    borderWidth: 1, 
-    borderRadius: 50, 
-    alignItems: 'center', 
-    justifyContent: 'center',
-  }, 
+    height: "40%",
+    width: "40%",
+    borderColor: "#B66619",
+    borderWidth: 1,
+    borderRadius: 50,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   allDoneButton: {
-    height: '40%', 
-    width: '40%',
-    backgroundColor: '#F9BC4D',
-    borderRadius: 50, 
-    alignItems: 'center', 
-    justifyContent: 'center',
-  }, 
+    height: "40%",
+    width: "40%",
+    backgroundColor: "#F9BC4D",
+    borderRadius: 50,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   voidAllText: {
-    color: '#B66619',
-    fontSize: 16, 
+    color: "#B66619",
+    fontSize: 16,
     fontWeight: 600,
-  }, 
+  },
   allDoneText: {
-    color: '#0e0e0e', 
-    fontSize: 16, 
+    color: "#0e0e0e",
+    fontSize: 16,
     fontWeight: 600,
-  }
-
+  },
 });
