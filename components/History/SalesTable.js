@@ -128,7 +128,6 @@ export default function SalesTable({
         <View style={styles.listContainer}>
           <View style={styles.header}>
             <Text style={[styles.headerText, { width: 300 }]}>
-            <Text style={[styles.headerText, { width: 300 }]}>
               Customer Name
             </Text>
             {/* <Text style={[styles.headerText, { width: 100 }]}>Time</Text> */}
@@ -136,8 +135,6 @@ export default function SalesTable({
             <Text style={[styles.headerText, { width: 230 }]}>
               Mode of Payment
             </Text>
-            <Text style={[styles.headerText, { width: 150 }]}>Order Mode</Text>
-            <Text style={[styles.headerText, { width: 180 }]}>
             <Text style={[styles.headerText, { width: 150 }]}>Order Mode</Text>
             <Text style={[styles.headerText, { width: 180 }]}>
               No. of Ordered Items

@@ -80,7 +80,7 @@ export default function QueueItemModal({
 
           <View style={styles.doneAndVoidButtonContainer}>
             <Pressable
-              onPress={() => handleVoidOrderStatus(selectedOrder?.orderNo)}
+              onPress={() => handleVoidOrderStatus(selectedOrder.doc_id)}
               style={styles.voidAllButton}
             >
               <Text style={styles.voidAllText}>Void All</Text>

@@ -30,13 +30,13 @@ export default function AddItem({
           style={[styles.input, styles.inputTitleText]}
           placeholder="Item Name"
           placeholderTextColor={"gray"}
+          value={itemName}
+          onChangeText={setItemName}
         />
       </View>
 
       <View style={styles.inputTitleCon}>
-        <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
-          QTY:
-        </Text>
+        <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>QTY:</Text>
       </View>
       <View style={styles.inputContainer}>
         <TextInput
@@ -58,6 +58,8 @@ export default function AddItem({
           style={[styles.input, styles.inputTitleText]}
           placeholder="Item Price"
           placeholderTextColor={"gray"}
+          value={itemPrice}
+          onChangeText={setItemPrice}
         />
       </View>
 
@@ -76,14 +78,22 @@ export default function AddItem({
         />
       </View>
 
-      <View style={styles.rmAndAddCon}>
-        <Pressable onPress={() => handleRemoveItem(index)}>
+      {index === itemLength - 1 ? (
+        <View style={styles.rmAndAddCon}>
+          <Pressable onPress={() => handleRemoveItem(index)}>
             <Text style={styles.rmAndAddText}>Remove</Text>
-        </Pressable>
-        <Pressable onPress={handleAddItem}>
-          <Text style={styles.rmAndAddText}>Add Item?</Text>
-        </Pressable>
-      </View>
+          </Pressable>
+          <Pressable onPress={addItem}>
+            <Text style={styles.rmAndAddText}>Add Item?</Text>
+          </Pressable>
+        </View>
+      ) : (
+        <View style={styles.rmAndAddCon}>
+          <Pressable onPress={() => handleRemoveItem(index)}>
+            <Text style={styles.rmAndAddText}>Remove</Text>
+          </Pressable>
+        </View>
+      )}
     </View>
   );
 }

@@ -115,11 +115,7 @@ export default function AddExpenseModal({
   };
 
   return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={openAddExpense}
-    >
+    <Modal animationType="slide" transparent={true} visible={openAddExpense}>
       <View style={styles.container}>
         <ScrollView style={styles.addExpenseContainer}>
           <View style={styles.exitContainer}>
@@ -132,6 +128,7 @@ export default function AddExpenseModal({
               />
             </Pressable>
           </View>
+
           {/* Input Date */}
           <View style={styles.inputTitleCon}>
             <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
@@ -143,6 +140,8 @@ export default function AddExpenseModal({
               style={[styles.input, styles.inputTitleText]}
               placeholder={currDate}
               placeholderTextColor={"gray"}
+              value={currDate}
+              onChangeText={setCurrDate}
             />
           </View>
 
@@ -157,6 +156,8 @@ export default function AddExpenseModal({
               style={[styles.input, styles.inputTitleText]}
               placeholder="Branch"
               placeholderTextColor={"gray"}
+              value={branchCode}
+              onChangeText={setBranchCode}
             />
           </View>
 
@@ -167,11 +168,12 @@ export default function AddExpenseModal({
             </Text>
           </View>
           <View style={styles.inputContainer}>
-            <Picker style={styles.input}>
-              <Picker.Item
-                label="Select Expense Type"
-                value="Select Expense Type"
-              />
+            <Picker
+              selectedValue={expenseType}
+              style={styles.input}
+              onValueChange={(itemValue) => setExpenseType(itemValue)}
+            >
+              <Picker.Item label="Select Expense Type" value="" />
               {expensesTypeInfo.map((expType) => (
                 <Picker.Item
                   //   key={expType.expenseTypeCd}
@@ -193,6 +195,8 @@ export default function AddExpenseModal({
               style={[styles.input, styles.inputTitleText]}
               placeholder="Receipt/OR No."
               placeholderTextColor={"gray"}
+              value={receiptNumber}
+              onChangeText={setReceiptNumber}
             />
           </View>
 
@@ -288,10 +292,7 @@ export default function AddExpenseModal({
             <Pressable onPress={handleAddAllItems} style={styles.addAllButton}>
               <Text style={styles.addAllText}>Add</Text>
             </Pressable>
-            <Pressable
-              onPress={handleExitModal}
-              style={styles.cancelButton}
-            >
+            <Pressable onPress={handleExitModal} style={styles.cancelButton}>
               <Text style={styles.addAllText}>Cancel</Text>
             </Pressable>
           </View>

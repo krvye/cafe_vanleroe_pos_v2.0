@@ -268,6 +268,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F9BC4D",
     borderRadius: 15,
     justifyContent: 'center',
+    marginBottom: 15,
   },
   queueItemDetailsContainer: {
     width: '100%', 
