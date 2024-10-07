@@ -6,17 +6,23 @@ import {
   useWindowDimensions,
 } from "react-native";
 
-import PaymentMethod from "@utils/Home/PaymentMethods";
+// import PaymentMethod from "@utils/Home/PaymentMethods";
 import { useState } from "react";
 
-export default function PaymentButtons({ setFoodService }) {
+import { retrieveOrderModes } from "@services/firebase/Home/retrieveOrderModes";
+
+export default function OrderModesButtons({ setFoodService }) {
   const [active, setActive] = useState(0);
 
   const styles = makeStyles(useWindowDimensions().height);
 
+  const OrderModeData = retrieveOrderModes();
+
+  const OrderMode = OrderModeData.map((item) => item.orderModeDesc);
+
   return (
     <View style={styles.container}>
-      {PaymentMethod.map((method, index) => (
+      {OrderMode.map((method, index) => (
         <Pressable
           style={[
             index === active ? styles.activeButton : styles.inactiveButton,

@@ -16,8 +16,6 @@ export default function HomeScreen() {
   const [discount, setDiscount] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("cash");
 
-  console.log(foodService);
-
   return (
     <View style={styles.container}>
       <Sidebar />

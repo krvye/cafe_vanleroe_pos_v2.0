@@ -10,10 +10,16 @@ import {
 
 import ItemCategory from "./SmallComponents/Sidebar/ItemCategory";
 
-import itemCategories from "@utils/Home/SidebarFakeData";
+// import itemCategories from "@utils/Home/SidebarFakeData";
+
+import { retrieveItemCategory } from "@services/firebase/Home/retrieveItemCategory";
 
 export default function Sidebar() {
   const [active, setActive] = useState(0);
+
+  const itemCategoriesData = retrieveItemCategory();
+
+  const itemCategories = itemCategoriesData.map((item) => item.itemCategoryDesc);
 
   return (
     <View style={styles.container}>
