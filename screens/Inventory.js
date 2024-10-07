@@ -1,27 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, TextInput } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, TextInput, Picker } from 'react-native';
 import InvTable from "../components/Inventory/InvTable";
 import { firestore } from "../firebase"; // Adjust import based on your file structure
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, addDoc } from 'firebase/firestore'; // Import addDoc to write data
 
 export default function InventoryScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [isAM, setIsAM] = useState(true); // To check which button was clicked (AM or PM)
   const [formData, setFormData] = useState({
+    firstName: '',          // Added for employee first name
+    lastName: '',           // Added for employee last name
+    timeChecked: 'AM',      // Default value for Time Checked
     itemName: '',
-    itemCode: '',
-    itemCategory: '',
-    branchCode: '',
-    dateChecked: '',
-    ctbStockQty: '',
-    ctbDisplayQty: '',
-    blkStockQty: '',
-    blkDisplayQty: 'FULL', // Default value for dropdown
-    amEmployeeId: '',
-    pmEmployeeId: '',
+    blkStockQty: '',           // Holds the selected item name
+    blkDisplayQty: '',
   });
 
-  const [itemNames, setItemNames] = useState([]); // State to hold item names
+  const [itemsByCategory, setItemsByCategory] = useState({}); // State to hold items grouped by category
+  const [selectedItem, setSelectedItem] = useState(null); // To hold the selected item for tracking
 
   const handleInputChange = (name, value) => {
     setFormData({
@@ -30,9 +26,37 @@ export default function InventoryScreen({ navigation }) {
     });
   };
 
-  const handleAddInventory = () => {
-    // Handle the form submission
-    setModalVisible(false);
+  const handleAddInventory = async () => {
+    const currentDate = new Date();
+    const dateChecked = currentDate.toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
+    const timeChecked = currentDate.toTimeString().split(' ')[0]; // Get current time HH:MM:SS
+    
+    // Only submit fields that have values
+    const inventoryData = {
+      ...(selectedItem && {
+        itemName: selectedItem.itemName,
+        itemCategoryCode: selectedItem.itemCategoryCode,
+        itemCategory: selectedItem.itemCategory,
+        itemType: selectedItem.itemType,
+      }),
+      ...(formData.timeChecked && { inventoryTimeType: formData.timeChecked }), // AM or PM from dropdown
+      timeChecked, // Current time when added
+      dateChecked, // Current date
+      ...(formData.firstName && { employeeFirstName: formData.firstName }), // Only include if not empty
+      ...(formData.lastName && { employeeLastName: formData.lastName }),     // Only include if not empty
+      ...(formData[`stockQty-${selectedItem?.itemName}`] && { stockQty: formData[`stockQty-${selectedItem?.itemName}`] }),
+      ...(formData[`displayQty-${selectedItem?.itemName}`] && { displayQty: formData[`displayQty-${selectedItem?.itemName}`] }),
+    };
+
+    try {
+      // Write the data to Firestore (assuming you have a collection called 'INVENTORY_RECORDS')
+      await addDoc(collection(firestore, 'POS_INVENTORY_ITEMS'), inventoryData);
+      console.log('Inventory record added:', inventoryData);
+    } catch (error) {
+      console.error('Error adding inventory record:', error);
+    }
+
+    setModalVisible(false); // Close the modal after adding
   };
 
   const openModal = (isAMInventory) => {
@@ -41,18 +65,29 @@ export default function InventoryScreen({ navigation }) {
   };
 
   useEffect(() => {
-    const fetchItemNames = async () => {
+    const fetchItems = async () => {
       try {
         const itemsCollection = collection(firestore, 'INVENTORY_ITEMS_DESC');
         const itemSnapshot = await getDocs(itemsCollection);
-        const itemsList = itemSnapshot.docs.map(doc => doc.data().itemName); // Extract itemName from each document
-        setItemNames(itemsList); // Set the state with the fetched item names
+        const itemsList = itemSnapshot.docs.map(doc => doc.data()); // Fetch all item details
+
+        // Group items by itemCategoryCode
+        const groupedItems = itemsList.reduce((group, item) => {
+          const { itemCategoryCode } = item;
+          if (!group[itemCategoryCode]) {
+            group[itemCategoryCode] = [];
+          }
+          group[itemCategoryCode].push(item);
+          return group;
+        }, {});
+
+        setItemsByCategory(groupedItems); // Set the grouped items state
       } catch (error) {
-        console.error("Error fetching item names: ", error);
+        console.error("Error fetching items: ", error);
       }
     };
 
-    fetchItemNames();
+    fetchItems();
   }, []); // Empty dependency array to run once on mount
 
   return (
@@ -80,36 +115,103 @@ export default function InventoryScreen({ navigation }) {
                   <Text style={styles.closeButtonText}>X</Text>
                 </TouchableOpacity>
 
-                {/* Table-Like Form Starts */}
-                <View style={styles.tableContainer}>
-                  <View style={styles.tableRow}>
-                    <Text style={styles.tableHeader}>Item</Text>
-                    <View style={styles.quantityStatusHeader}>
-                      <Text style={styles.tableHeader}>Stock</Text>
-                      <Text style={styles.tableHeader}>Display</Text>
-                    </View>
-                  </View>
-
-                  {/* Item Names */}
-                  <View style={styles.tableRow}>
-                    <View style={styles.tableCell}>
-                      {itemNames.map((name, index) => (
-                        <Text key={index} style={styles.itemNameText}>{name}</Text>
-                      ))}
-                    </View>
-                  </View>
-
-                  {/* Buttons */}
-                  <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.addButton} onPress={handleAddInventory}>
-                      <Text style={styles.buttonText}>Add</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
-                      <Text style={styles.buttonText}>Cancel</Text>
-                    </TouchableOpacity>
-                  </View>
+                {/* Employee Name Inputs */}
+                <View style={styles.tableRow}>
+                  <Text style={styles.tableHeader}>First Name</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="First Name"
+                    value={formData.firstName}
+                    onChangeText={text => handleInputChange('firstName', text)}
+                  />
                 </View>
-                {/* Table-Like Form Ends */}
+                <View style={styles.tableRow}>
+                  <Text style={styles.tableHeader}>Last Name</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Last Name"
+                    value={formData.lastName}
+                    onChangeText={text => handleInputChange('lastName', text)}
+                  />
+                </View>
+
+                {/* Time Checked Dropdown */}
+                <View style={styles.tableRow}>
+                  <Text style={styles.tableHeader}>Time Checked</Text>
+                  <Picker
+                    selectedValue={formData.timeChecked}
+                    style={styles.picker}
+                    onValueChange={(itemValue) => handleInputChange('timeChecked', itemValue)}
+                  >
+                    <Picker.Item label="AM" value="AM" />
+                    <Picker.Item label="PM" value="PM" />
+                  </Picker>
+                </View>
+
+                <View style={styles.tableRow}>
+                  <Text style={styles.tableHeader}>Item</Text>
+                  <Text style={styles.tableHeader}>Stock</Text>
+                  <Text style={styles.tableHeader}>Display</Text>
+                </View>
+
+                {/* Grouped Items by Category */}
+                {Object.keys(itemsByCategory).map((categoryCode) => (
+                  <View key={categoryCode}>
+                    {/* Display Category Header */}
+                    <Text style={styles.categoryHeader}>{categoryCode}</Text>
+
+                    {/* Items under this category */}
+                    {itemsByCategory[categoryCode].map((item, index) => (
+                      <View key={index} style={styles.tableRow}>
+                        <View style={styles.tableCell}>
+                          <Text
+                            style={styles.itemNameText}
+                            onPress={() => setSelectedItem(item)} // Set selected item on press
+                          >
+                            {item.itemName}
+                          </Text>
+                        </View>
+
+                        <TextInput
+                          style={styles.input}
+                          placeholder="Stock Quantity"
+                          keyboardType="numeric"
+                          onChangeText={text => handleInputChange(`stockQty-${item.itemName}`, text)}
+                        />
+
+                        {item.itemType === 'BLK' ? (
+                          <Picker
+                            selectedValue={formData[`displayQty-${item.itemName}`] || 'FULL'}
+                            style={styles.picker}
+                            onValueChange={value => handleInputChange(`displayQty-${item.itemName}`, value)}
+                          >
+                            <Picker.Item label="Full" value="FULL" />
+                            <Picker.Item label="Half" value="HALF" />
+                            <Picker.Item label="AE" value="AE" />
+                            <Picker.Item label="Empty" value="EMPTY" />
+                          </Picker>
+                        ) : (
+                          <TextInput
+                            style={styles.input}
+                            placeholder="Display Quantity"
+                            keyboardType="numeric"
+                            onChangeText={text => handleInputChange(`displayQty-${item.itemName}`, text)}
+                          />
+                        )}
+                      </View>
+                    ))}
+                  </View>
+                ))}
+
+                {/* Buttons */}
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity style={styles.addButton} onPress={handleAddInventory}>
+                    <Text style={styles.buttonText}>Add</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
+                    <Text style={styles.buttonText}>Cancel</Text>
+                  </TouchableOpacity>
+                </View>
               </ScrollView>
             </View>
           </View>
@@ -188,54 +290,41 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   tableRow: {
-    flexDirection: 'row',
+    flexDirection: 'row', // Ensure rows align horizontally
     justifyContent: 'space-between',
     marginBottom: 10,
   },
   tableHeader: {
     fontWeight: 'bold',
     fontSize: 16,
-    width: '50%',
-  },
-  quantityStatusHeader: {
-    flexDirection: 'row',
-    width: '50%',
-    justifyContent: 'space-between',
+    width: '30%', // Adjust width for a consistent layout
   },
   tableCell: {
-    width: '50%',
+    width: '30%',
     fontSize: 16,
   },
-  inputGroup: {
-    flexDirection: 'column', // Change to column for the item names
-    width: '50%',
-    justifyContent: 'space-between',
+  input: {
+    width: '30%',
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    paddingHorizontal: 10,
+  },
+  picker: {
+    height: 40,
+    width: '30%',
+    borderColor: 'gray',
+    borderWidth: 1,
   },
   itemNameText: {
     fontSize: 16,
     marginBottom: 5,
   },
-  input: {
-    width: '100%', // Make input take full width
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    paddingHorizontal: 10,
-  },
-  fullInput: {
-    width: '100%',
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    paddingHorizontal: 10,
-  },
-  pickerContainer: {
-    width: '48%',
-  },
-  picker: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
+  categoryHeader: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginBottom: 10,
+    marginTop: 20,
   },
   buttonContainer: {
     flexDirection: 'row',
