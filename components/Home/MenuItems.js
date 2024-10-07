@@ -9,7 +9,7 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import Items from "./SmallComponents/MenuItem/Items";
-import PaymentButtons from "./SmallComponents/MenuItem/PaymentButtons";
+import OrderModesButtons from "./SmallComponents/MenuItem/OrderModeButtons";
 
 export default function MenuItems({
   setModalState,
@@ -22,7 +22,7 @@ export default function MenuItems({
 
   return (
     <ScrollView style={styles.container}>
-      <PaymentButtons setFoodService={setFoodService} />
+      <OrderModesButtons setFoodService={setFoodService} />
       <Items setModalState={setModalState} />
       <View style={styles.orderButtonContainer}>
         <TouchableOpacity style={styles.cancelOrderButton}>

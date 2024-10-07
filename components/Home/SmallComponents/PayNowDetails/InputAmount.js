@@ -49,10 +49,10 @@ export default function InputAmount() {
         <TouchableOpacity
           style={styles.inputDarkBlock}
           onPress={() => {
-            addToAmount(10);
+            addToAmount(100);
           }}
         >
-          <Text style={styles.blueText}>10</Text>
+          <Text style={styles.blueText}>100</Text>
         </TouchableOpacity>
       </View>
 
@@ -84,10 +84,10 @@ export default function InputAmount() {
         <TouchableOpacity
           style={styles.inputDarkBlock}
           onPress={() => {
-            addToAmount(20);
+            addToAmount(500);
           }}
         >
-          <Text style={styles.blueText}>20</Text>
+          <Text style={styles.blueText}>500</Text>
         </TouchableOpacity>
       </View>
 

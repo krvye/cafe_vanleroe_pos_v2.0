@@ -128,6 +128,7 @@ export default function SalesTable({
         <View style={styles.listContainer}>
           <View style={styles.header}>
             <Text style={[styles.headerText, { width: 300 }]}>
+            <Text style={[styles.headerText, { width: 300 }]}>
               Customer Name
             </Text>
             {/* <Text style={[styles.headerText, { width: 100 }]}>Time</Text> */}
@@ -135,6 +136,8 @@ export default function SalesTable({
             <Text style={[styles.headerText, { width: 230 }]}>
               Mode of Payment
             </Text>
+            <Text style={[styles.headerText, { width: 150 }]}>Order Mode</Text>
+            <Text style={[styles.headerText, { width: 180 }]}>
             <Text style={[styles.headerText, { width: 150 }]}>Order Mode</Text>
             <Text style={[styles.headerText, { width: 180 }]}>
               No. of Ordered Items
@@ -161,9 +164,9 @@ export default function SalesTable({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    paddingTop: 25,
+    paddingTop: 20,
     alignItems: "center",
+    justifyContent: "center",
   },
   listContainer: {
     flex: 1,

@@ -1,19 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal, TextInput, Picker } from 'react-native';
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  Modal,
+  TextInput,
+} from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import InvTable from "../components/Inventory/InvTable";
 import { firestore } from "../firebase"; // Adjust import based on your file structure
-import { collection, getDocs, addDoc } from 'firebase/firestore'; // Import addDoc to write data
+import { collection, getDocs, addDoc } from "firebase/firestore"; // Import addDoc to write data
 
 export default function InventoryScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [isAM, setIsAM] = useState(true); // To check which button was clicked (AM or PM)
   const [formData, setFormData] = useState({
-    firstName: '',          // Added for employee first name
-    lastName: '',           // Added for employee last name
-    timeChecked: 'AM',      // Default value for Time Checked
-    itemName: '',
-    blkStockQty: '',           // Holds the selected item name
-    blkDisplayQty: '',
+    firstName: "", // Added for employee first name
+    lastName: "", // Added for employee last name
+    timeChecked: "AM", // Default value for Time Checked
+    itemName: "",
+    blkStockQty: "", // Holds the selected item name
+    blkDisplayQty: "",
   });
 
   const [itemsByCategory, setItemsByCategory] = useState({}); // State to hold items grouped by category
@@ -28,9 +37,9 @@ export default function InventoryScreen({ navigation }) {
 
   const handleAddInventory = async () => {
     const currentDate = new Date();
-    const dateChecked = currentDate.toISOString().split('T')[0]; // Get current date in YYYY-MM-DD format
-    const timeChecked = currentDate.toTimeString().split(' ')[0]; // Get current time HH:MM:SS
-    
+    const dateChecked = currentDate.toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
+    const timeChecked = currentDate.toTimeString().split(" ")[0]; // Get current time HH:MM:SS
+
     // Only submit fields that have values
     const inventoryData = {
       ...(selectedItem && {
@@ -43,17 +52,21 @@ export default function InventoryScreen({ navigation }) {
       timeChecked, // Current time when added
       dateChecked, // Current date
       ...(formData.firstName && { employeeFirstName: formData.firstName }), // Only include if not empty
-      ...(formData.lastName && { employeeLastName: formData.lastName }),     // Only include if not empty
-      ...(formData[`stockQty-${selectedItem?.itemName}`] && { stockQty: formData[`stockQty-${selectedItem?.itemName}`] }),
-      ...(formData[`displayQty-${selectedItem?.itemName}`] && { displayQty: formData[`displayQty-${selectedItem?.itemName}`] }),
+      ...(formData.lastName && { employeeLastName: formData.lastName }), // Only include if not empty
+      ...(formData[`stockQty-${selectedItem?.itemName}`] && {
+        stockQty: formData[`stockQty-${selectedItem?.itemName}`],
+      }),
+      ...(formData[`displayQty-${selectedItem?.itemName}`] && {
+        displayQty: formData[`displayQty-${selectedItem?.itemName}`],
+      }),
     };
 
     try {
       // Write the data to Firestore (assuming you have a collection called 'INVENTORY_RECORDS')
-      await addDoc(collection(firestore, 'POS_INVENTORY_ITEMS'), inventoryData);
-      console.log('Inventory record added:', inventoryData);
+      await addDoc(collection(firestore, "POS_INVENTORY_ITEMS"), inventoryData);
+      console.log("Inventory record added:", inventoryData);
     } catch (error) {
-      console.error('Error adding inventory record:', error);
+      console.error("Error adding inventory record:", error);
     }
 
     setModalVisible(false); // Close the modal after adding
@@ -67,9 +80,9 @@ export default function InventoryScreen({ navigation }) {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const itemsCollection = collection(firestore, 'INVENTORY_ITEMS_DESC');
+        const itemsCollection = collection(firestore, "INVENTORY_ITEMS_DESC");
         const itemSnapshot = await getDocs(itemsCollection);
-        const itemsList = itemSnapshot.docs.map(doc => doc.data()); // Fetch all item details
+        const itemsList = itemSnapshot.docs.map((doc) => doc.data()); // Fetch all item details
 
         // Group items by itemCategoryCode
         const groupedItems = itemsList.reduce((group, item) => {
@@ -94,7 +107,10 @@ export default function InventoryScreen({ navigation }) {
     <ScrollView style={styles.invMainCon}>
       <View style={styles.invContainer}>
         <View style={styles.header}>
-          <TouchableOpacity style={styles.buttonAM} onPress={() => openModal(true)}>
+          <TouchableOpacity
+            style={styles.buttonAM}
+            onPress={() => openModal(true)}
+          >
             <Text style={styles.buttonText}>Add Inventory</Text>
           </TouchableOpacity>
         </View>
@@ -111,7 +127,10 @@ export default function InventoryScreen({ navigation }) {
               <ScrollView style={styles.modalScroll}>
                 <Text style={styles.modalTitle}>Add Item Inventory</Text>
 
-                <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
+                <TouchableOpacity
+                  style={styles.closeButton}
+                  onPress={() => setModalVisible(false)}
+                >
                   <Text style={styles.closeButtonText}>X</Text>
                 </TouchableOpacity>
 
@@ -122,7 +141,9 @@ export default function InventoryScreen({ navigation }) {
                     style={styles.input}
                     placeholder="First Name"
                     value={formData.firstName}
-                    onChangeText={text => handleInputChange('firstName', text)}
+                    onChangeText={(text) =>
+                      handleInputChange("firstName", text)
+                    }
                   />
                 </View>
                 <View style={styles.tableRow}>
@@ -131,7 +152,7 @@ export default function InventoryScreen({ navigation }) {
                     style={styles.input}
                     placeholder="Last Name"
                     value={formData.lastName}
-                    onChangeText={text => handleInputChange('lastName', text)}
+                    onChangeText={(text) => handleInputChange("lastName", text)}
                   />
                 </View>
 
@@ -141,7 +162,9 @@ export default function InventoryScreen({ navigation }) {
                   <Picker
                     selectedValue={formData.timeChecked}
                     style={styles.picker}
-                    onValueChange={(itemValue) => handleInputChange('timeChecked', itemValue)}
+                    onValueChange={(itemValue) =>
+                      handleInputChange("timeChecked", itemValue)
+                    }
                   >
                     <Picker.Item label="AM" value="AM" />
                     <Picker.Item label="PM" value="PM" />
@@ -176,14 +199,23 @@ export default function InventoryScreen({ navigation }) {
                           style={styles.input}
                           placeholder="Stock Quantity"
                           keyboardType="numeric"
-                          onChangeText={text => handleInputChange(`stockQty-${item.itemName}`, text)}
+                          onChangeText={(text) =>
+                            handleInputChange(`stockQty-${item.itemName}`, text)
+                          }
                         />
 
-                        {item.itemType === 'BLK' ? (
+                        {item.itemType === "BLK" ? (
                           <Picker
-                            selectedValue={formData[`displayQty-${item.itemName}`] || 'FULL'}
+                            selectedValue={
+                              formData[`displayQty-${item.itemName}`] || "FULL"
+                            }
                             style={styles.picker}
-                            onValueChange={value => handleInputChange(`displayQty-${item.itemName}`, value)}
+                            onValueChange={(value) =>
+                              handleInputChange(
+                                `displayQty-${item.itemName}`,
+                                value
+                              )
+                            }
                           >
                             <Picker.Item label="Full" value="FULL" />
                             <Picker.Item label="Half" value="HALF" />
@@ -195,7 +227,12 @@ export default function InventoryScreen({ navigation }) {
                             style={styles.input}
                             placeholder="Display Quantity"
                             keyboardType="numeric"
-                            onChangeText={text => handleInputChange(`displayQty-${item.itemName}`, text)}
+                            onChangeText={(text) =>
+                              handleInputChange(
+                                `displayQty-${item.itemName}`,
+                                text
+                              )
+                            }
                           />
                         )}
                       </View>
@@ -205,10 +242,16 @@ export default function InventoryScreen({ navigation }) {
 
                 {/* Buttons */}
                 <View style={styles.buttonContainer}>
-                  <TouchableOpacity style={styles.addButton} onPress={handleAddInventory}>
+                  <TouchableOpacity
+                    style={styles.addButton}
+                    onPress={handleAddInventory}
+                  >
                     <Text style={styles.buttonText}>Add</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
+                  <TouchableOpacity
+                    style={styles.cancelButton}
+                    onPress={() => setModalVisible(false)}
+                  >
                     <Text style={styles.buttonText}>Cancel</Text>
                   </TouchableOpacity>
                 </View>
@@ -225,95 +268,95 @@ const styles = StyleSheet.create({
   invMainCon: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   invContainer: {
-    display: 'flex',
-    position: 'relative',
+    display: "flex",
+    position: "relative",
     paddingLeft: 50,
     paddingRight: 50,
-    width: '100%',
+    width: "100%",
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 16,
   },
   buttonAM: {
-    backgroundColor: '#B66619',
+    backgroundColor: "#B66619",
     padding: 15,
     borderRadius: 5,
-    alignItems: 'center',
+    alignItems: "center",
     marginRight: 10,
     width: 200,
   },
   buttonText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
+    color: "#FFFFFF",
+    fontWeight: "bold",
     fontSize: 16,
   },
   modalOverlay: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalContainer: {
     width: 600,
-    maxHeight: '80%',
-    backgroundColor: 'white',
+    maxHeight: "80%",
+    backgroundColor: "white",
     borderRadius: 10,
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   modalScroll: {
-    width: '100%',
+    width: "100%",
   },
   modalTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
   },
   closeButton: {
-    position: 'absolute',
+    position: "absolute",
     right: 10,
     padding: 5,
   },
   closeButtonText: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: 'black',
+    fontWeight: "bold",
+    color: "black",
   },
   tableContainer: {
-    width: '100%',
+    width: "100%",
     marginBottom: 20,
   },
   tableRow: {
-    flexDirection: 'row', // Ensure rows align horizontally
-    justifyContent: 'space-between',
+    flexDirection: "row", // Ensure rows align horizontally
+    justifyContent: "space-between",
     marginBottom: 10,
   },
   tableHeader: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 16,
-    width: '30%', // Adjust width for a consistent layout
+    width: "30%", // Adjust width for a consistent layout
   },
   tableCell: {
-    width: '30%',
+    width: "30%",
     fontSize: 16,
   },
   input: {
-    width: '30%',
+    width: "30%",
     height: 40,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     paddingHorizontal: 10,
   },
   picker: {
     height: 40,
-    width: '30%',
-    borderColor: 'gray',
+    width: "30%",
+    borderColor: "gray",
     borderWidth: 1,
   },
   itemNameText: {
@@ -321,31 +364,31 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   categoryHeader: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 18,
     marginBottom: 10,
     marginTop: 20,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
     marginTop: 20,
   },
   addButton: {
-    backgroundColor: '#B66619',
+    backgroundColor: "#B66619",
     padding: 10,
     borderRadius: 5,
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
     marginRight: 10,
   },
   cancelButton: {
-    backgroundColor: '#F44336',
+    backgroundColor: "#F44336",
     padding: 10,
     borderRadius: 5,
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
     marginLeft: 10,
   },
 });

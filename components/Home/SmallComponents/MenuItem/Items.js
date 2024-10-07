@@ -8,10 +8,15 @@ import {
   useWindowDimensions,
 } from "react-native";
 
-import itemData from "@utils/Home/ItemData";
+// import itemData from "@utils/Home/ItemData";
+
+import { retrieveMenuItems } from "@services/firebase/Home/retrieveMenuItems";
 
 export default function Items({ setModalState }) {
   const styles = makeStyles(useWindowDimensions().height);
+
+  const itemData = retrieveMenuItems();
+
   return (
     <ScrollView
       contentContainerStyle={styles.contentContainer}
@@ -26,9 +31,9 @@ export default function Items({ setModalState }) {
             setModalState(true);
           }}
         >
-          <Image source={item.image} style={styles.productImage} />
-          <Text style={styles.productName}>{item.name}</Text>
-          <Text style={styles.productPrice}>{item.price}</Text>
+          <Image source={{ uri: item.image }} style={styles.productImage} />
+          <Text style={styles.productName}>{item.productName}</Text>
+          {/* <Text style={styles.productPrice}>{item.amountMedium}</Text> */}
         </TouchableOpacity>
       ))}
     </ScrollView>

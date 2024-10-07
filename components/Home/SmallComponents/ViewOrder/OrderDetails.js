@@ -19,12 +19,12 @@ export default function OrderDetails() {
       <Text style={styles.headerText}>Order Details</Text>
       <View style={styles.container}>
         <View style={styles.productContainer}>
-          <Image
+          {/* <Image
             source={{
               uri: "https://images.unsplash.com/photo-1509042239860-f550ce710b93",
             }}
             style={styles.productImage}
-          />
+          /> */}
           <View style={styles.productDetailsContainer}>
             <Text style={styles.productName}>Dark Mocha</Text>
             <View>
