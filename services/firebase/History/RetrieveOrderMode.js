@@ -7,7 +7,7 @@ export const OrderMode = () => {
 
     useEffect (() => {
         const db = getFirestore(app);
-        const ORDER_MODE_COLLECTION = collection(db, "ORDER_MODE"); 
+        const ORDER_MODE_COLLECTION = collection(db, "POS_ORDER_MODES"); 
 
         const subscribeOrderMode = onSnapshot(ORDER_MODE_COLLECTION, (snapshot) => {
             const orderModeData = []; 

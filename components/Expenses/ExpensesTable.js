@@ -12,21 +12,21 @@ export default function ExpensesTable({ expensesInfo, expensesTypeInfo }) {
   const renderItem = ({ item, index }) => {
     return (
       <View style={styles.row}>
-        <Text style={[styles.dataText, { width: 120 }]}>
+        <Text style={[styles.dataText, { width: 150 }]}>
           {item.dateChecked}
         </Text>
-        <Text style={[styles.dataText, { width: 150 }]}>
+        <Text style={[styles.dataText, { width: 180 }]}>
           {item.receiptNumber}
         </Text>
-        <Text style={[styles.dataText, { width: 200 }]}>
+        <Text style={[styles.dataText, { width: 250 }]}>
           {getExpenseType(item.expenseTypeCd)}
         </Text>
-        <Text style={[styles.dataText, { width: 180 }]}>{item.itemName}</Text>
-        <Text style={[styles.dataText, { width: 80 }]}>{item.itemQTY}</Text>
-        <Text style={[styles.dataText, { width: 100 }]}>
+        <Text style={[styles.dataText, { width: 220 }]}>{item.itemName}</Text>
+        <Text style={[styles.dataText, { width: 150 }]}>{item.itemQTY}</Text>
+        <Text style={[styles.dataText, { width: 150 }]}>
           ₱ {item.itemPrice}
         </Text>
-        <Text style={[styles.dataText, { width: 120 }]}>
+        <Text style={[styles.dataText, { width: 170 }]}>
           ₱ {item.receiptTotal}
         </Text>
       </View>
@@ -36,21 +36,21 @@ export default function ExpensesTable({ expensesInfo, expensesTypeInfo }) {
     <View style={styles.container}>
       <ScrollView
         horizontal
-        style={{ borderTopLeftRadius: 5, borderTopRightRadius: 5 }}
+        style={{ borderTopLeftRadius: 5, borderTopRightRadius: 5, width: "94%"}}
       >
         <View style={styles.listContainer}>
           <View style={styles.header}>
-            <Text style={[styles.headerText, { width: 120 }]}>Date</Text>
-            <Text style={[styles.headerText, { width: 150 }]}>
+            <Text style={[styles.headerText, { width: 150 }]}>Date</Text>
+            <Text style={[styles.headerText, { width: 180 }]}>
               Receipt/OR No.
             </Text>
-            <Text style={[styles.headerText, { width: 200 }]}>
+            <Text style={[styles.headerText, { width: 250 }]}>
               Expense Type
             </Text>
-            <Text style={[styles.headerText, { width: 180 }]}>Item Name</Text>
-            <Text style={[styles.headerText, { width: 80 }]}>QTY</Text>
-            <Text style={[styles.headerText, { width: 100 }]}>Item Price</Text>
-            <Text style={[styles.headerText, { width: 120 }]}>
+            <Text style={[styles.headerText, { width: 220 }]}>Item Name</Text>
+            <Text style={[styles.headerText, { width: 150 }]}>QTY</Text>
+            <Text style={[styles.headerText, { width: 150 }]}>Item Price</Text>
+            <Text style={[styles.headerText, { width: 170 }]}>
               Receipt Total
             </Text>
           </View>

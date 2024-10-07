@@ -1,6 +1,22 @@
 import { StyleSheet, View, TextInput, Text, Pressable } from "react-native";
+import { useState } from "react";
 
-export default function AddItem({ index, handleAddItem, handleRemoveItem }) {
+export default function AddItem({
+  index,
+  handleRemoveItem,
+  handleAddItem,
+  itemLength,
+}) {
+  const [itemName, setItemName] = useState("");  
+  const [itemQTY, setItemQTY] = useState(0);
+  const [itemPrice, setItemPrice] = useState(0.0);
+  const [receiptTotal, setReceiptTotal] = useState(0.0); 
+
+  const addItem = () => {
+    if (itemName && itemQTY && itemPrice && receiptTotal) {
+      handleAddItem(itemName, itemQTY, itemPrice, receiptTotal);
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -14,19 +30,21 @@ export default function AddItem({ index, handleAddItem, handleRemoveItem }) {
           style={[styles.input, styles.inputTitleText]}
           placeholder="Item Name"
           placeholderTextColor={"gray"}
+          value={itemName}
+          onChangeText={setItemName}
         />
       </View>
 
       <View style={styles.inputTitleCon}>
-        <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
-          QTY:
-        </Text>
+        <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>QTY:</Text>
       </View>
       <View style={styles.inputContainer}>
         <TextInput
           style={[styles.input, styles.inputTitleText]}
           placeholder="Quantity"
           placeholderTextColor={"gray"}
+          value={itemQTY}
+          onChangeText={setItemQTY}
         />
       </View>
 
@@ -40,6 +58,8 @@ export default function AddItem({ index, handleAddItem, handleRemoveItem }) {
           style={[styles.input, styles.inputTitleText]}
           placeholder="Item Price"
           placeholderTextColor={"gray"}
+          value={itemPrice}
+          onChangeText={setItemPrice}
         />
       </View>
 
@@ -53,17 +73,27 @@ export default function AddItem({ index, handleAddItem, handleRemoveItem }) {
           style={[styles.input, styles.inputTitleText]}
           placeholder="Total Price"
           placeholderTextColor={"gray"}
+          value={receiptTotal}
+          onChangeText={setReceiptTotal}
         />
       </View>
 
-      <View style={styles.rmAndAddCon}>
-        <Pressable onPress={() => handleRemoveItem(index)}>
+      {index === itemLength - 1 ? (
+        <View style={styles.rmAndAddCon}>
+          <Pressable onPress={() => handleRemoveItem(index)}>
             <Text style={styles.rmAndAddText}>Remove</Text>
-        </Pressable>
-        <Pressable onPress={handleAddItem}>
-          <Text style={styles.rmAndAddText}>Add Item?</Text>
-        </Pressable>
-      </View>
+          </Pressable>
+          <Pressable onPress={addItem}>
+            <Text style={styles.rmAndAddText}>Add Item?</Text>
+          </Pressable>
+        </View>
+      ) : (
+        <View style={styles.rmAndAddCon}>
+          <Pressable onPress={() => handleRemoveItem(index)}>
+            <Text style={styles.rmAndAddText}>Remove</Text>
+          </Pressable>
+        </View>
+      )}
     </View>
   );
 }

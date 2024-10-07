@@ -36,11 +36,11 @@ export const SalesInformation = () => {
           dailySalesInfo.push({ doc_id: doc.id, ...doc.data() });
         });
 
-        // Filter sales data based on current date 
+        // Filter sales data based on current date
         const dailySalesData = dailySalesInfo.filter((sale) => {
           const currDate = new Date().toISOString().split("T")[0];
-          console.log("Current Date: ",currDate);
-          return sale.orderDate === currDate; 
+          console.log("Current Date: ", currDate);
+          return sale.orderDate === currDate && sale.orderStatus === "DONE";
         });
 
         setSalesData(dailySalesData);
@@ -69,15 +69,17 @@ export const SalesInformation = () => {
 
         // Total customers
         const mapCustomerNames = new Set(
-          dailySalesData.map((customers) => customers.customerName)
+          dailySalesData.map((customers) => customers.orderTakenBy)
         );
         const customerCount = mapCustomerNames.size;
         setTotalCustomers(customerCount);
         console.log("Total customers: ", customerCount);
 
         // Gcash
-        const gcashData = dailySalesData.filter(
-          (sale) => sale.modeOfPayment === "GCASH"
+        const gcashData = dailySalesData.filter((sale) =>
+          sale.paymentMethods.some(
+            (paymentMethod) => paymentMethod.modeOfPayment === "GCAS"
+          )
         );
         const gcashTotalSales = gcashData.reduce(
           (acc, curr) => acc + curr.totalAmount,
@@ -87,16 +89,19 @@ export const SalesInformation = () => {
         console.log("Gcash Total Sales: ", gcashTotalSales);
 
         const gcashCount = new Set(
-          gcashData.map((customers) => customers.customerName)
+          gcashData.map((customers) => customers.orderTakenBy)
         );
         const gcashCustomers = gcashCount.size;
         setGcashCount(gcashCustomers);
         console.log("Total Gcash Customers: ", gcashCustomers);
 
         // Cash on Hand
-        const cashOnHandData = dailySalesData.filter(
-          (sale) => sale.modeOfPayment === "CASH"
+        const cashOnHandData = dailySalesData.filter((sale) =>
+          sale.paymentMethods.some(
+            (paymentMethod) => paymentMethod.modeOfPayment === "CASH"
+          )
         );
+
         const cashOnHandTotalAmount = cashOnHandData.reduce(
           (acc, curr) => acc + curr.totalAmount,
           0
@@ -105,15 +110,17 @@ export const SalesInformation = () => {
         console.log("Cash On Hand Total: ", cashOnHandTotalAmount);
 
         const cashCount = new Set(
-          cashOnHandData.map((customers) => customers.customerName)
+          cashOnHandData.map((customers) => customers.orderTakenBy)
         );
         const cashCustomers = cashCount.size;
         setCashOnHandCount(cashCustomers);
         console.log("Cash On Hand COunt: ", cashCustomers);
 
         // Pay maya
-        const mayaData = dailySalesData.filter(
-          (sale) => sale.modeOfPayment === "PM"
+        const mayaData = dailySalesData.filter((sale) =>
+          sale.paymentMethods.some(
+            (paymentMethod) => paymentMethod.modeOfPayment === "MAYA"
+          )
         );
         const mayaTotalSales = mayaData.reduce(
           (acc, curr) => acc + curr.totalAmount,
@@ -123,7 +130,7 @@ export const SalesInformation = () => {
         console.log("Paymaya Total Sales: ", mayaTotalSales);
 
         const mayaCount = new Set(
-          mayaData.map((customers) => customers.customerName)
+          mayaData.map((customers) => customers.orderTakenBy)
         );
         const mayaCustomers = mayaCount.size;
         setMayaCount(mayaCustomers);
@@ -131,7 +138,7 @@ export const SalesInformation = () => {
 
         // Grab
         const grabData = dailySalesData.filter(
-          (sale) => sale.orderMode === "GRAB"
+          (sale) => sale.orderMode === "GB"
         );
         const grabTotalAmount = grabData.reduce(
           (acc, curr) => acc + curr.totalAmount,
@@ -141,7 +148,7 @@ export const SalesInformation = () => {
         console.log("Grab Total Amount: ", grabTotalAmount);
 
         const grabCount = new Set(
-          grabData.map((customers) => customers.customerName)
+          grabData.map((customers) => customers.orderTakenBy)
         );
         const grabCustomers = grabCount.size;
         setGrabCount(grabCustomers);
@@ -157,7 +164,7 @@ export const SalesInformation = () => {
         console.log("Food Panda Total Amount: ", fpTotalAmount);
 
         const fpCount = new Set(
-          fpData.map((customers) => customers.customerName)
+          fpData.map((customers) => customers.orderTakenBy)
         );
         const fpCustomers = fpCount.size;
         setFpCount(fpCustomers);
@@ -175,7 +182,7 @@ export const SalesInformation = () => {
         console.log("Onsite Total Amount: ", onsiteTotalAmount);
 
         const onsiteCount = new Set(
-          onsiteData.map((customers) => customers.customerName)
+          onsiteData.map((customers) => customers.orderTakenBy)
         );
         const onsiteCustomers = onsiteCount.size;
         setOnsiteCount(onsiteCustomers);
@@ -193,7 +200,7 @@ export const SalesInformation = () => {
         console.log("Facebook Sales: ", facebookTotalAmount);
 
         const facebookCount = new Set(
-          facebookData.map((customers) => customers.customerName)
+          facebookData.map((customers) => customers.orderTakenBy)
         );
         const facebookCustomers = facebookCount.size;
         setFbCount(facebookCustomers);
