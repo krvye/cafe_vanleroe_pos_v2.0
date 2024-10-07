@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 
 import TodaySales from "../components/History/TodaySales";
 import SalesTable from "../components/History/SalesTable";
@@ -33,7 +33,7 @@ export default function HistoryScreen() {
 
   return (
     <View style={styles.container}>
-      <View contentContainerStyle={styles.scrollContainer}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <TodaySales
           totalSales={totalSales}
           orderCount={orderCount}
@@ -58,7 +58,7 @@ export default function HistoryScreen() {
           orderModeInfo={orderModeInfo}
           modeOfPaymentInfo={modeOfPaymentInfo}
         />
-      </View>
+      </ScrollView>
     </View>
   );
 }
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
   },
   scrollContainer: {
-    // flexGrow: 1,
+    flexGrow: 1,
     justifyContent: "center",
   },
 });

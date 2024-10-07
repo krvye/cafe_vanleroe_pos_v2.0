@@ -143,7 +143,7 @@ export default function SalesTable({
               Ordered Items
             </Text>
             <Text style={[styles.headerText, { width: 100 }]}>Price</Text>
-            <Text style={[styles.headerText, { width: 100 }]}></Text>
+            <Text style={[styles.headerText, { width: 80 }]}></Text>
           </View>
           <View style={styles.rowContainer}>
             <FlatList
@@ -161,9 +161,9 @@ export default function SalesTable({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20,
+    padding: 16,
+    paddingTop: 25,
     alignItems: "center",
-    justifyContent: "center",
   },
   listContainer: {
     flex: 1,

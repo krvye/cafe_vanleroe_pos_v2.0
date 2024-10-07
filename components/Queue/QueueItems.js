@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text, Pressable, ScrollView } from "react-native";
-import { useState } from "react"; 
+// import { useState } from "react"; 
 // import CountDown from 'react-native-countdown-component';
 
 export default function QueueItems({
@@ -54,10 +54,10 @@ export default function QueueItems({
   // }
   
   // Convert elapsed time to seconds only
-  const convertTimeToSeconds = (time) => {
-    const [minutes, seconds] = time.split(':').map(Number);
-    return minutes * 60 + seconds;
-  };
+  // const convertTimeToSeconds = (time) => {
+  //   const [minutes, seconds] = time.split(':').map(Number);
+  //   return minutes * 60 + seconds;
+  // };
 
   return (
     <View style={styles.container}>
@@ -267,11 +267,10 @@ const styles = StyleSheet.create({
     height: 170,
     backgroundColor: "#F9BC4D",
     borderRadius: 15,
-    justifyContent: "center",
-    marginBottom: 10,
+    justifyContent: 'center',
   },
   queueItemDetailsContainer: {
-    width: "100%",
+    width: '100%', 
   },
   buttonContainer: {
     width: "100%",
@@ -282,21 +281,21 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   voidButton: {
-    backgroundColor: "#F9BC4D",
-    borderColor: "#B66619",
+    backgroundColor: '#F9BC4D', 
+    borderColor: '#B66619',
     borderWidth: 1,
-    height: "100%",
-    width: "40%",
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
+    height: '100%', 
+    width: "40%", 
+    borderRadius: 20, 
+    justifyContent: 'center', 
+    alignItems: 'center',
   },
   openButton: {
-    height: "100%",
-    width: "40%",
+    height: '100%', 
+    width: "40%", 
     borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center', 
+    alignItems: 'center',
   },
   ordermodeTextStyles: {
     marginLeft: 25,
@@ -316,9 +315,9 @@ const styles = StyleSheet.create({
     color: "#0e0e0e",
   },
   horizontalLine: {
-    height: 1,
-    width: "100%",
-    backgroundColor: "#B66619",
+    height: 1, 
+    width: '100%', 
+    backgroundColor: '#B66619',
     marginTop: 15,
   },
   voidButtonText: {
