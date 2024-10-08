@@ -8,15 +8,29 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+
+import { employeeInformation } from "../services/firebase/SignIn/RetrieveEmployees";
+import { employeeDocuments } from "../services/firebase/SignIn/RetrieveEmployeeDocuments";
+
 import imageBG from "../assets/bg4.jpg";
-import alexia from "../assets/alexia.jpg";
-import kurt from "../assets/kurt.jpg";
-import jane from "../assets/jane.jpg";
-import cj from "../assets/cj.jpg";
-import mika from "../assets/mika.jpg";
+import imagePRF from "../assets/prf.png"; 
 import { StatusBar } from "expo-status-bar";
 
 export default function SignInScreen({ navigation }) {
+  // Retrieve employee information and employee documents
+  const employeeInfo = employeeInformation();
+  console.log(employeeInfo);
+
+  const empDocuInfo = employeeDocuments();
+  console.log(empDocuInfo);
+
+  // Find employee name
+  const getFirstName = (employeeId) => {
+    const empData = employeeInfo.find((emp) => emp.employeeId === employeeId);
+    return empData ? empData.firstName : " ";
+  };
+
+  // Realtime TIME
   const [time, setTime] = useState({ hours: "", amOrPM: "" });
   const [date, setDate] = useState("");
   const [selectedAvatarIndex, setSelectedAvatarIndex] = useState(null);
@@ -80,17 +94,10 @@ export default function SignInScreen({ navigation }) {
     return () => clearInterval(intervalId);
   }, []);
 
+  // Login
   const handleLogIn = () => {
     navigation.navigate("TabNavigator");
   };
-
-  const images = [
-    { source: mika, name: "Mika" },
-    { source: alexia, name: "Alexia" },
-    { source: kurt, name: "Kurt" },
-    { source: jane, name: "Jane" },
-    { source: cj, name: "CJ" },
-  ];
 
   const handleToggleAvatarSize = (index) => {
     setSelectedAvatarIndex((prevIndex) => (prevIndex === index ? null : index));
@@ -114,8 +121,12 @@ export default function SignInScreen({ navigation }) {
             <Text style={styles.date}>{date}</Text>
           </View>
 
-          <View style={styles.avatarContainer}>
-            {images.map((image, index) => (
+          <ScrollView
+            horizontal
+            contentContainerStyle={styles.avatarContainer}
+            showsHorizontalScrollIndicator={false}
+          >
+            {empDocuInfo.map((image, index) => (
               <View key={index} style={styles.avatarAndNameContainer}>
                 <TouchableOpacity
                   style={[
@@ -128,15 +139,17 @@ export default function SignInScreen({ navigation }) {
                   onPress={() => handleToggleAvatarSize(index)}
                 >
                   <Image
-                    source={image.source}
+                    source={image.document === "" ? imagePRF : image.document}
                     style={styles.avatarImage}
                     resizeMode="cover"
                   />
                 </TouchableOpacity>
-                <Text style={styles.name}>{image.name}</Text>
+                <Text style={styles.name}>
+                  {getFirstName(image.employeeId)}
+                </Text>
               </View>
             ))}
-          </View>
+          </ScrollView>
 
           <View style={styles.buttonsContainer}>
             <View style={styles.timeInAndOutContainer}>
@@ -146,12 +159,25 @@ export default function SignInScreen({ navigation }) {
                   { backgroundColor: "#B66619" },
                 ]}
               >
-                <Text style={{ color: "#fff", fontSize: 16, fontWeight: 500 }}>Time In</Text>
+                <Text style={{ color: "#fff", fontSize: 16, fontWeight: 500 }}>
+                  Time In
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.timeInAndOutButton, { backgroundColor: "#FFF", borderColor: "#B66619", borderWidth: 2 }]}
+                style={[
+                  styles.timeInAndOutButton,
+                  {
+                    backgroundColor: "#FFF",
+                    borderColor: "#B66619",
+                    borderWidth: 2,
+                  },
+                ]}
               >
-                <Text style={{ color: "#B66619", fontSize: 16, fontWeight: 500 }}>Time Out</Text>
+                <Text
+                  style={{ color: "#B66619", fontSize: 16, fontWeight: 500 }}
+                >
+                  Time Out
+                </Text>
               </TouchableOpacity>
             </View>
 
@@ -162,18 +188,23 @@ export default function SignInScreen({ navigation }) {
                   { backgroundColor: "#B66619" },
                 ]}
               >
-                <Text style={{ color: "#fff", fontSize: 16, fontWeight: 500 }}>Break In</Text>
+                <Text style={{ color: "#fff", fontSize: 16, fontWeight: 500 }}>
+                  Break In
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[
                   styles.breakInAndOutButton,
-                  { backgroundColor: "#FFF",
-                    borderColor: "#B66619", 
+                  {
+                    backgroundColor: "#FFF",
+                    borderColor: "#B66619",
                     borderWidth: 2,
-                   },
+                  },
                 ]}
               >
-                <Text style={{ color: "#B66619", fontSize: 16, fontWeight: 500 }}>
+                <Text
+                  style={{ color: "#B66619", fontSize: 16, fontWeight: 500 }}
+                >
                   Break Out
                 </Text>
               </TouchableOpacity>
@@ -238,8 +269,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 30,
     justifyContent: "center",
-    marginTop: 25,
-    marginBottom: 20,
+    alignItems: "center",
+    width: "100%",
   },
   avatarAndNameContainer: {
     justifyContent: "center",
@@ -281,7 +312,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#0e0e0e",
     textAlign: "center",
-    fontWeight: 500
+    fontWeight: 500,
   },
   buttonsContainer: {
     justifyContent: "center",
