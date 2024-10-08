@@ -14,7 +14,6 @@ import { AddOns } from "../services/firebase/Queue/RetrieveAddOns";
 import { NoteTemplates } from "../services/firebase/Queue/RetrieveNotes";
 
 export default function QueueScreen() {
-  const [voidQueueItem, setVoidQueueItem] = useState(false);
   const [openQueueItem, setOpenQueueItem] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
@@ -30,13 +29,13 @@ export default function QueueScreen() {
   return (
     <View style={styles.container}>
       <QueueItems
-        setVoidQueueItem={setVoidQueueItem}
         setOpenQueueItem={setOpenQueueItem}
         inprogressDineInfo={inprogressDineInfo}
         inprogressTakeOutInfo={inprogressTakeOutInfo}
         inprogressGrabFpInfo={inprogressGrabFpInfo}
         inprogressFbInfo={inprogressFbInfo}
         setSelectedOrder={setSelectedOrder}
+        handleVoidOrderStatus={updateOrderStatus.handleVoidOrderStatus}
       />
       <QueueItemModal
         openQueueItem={openQueueItem}

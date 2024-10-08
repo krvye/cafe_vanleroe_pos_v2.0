@@ -3,13 +3,13 @@ import { StyleSheet, View, Text, Pressable, ScrollView } from "react-native";
 // import CountDown from 'react-native-countdown-component';
 
 export default function QueueItems({
-  setVoidQueueItem,
   setOpenQueueItem,
   inprogressDineInfo,
   inprogressTakeOutInfo,
   inprogressGrabFpInfo,
   inprogressFbInfo,
-  setSelectedOrder
+  setSelectedOrder,
+  handleVoidOrderStatus, 
 }) {
   // For handling timers 
   // const [isDineTimerDone, setIsDineTimerDone] = useState(inprogressDineInfo.map(() => false));
@@ -17,10 +17,6 @@ export default function QueueItems({
   // const [isFpGbTimerDone, setIsFpGbTimerDone] = useState(inprogressGrabFpInfo.map(() => false)); 
   // const [isFbTimerDone, setIsFbTimerDone] = useState(inprogressFbInfo.map(() => false)); 
 
-  const handleVoidQueueItem = () => {
-    setVoidQueueItem(true);
-    console.log("Void item!");
-  };
 
   const handleOpenQueueItem = (order) => {
     setOpenQueueItem(true);
@@ -90,7 +86,7 @@ export default function QueueItems({
                 <View style={styles.buttonContainer}>
                   <Pressable
                     style={styles.voidButton}
-                    onPress={handleVoidQueueItem}
+                    onPress={() => handleVoidOrderStatus(order.doc_id)}
                   >
                     <Text style={styles.voidButtonText}>Void</Text>
                   </Pressable>
@@ -135,7 +131,7 @@ export default function QueueItems({
                 <View style={styles.buttonContainer}>
                   <Pressable
                     style={styles.voidButton}
-                    onPress={handleVoidQueueItem}
+                    onPress={() => handleVoidOrderStatus(order.doc_id)}
                   >
                     <Text style={styles.voidButtonText}>Void</Text>
                   </Pressable>
@@ -180,7 +176,7 @@ export default function QueueItems({
                 <View style={styles.buttonContainer}>
                   <Pressable
                     style={styles.voidButton}
-                    onPress={handleVoidQueueItem}
+                    onPress={() => handleVoidOrderStatus(order.doc_id)}
                   >
                     <Text style={styles.voidButtonText}>Void</Text>
                   </Pressable>
@@ -225,7 +221,7 @@ export default function QueueItems({
                 <View style={styles.buttonContainer}>
                   <Pressable
                     style={styles.voidButton}
-                    onPress={handleVoidQueueItem}
+                    onPress={() => handleVoidOrderStatus(order.doc_id)}
                   >
                     <Text style={styles.voidButtonText}>Void</Text>
                   </Pressable>

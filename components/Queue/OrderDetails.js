@@ -1,24 +1,39 @@
 import { StyleSheet, Pressable, View, Text } from "react-native";
 import { useState } from "react";
 
+// import Entypo from '@expo/vector-icons/Entypo';
+
 export default function OrderDetails({
   selectedOrder,
   addOnsInfo,
   noteTemplatesInfo,
 }) {
-  const [isDone, setIsDone] = useState(false);
+  // const [isDone, setIsDone] = useState(
+  //   selectedOrder.orderItems.map(() => false)
+  // );
 
+  // const handleDoneButton = (order) => {
+  //   const updatedOrder = [...isDone];
+  //   updatedOrder[order] = true;
+  //   setIsDone(updatedOrder);
+
+  //   console.log("Order: ", order);
+  // };
+
+  const [isDone, setIsDone] = useState(false); 
   const handleDoneButton = () => {
-    setIsDone(true);
-    console.log("Done button clicked!");
-  };
+    setIsDone(true); 
+    console.log("Done item!");
+  }
 
+  // Map add ons to return addOnDesc
   const handleAddOns = (addOnCode) => {
     const addOnData = addOnsInfo.find((item) => item.addOnCode === addOnCode);
 
     return addOnData ? addOnData.addOnDesc : " ";
   };
 
+  // Map Note templates to return noteTemplatesDesc
   const handleNoteTemplates = (noteTemplatesCode) => {
     const noteTemplateData = noteTemplatesInfo.find(
       (item) => item.noteId === noteTemplatesCode
@@ -45,9 +60,12 @@ export default function OrderDetails({
                 Notes: {handleNoteTemplates(order.itemNotes)}
               </Text>
             </View>
-            <Pressable onPress={handleDoneButton} style={styles.doneButton}>
-              <Text style={styles.doneButtonText}>Done</Text>
-            </Pressable>
+            <Pressable
+                onPress={handleDoneButton}
+                style={styles.doneButton}
+              >
+                <Text style={styles.doneButtonText}>Done</Text>
+              </Pressable>
           </View>
         );
       })}
@@ -86,4 +104,14 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     textAlign: "center",
   },
+  doneGreenButton: { 
+    height: "45%",
+    width: "20%",
+    backgroundColor: "#4CAF50",
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 30,
+    marginTop: 10,
+  }
 });
