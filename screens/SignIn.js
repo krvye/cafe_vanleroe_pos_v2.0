@@ -11,9 +11,10 @@ import {
 
 import { employeeInformation } from "../services/firebase/SignIn/RetrieveEmployees";
 import { employeeDocuments } from "../services/firebase/SignIn/RetrieveEmployeeDocuments";
+import processTimeIn from "../services/firebase/SignIn/ProcessTimeIn";
 
 import imageBG from "../assets/bg4.jpg";
-import imagePRF from "../assets/prf.png"; 
+import imagePRF from "../assets/prf.png";
 import { StatusBar } from "expo-status-bar";
 
 export default function SignInScreen({ navigation }) {
@@ -24,10 +25,17 @@ export default function SignInScreen({ navigation }) {
   const empDocuInfo = employeeDocuments();
   console.log(empDocuInfo);
 
+
   // Find employee name
   const getFirstName = (employeeId) => {
     const empData = employeeInfo.find((emp) => emp.employeeId === employeeId);
     return empData ? empData.firstName : " ";
+  };
+
+  // Find employee email
+  const getCurrentUserEmail = (employeeId) => {
+    const empData = employeeInfo.find((emp) => emp.employeeId === employeeId);
+    return empData ? empData.emailAddress : " ";
   };
 
   // Realtime TIME
@@ -99,8 +107,42 @@ export default function SignInScreen({ navigation }) {
     navigation.navigate("TabNavigator");
   };
 
-  const handleToggleAvatarSize = (index) => {
+  // Handle Avatar Size
+  const handleToggleAvatarSize = (emp, index) => {
     setSelectedAvatarIndex((prevIndex) => (prevIndex === index ? null : index));
+    console.log(
+      `EMPLOYEE ID: ${emp.employeeId} \n EMAIL ADDRESS: ${getCurrentUserEmail(
+        emp.employeeId
+      )}`
+    );
+  };
+
+  // useState for handling TIME ENTRIES
+  const [timeOutButtonClick, setTimeOutButtonClick] = useState(false);
+  const [attendanceType, setAttendanceType] = useState("");
+  const [selectedEmp, setSelectedEmp] = useState(null); // Select the employee clicked on the avatar
+
+  // Handler for time in
+  const handleTimeIn = () => {
+    if (selectedEmp) {
+      setTimeOutButtonClick(false);
+      setAttendanceType("in");
+      const currentUserEmail = getCurrentUserEmail(selectedEmp.employeeId);
+      processTimeIn(currentUserEmail, (error, result) => {
+        if (error) {
+          if (error !== "Too early for time in") {
+            Alert.alert("Notice", error);
+          } else {
+            Alert.alert(
+              "Notice",
+              "It's too early to clock in. Please wait until within 30 minutes before your scheduled time."
+            );
+          }
+        }
+      });
+    } else {
+      console.log("Employee cannot be found");
+    }
   };
 
   return (
@@ -136,7 +178,9 @@ export default function SignInScreen({ navigation }) {
                       width: 120,
                     },
                   ]}
-                  onPress={() => handleToggleAvatarSize(index)}
+                  onPress={() => {
+                    setSelectedEmp(image), handleToggleAvatarSize(image, index);
+                  }}
                 >
                   <Image
                     source={image.document === "" ? imagePRF : image.document}
@@ -158,6 +202,7 @@ export default function SignInScreen({ navigation }) {
                   styles.timeInAndOutButton,
                   { backgroundColor: "#B66619" },
                 ]}
+                onPress={handleTimeIn}
               >
                 <Text style={{ color: "#fff", fontSize: 16, fontWeight: 500 }}>
                   Time In
