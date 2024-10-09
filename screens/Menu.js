@@ -12,6 +12,7 @@ export default function MenuScreen() {
   const [modalState, setModalState] = useState(false);
   const [newItemState, setNewItemState] = useState(false);
   const [selectedCategoryCode, setSelectedCategoryCode] = useState(null);
+  const [selectedItem, setSelectedItem] = useState("");
 
   return (
     <View style={styles.container}>
@@ -24,8 +25,13 @@ export default function MenuScreen() {
       <Items
         setModalState={setModalState}
         selectedCategoryCode={selectedCategoryCode}
+        setSelectedItem={setSelectedItem}
       />
-      <DrinksModal modalState={modalState} setModalState={setModalState} />
+      <DrinksModal
+        modalState={modalState}
+        setModalState={setModalState}
+        selectedItem={selectedItem}
+      />
       {/* <NonDrinkModal modalState={modalState} setModalState={setModalState} /> */}
       <NewItemModal
         newItemState={newItemState}

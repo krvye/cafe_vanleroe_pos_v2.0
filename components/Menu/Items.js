@@ -10,7 +10,11 @@ import {
 
 import { retrieveMenuItems } from "@services/firebase/Home/retrieveMenuItems";
 
-export default function Items({ setModalState, selectedCategoryCode }) {
+export default function Items({
+  setModalState,
+  selectedCategoryCode,
+  setSelectedItem,
+}) {
   const styles = makeStyles(useWindowDimensions().height);
 
   const itemData = retrieveMenuItems();
@@ -30,6 +34,7 @@ export default function Items({ setModalState, selectedCategoryCode }) {
           key={index}
           onPress={() => {
             setModalState(true);
+            setSelectedItem(item);
           }}
         >
           <Image source={{ uri: item.image }} style={styles.productImage} />
