@@ -15,6 +15,7 @@ export default function MenuItems({
   setModalState,
   setViewOrderState,
   setFoodService,
+  selectedCategoryCode,
 }) {
   const { fontScale, scale } = useWindowDimensions();
   const styles = makeStyles(scale, fontScale);
@@ -23,7 +24,10 @@ export default function MenuItems({
   return (
     <ScrollView style={styles.container}>
       <OrderModesButtons setFoodService={setFoodService} />
-      <Items setModalState={setModalState} />
+      <Items
+        setModalState={setModalState}
+        selectedCategoryCode={selectedCategoryCode}
+      />
       <View style={styles.orderButtonContainer}>
         <TouchableOpacity style={styles.cancelOrderButton}>
           <MaterialCommunityIcons name="cash" size={iconSize} color="white" />

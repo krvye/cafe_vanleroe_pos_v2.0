@@ -12,10 +12,14 @@ import {
 
 import { retrieveMenuItems } from "@services/firebase/Home/retrieveMenuItems";
 
-export default function Items({ setModalState }) {
+export default function Items({ setModalState, selectedCategoryCode }) {
   const styles = makeStyles(useWindowDimensions().height);
 
   const itemData = retrieveMenuItems();
+
+  const filteredItems = selectedCategoryCode
+    ? itemData.filter((item) => item.categoryCode === selectedCategoryCode)
+    : itemData;
 
   return (
     <ScrollView
@@ -23,7 +27,7 @@ export default function Items({ setModalState }) {
       style={styles.container}
       nestedScrollEnabled={true}
     >
-      {itemData.map((item, index) => (
+      {filteredItems.map((item, index) => (
         <TouchableOpacity
           style={styles.productContainer}
           key={index}
