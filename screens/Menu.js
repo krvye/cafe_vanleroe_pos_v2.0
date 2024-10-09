@@ -11,12 +11,20 @@ import NewItemModal from "@components/Menu/NewItemModal";
 export default function MenuScreen() {
   const [modalState, setModalState] = useState(false);
   const [newItemState, setNewItemState] = useState(false);
+  const [selectedCategoryCode, setSelectedCategoryCode] = useState(null);
 
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Menu Management</Text>
-      <Dropdown setNewItemState={setNewItemState} />
-      <Items setModalState={setModalState} />
+      <Dropdown
+        setNewItemState={setNewItemState}
+        setSelectedCategoryCode={setSelectedCategoryCode}
+        selectedCategoryCode={selectedCategoryCode}
+      />
+      <Items
+        setModalState={setModalState}
+        selectedCategoryCode={selectedCategoryCode}
+      />
       <DrinksModal modalState={modalState} setModalState={setModalState} />
       {/* <NonDrinkModal modalState={modalState} setModalState={setModalState} /> */}
       <NewItemModal
