@@ -14,6 +14,7 @@ import { employeeInformation } from "../services/firebase/SignIn/RetrieveEmploye
 import { employeeDocuments } from "../services/firebase/SignIn/RetrieveEmployeeDocuments";
 import processTimeIn from "../services/firebase/SignIn/ProcessTimeIn";
 import { employeeSched } from "../services/firebase/SignIn/RetrieveEmpSched";
+import { timeInOut } from "../services/firebase/SignIn/RetrieveTimeInOut";
 
 import imageBG from "../assets/bg4.jpg";
 import imagePRF from "../assets/prf.png";
@@ -24,6 +25,7 @@ export default function SignInScreen({ navigation }) {
   const employeeInfo = employeeInformation();
   const empDocuInfo = employeeDocuments();
   const empSchedInfo = employeeSched();
+  const timeInOutInfo = timeInOut();
 
   // Find employee name
   const getFirstName = (employeeId) => {
@@ -41,6 +43,15 @@ export default function SignInScreen({ navigation }) {
   const getSchedule = (employeeId) => {
     const empData = empSchedInfo.find((emp) => emp.employeeId === employeeId);
     return empData ? empData.shiftDate : " ";
+  };
+
+  // Find Employee Time Entry Date
+  const getEmpTimeEntryData = (employeeId) => {
+    const timeEntryData = timeInOutInfo.find(
+      (emp) =>
+        emp.employeeId === employeeId && emp.timeEntryDate === currentDate
+    );
+    return timeEntryData ? timeEntryData : "No data found";
   };
 
   // Realtime TIME
@@ -109,11 +120,16 @@ export default function SignInScreen({ navigation }) {
 
   // Login
   const handleLogIn = () => {
-    if (timeIn) {
-      navigation.navigate("TabNavigator");
+    if (selectedEmp) {
+      if (getEmpTimeEntryData(selectedEmp.employeeId) === "No data found") {
+        console.log("You must clock in before proceeding with login.");
+        Alert.alert("Notice", "You must clock in before proceeding with login.");
+      } else {
+        navigation.navigate("TabNavigator");
+      }
     } else {
-      console.log("You must clock in before proceeding with login.");
-      Alert.alert("Notice", "You must clock in before proceeding with login.");
+      Alert.alert("Notice", "Select your profile."); 
+      console.log("Select your profile.");
     }
   };
 
@@ -129,8 +145,6 @@ export default function SignInScreen({ navigation }) {
 
   // useState for handling TIME ENTRIES
   const [timeOutButtonClick, setTimeOutButtonClick] = useState(false);
-  const [attendanceType, setAttendanceType] = useState("");
-  const [timeIn, setTimeIn] = useState(false);
   const [selectedEmp, setSelectedEmp] = useState(null); // Select the employee clicked on the avatar
 
   // current date
@@ -140,12 +154,20 @@ export default function SignInScreen({ navigation }) {
   const handleTimeIn = () => {
     if (selectedEmp) {
       setTimeOutButtonClick(false);
-      setAttendanceType("in");
-      setTimeIn(true);
       const currentUserEmail = getCurrentUserEmail(selectedEmp.employeeId);
       const userSched = getSchedule(selectedEmp.employeeId);
+      const empTimeInDate = getEmpTimeEntryData(selectedEmp.employeeId);
+
+      // Check if user sched is equal to current date
       if (userSched === currentDate) {
-        processTimeIn(currentUserEmail);
+        console.log("Time entry Data: ", empTimeInDate);
+        // Check if user already time in 
+        if (empTimeInDate === "No data found") {
+          processTimeIn(currentUserEmail);
+        } else {
+          Alert.alert("Notice", "You have already punched in for today.");
+          console.log("You have already punched in for today.");
+        }
       } else {
         Alert.alert(
           "Notice",
@@ -153,6 +175,41 @@ export default function SignInScreen({ navigation }) {
         );
         console.log("No schedule found for EMPLOYEE: ", selectedEmp.employeeId);
       }
+    } else {
+      Alert.alert("Notice", "Select your profile."); 
+      console.log("Select your profile.");
+    }
+  };
+
+  // Handler time out 
+  const handleTimeOut = () => {
+    if (selectedEmp) {
+      const userSched = getSchedule(selectedEmp.employeeId);
+      const currentUserEmail = getCurrentUserEmail(selectedEmp.employeeId);
+      const employeeTimeOut = getEmpTimeEntryData(selectedEmp.employeeId)?.timeOut;
+      const employeeTimeIn = getEmpTimeEntryData(selectedEmp.employeeId)?.timeIn;
+
+      setTimeOutButtonClick(true);
+      if (userSched === currentDate) {
+        if (employeeTimeOut === "0" && employeeTimeIn !== "0") {
+          console.log("Time Out!"); 
+        } else if (!employeeTimeIn || employeeTimeIn === "0") {
+          Alert.alert("Time in time has not been logged yet.")
+          console.log("Time in time has not been logged yet.")
+        } else {
+          Alert.alert("Notice", "Time out already punched.");
+          console.log("Time out already punched."); 
+        }
+      } else {
+        Alert.alert(
+          "Notice",
+          `No schedule found for ${getFirstName(selectedEmp.employeeId)}`
+        );
+        console.log("No schedule found for EMPLOYEE: ", selectedEmp.employeeId);
+      }
+    } else {
+      Alert.alert("Notice", "Select your profile."); 
+      console.log("Select your profile.");
     }
   };
 
@@ -228,6 +285,7 @@ export default function SignInScreen({ navigation }) {
                     borderWidth: 2,
                   },
                 ]}
+                onPress={handleTimeOut}
               >
                 <Text
                   style={{ color: "#B66619", fontSize: 16, fontWeight: 500 }}
@@ -272,18 +330,6 @@ export default function SignInScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </ImageBackground>
-
-      {/* {hasPermission && isCameraOpen && (
-          <View style={styles.cameraContainer}>
-            <CameraView
-              cameraRef={setCameraRef}
-              takePicture={takePicture}
-              toggleCameraType={toggleCameraType}
-              setIsCameraOpen={setIsCameraOpen}
-              cameraType={cameraType}
-            />
-          </View>
-        )} */}
     </ScrollView>
   );
 }
