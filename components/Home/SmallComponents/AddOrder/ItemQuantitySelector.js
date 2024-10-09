@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-export default function ItemQuantitySelector() {
+export default function ItemQuantitySelector({ selectedItem }) {
   const [quantity, setQuantity] = useState(1);
 
   return (
@@ -10,12 +10,12 @@ export default function ItemQuantitySelector() {
       <View style={styles.itemContainer}>
         <Image
           source={{
-            uri: "https://images.unsplash.com/photo-1509042239860-f550ce710b93",
+            uri: selectedItem.image,
           }}
           style={styles.productImage}
         />
         <View style={styles.itemTextContainer}>
-          <Text style={styles.productName}>Dark Mocha</Text>
+          <Text style={styles.productName}>{selectedItem.productName}</Text>
           <View>
             <Text style={styles.priceLabel}>Price</Text>
             <Text style={styles.productPrice}>P120</Text>

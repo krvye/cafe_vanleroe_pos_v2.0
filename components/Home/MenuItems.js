@@ -16,6 +16,7 @@ export default function MenuItems({
   setViewOrderState,
   setFoodService,
   selectedCategoryCode,
+  setSelectedItem,
 }) {
   const { fontScale, scale } = useWindowDimensions();
   const styles = makeStyles(scale, fontScale);
@@ -27,6 +28,7 @@ export default function MenuItems({
       <Items
         setModalState={setModalState}
         selectedCategoryCode={selectedCategoryCode}
+        setSelectedItem={setSelectedItem}
       />
       <View style={styles.orderButtonContainer}>
         <TouchableOpacity style={styles.cancelOrderButton}>

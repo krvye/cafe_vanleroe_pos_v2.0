@@ -16,6 +16,7 @@ export default function HomeScreen() {
   const [discount, setDiscount] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("cash");
   const [selectedCategoryCode, setSelectedCategoryCode] = useState(null);
+  const [selectedItem, setSelectedItem] = useState("");
 
   return (
     <View style={styles.container}>
@@ -25,11 +26,13 @@ export default function HomeScreen() {
         setViewOrderState={setViewOrderState}
         setFoodService={setFoodService}
         selectedCategoryCode={selectedCategoryCode}
+        setSelectedItem={setSelectedItem}
       />
       <AddOrder
         modalState={modalState}
         setModalState={setModalState}
         setItemSize={setItemSize}
+        selectedItem={selectedItem}
       />
       <ViewOrderModal
         viewOrderState={viewOrderState}

@@ -19,8 +19,15 @@ import AddOns from "./SmallComponents/AddOrder/AddOns";
 import itemSizes from "@utils/Home/ItemSizes";
 import AddNote from "./SmallComponents/AddOrder/AddNote";
 
-export default function AddOrder({ modalState, setModalState, setItemSize }) {
+export default function AddOrder({
+  modalState,
+  setModalState,
+  setItemSize,
+  selectedItem,
+}) {
   const [active, setActive] = useState(0);
+
+  const productName = selectedItem.productName ? selectedItem.productName : "";
 
   return (
     <Modal visible={modalState} transparent={true}>
@@ -30,7 +37,7 @@ export default function AddOrder({ modalState, setModalState, setItemSize }) {
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.headerContainer}>
-            <Text style={styles.addOrderLabel}>Add order - Dark Mocha</Text>
+            <Text style={styles.addOrderLabel}>Add order - {productName}</Text>
             <Pressable onPress={() => setModalState(false)}>
               <AntDesign name="close" size={24} color="black" />
             </Pressable>
@@ -44,7 +51,7 @@ export default function AddOrder({ modalState, setModalState, setItemSize }) {
             setItemSize={setItemSize}
           />
 
-          <ItemQuantitySelector />
+          <ItemQuantitySelector selectedItem={selectedItem} />
 
           <AddOns />
 

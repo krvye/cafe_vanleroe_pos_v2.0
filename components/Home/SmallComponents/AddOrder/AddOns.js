@@ -2,45 +2,52 @@ import { useState } from "react";
 import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
+import { retrieveItemAddOns } from "@services/firebase/Home/retrieveItemAddOns";
+
 export default function AddOns() {
   const [quantity, setQuantity] = useState(0);
+
+  const itemAddOns = retrieveItemAddOns();
 
   return (
     <View>
       <Text style={styles.headerText}>Add-ons</Text>
-      <View style={styles.container}>
-        <View style={styles.itemContainer}>
-          <Image
+      {itemAddOns.map((addOn, index) => (
+        <View style={styles.container}>
+          <View style={styles.itemContainer}>
+            {/* <Image
             source={{
               uri: "https://images.unsplash.com/photo-1509042239860-f550ce710b93",
             }}
             style={styles.productImage}
-          />
-          <View>
-            <Text style={styles.productName}>Dark Mocha</Text>
-            <Text style={styles.productPrice}>P120</Text>
+          /> */}
+
+            <View>
+              <Text style={styles.productName}>{addOn.addOnDesc}</Text>
+              <Text style={styles.productPrice}>P{addOn.addOnPrice}</Text>
+            </View>
+          </View>
+          <View style={styles.counterContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                if (quantity > 0) {
+                  setQuantity(quantity - 1);
+                }
+              }}
+            >
+              <AntDesign name="minuscircle" size={30} color="gray" />
+            </TouchableOpacity>
+            <Text style={styles.counterText}>{quantity}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                setQuantity(quantity + 1);
+              }}
+            >
+              <AntDesign name="pluscircle" size={30} color="black" />
+            </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.counterContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              if (quantity > 0) {
-                setQuantity(quantity - 1);
-              }
-            }}
-          >
-            <AntDesign name="minuscircle" size={30} color="gray" />
-          </TouchableOpacity>
-          <Text style={styles.counterText}>{quantity}</Text>
-          <TouchableOpacity
-            onPress={() => {
-              setQuantity(quantity + 1);
-            }}
-          >
-            <AntDesign name="pluscircle" size={30} color="black" />
-          </TouchableOpacity>
-        </View>
-      </View>
+      ))}
     </View>
   );
 }
