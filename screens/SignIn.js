@@ -19,12 +19,11 @@ import imageBG from "../assets/bg4.jpg";
 import imagePRF from "../assets/prf.png";
 import { StatusBar } from "expo-status-bar";
 
-
 export default function SignInScreen({ navigation }) {
   // Retrieve employee information, documents, schedule, and holiday
   const employeeInfo = employeeInformation();
   const empDocuInfo = employeeDocuments();
-  const empSchedInfo = employeeSched(); 
+  const empSchedInfo = employeeSched();
 
   // Find employee name
   const getFirstName = (employeeId) => {
@@ -38,11 +37,11 @@ export default function SignInScreen({ navigation }) {
     return empData ? empData.emailAddress : " ";
   };
 
-  // Find schedule 
+  // Find schedule
   const getSchedule = (employeeId) => {
-    const empData = empSchedInfo.find((emp) => emp.employeeId === employeeId); 
-    return empData ? empData.shiftDate : " "; 
-  }
+    const empData = empSchedInfo.find((emp) => emp.employeeId === employeeId);
+    return empData ? empData.shiftDate : " ";
+  };
 
   // Realtime TIME
   const [time, setTime] = useState({ hours: "", amOrPM: "" });
@@ -112,12 +111,9 @@ export default function SignInScreen({ navigation }) {
   const handleLogIn = () => {
     if (timeIn) {
       navigation.navigate("TabNavigator");
-    } else { 
+    } else {
       console.log("You must clock in before proceeding with login.");
-      Alert.alert(
-        "Notice",
-        "You must clock in before proceeding with login."
-      );
+      Alert.alert("Notice", "You must clock in before proceeding with login.");
     }
   };
 
@@ -134,10 +130,10 @@ export default function SignInScreen({ navigation }) {
   // useState for handling TIME ENTRIES
   const [timeOutButtonClick, setTimeOutButtonClick] = useState(false);
   const [attendanceType, setAttendanceType] = useState("");
-  const [timeIn, setTimeIn] = useState(false); 
+  const [timeIn, setTimeIn] = useState(false);
   const [selectedEmp, setSelectedEmp] = useState(null); // Select the employee clicked on the avatar
 
-  // current date 
+  // current date
   const currentDate = new Date().toISOString().split("T")[0];
 
   // Handler for time in
@@ -145,13 +141,16 @@ export default function SignInScreen({ navigation }) {
     if (selectedEmp) {
       setTimeOutButtonClick(false);
       setAttendanceType("in");
-      setTimeIn(true); 
+      setTimeIn(true);
       const currentUserEmail = getCurrentUserEmail(selectedEmp.employeeId);
-      const userSched = getSchedule(selectedEmp.employeeId); 
+      const userSched = getSchedule(selectedEmp.employeeId);
       if (userSched === currentDate) {
         processTimeIn(currentUserEmail);
       } else {
-        Alert.alert("Notice",  `No schedule found for ${getFirstName(selectedEmp.employeeId)}`)
+        Alert.alert(
+          "Notice",
+          `No schedule found for ${getFirstName(selectedEmp.employeeId)}`
+        );
         console.log("No schedule found for EMPLOYEE: ", selectedEmp.employeeId);
       }
     }
