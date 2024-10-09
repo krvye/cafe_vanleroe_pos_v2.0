@@ -4143,6 +4143,7 @@ __metadata:
     "@react-navigation/stack": "npm:^6.3.29"
     babel-plugin-module-resolver: "npm:^5.0.2"
     expo: "npm:~51.0.36"
+    expo-camera: "npm:^15.0.16"
     expo-screen-orientation: "npm:~7.0.5"
     expo-status-bar: "npm:~1.12.1"
     expo-updates: "npm:~0.25.26"
@@ -5318,6 +5319,17 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 10c0/aed3164cee4483e47fa56c8898384769d60ebb3f94553f7ad2a33a8902d73a1379aee3fc51833c8f0a4a59979ed842ba079e52c8e1903104b1ad312ad90fe1d1
+  languageName: node
+  linkType: hard
+
+"expo-camera@npm:^15.0.16":
+  version: 15.0.16
+  resolution: "expo-camera@npm:15.0.16"
+  dependencies:
+    invariant: "npm:^2.2.4"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/7b963f6ad6d9c43bbf2de8981439dc858c39c39fa808086e18058b0f738ebf67a9433d5c8fcc84ad0fb050103e576b9c11a7113ec165d3fd63835870e1267d5c
   languageName: node
   linkType: hard
 

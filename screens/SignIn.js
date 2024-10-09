@@ -6,25 +6,25 @@ import {
   View,
   ImageBackground,
   Image,
+  Alert,
   ScrollView,
 } from "react-native";
 
 import { employeeInformation } from "../services/firebase/SignIn/RetrieveEmployees";
 import { employeeDocuments } from "../services/firebase/SignIn/RetrieveEmployeeDocuments";
 import processTimeIn from "../services/firebase/SignIn/ProcessTimeIn";
+import { employeeSched } from "../services/firebase/SignIn/RetrieveEmpSched";
 
 import imageBG from "../assets/bg4.jpg";
 import imagePRF from "../assets/prf.png";
 import { StatusBar } from "expo-status-bar";
 
+
 export default function SignInScreen({ navigation }) {
-  // Retrieve employee information and employee documents
+  // Retrieve employee information, documents, schedule, and holiday
   const employeeInfo = employeeInformation();
-  console.log(employeeInfo);
-
   const empDocuInfo = employeeDocuments();
-  console.log(empDocuInfo);
-
+  const empSchedInfo = employeeSched(); 
 
   // Find employee name
   const getFirstName = (employeeId) => {
@@ -37,6 +37,12 @@ export default function SignInScreen({ navigation }) {
     const empData = employeeInfo.find((emp) => emp.employeeId === employeeId);
     return empData ? empData.emailAddress : " ";
   };
+
+  // Find schedule 
+  const getSchedule = (employeeId) => {
+    const empData = empSchedInfo.find((emp) => emp.employeeId === employeeId); 
+    return empData ? empData.shiftDate : " "; 
+  }
 
   // Realtime TIME
   const [time, setTime] = useState({ hours: "", amOrPM: "" });
@@ -104,7 +110,15 @@ export default function SignInScreen({ navigation }) {
 
   // Login
   const handleLogIn = () => {
-    navigation.navigate("TabNavigator");
+    if (timeIn) {
+      navigation.navigate("TabNavigator");
+    } else { 
+      console.log("You must clock in before proceeding with login.");
+      Alert.alert(
+        "Notice",
+        "You must clock in before proceeding with login."
+      );
+    }
   };
 
   // Handle Avatar Size
@@ -120,28 +134,26 @@ export default function SignInScreen({ navigation }) {
   // useState for handling TIME ENTRIES
   const [timeOutButtonClick, setTimeOutButtonClick] = useState(false);
   const [attendanceType, setAttendanceType] = useState("");
+  const [timeIn, setTimeIn] = useState(false); 
   const [selectedEmp, setSelectedEmp] = useState(null); // Select the employee clicked on the avatar
+
+  // current date 
+  const currentDate = new Date().toISOString().split("T")[0];
 
   // Handler for time in
   const handleTimeIn = () => {
     if (selectedEmp) {
       setTimeOutButtonClick(false);
       setAttendanceType("in");
+      setTimeIn(true); 
       const currentUserEmail = getCurrentUserEmail(selectedEmp.employeeId);
-      processTimeIn(currentUserEmail, (error, result) => {
-        if (error) {
-          if (error !== "Too early for time in") {
-            Alert.alert("Notice", error);
-          } else {
-            Alert.alert(
-              "Notice",
-              "It's too early to clock in. Please wait until within 30 minutes before your scheduled time."
-            );
-          }
-        }
-      });
-    } else {
-      console.log("Employee cannot be found");
+      const userSched = getSchedule(selectedEmp.employeeId); 
+      if (userSched === currentDate) {
+        processTimeIn(currentUserEmail);
+      } else {
+        Alert.alert("Notice",  `No schedule found for ${getFirstName(selectedEmp.employeeId)}`)
+        console.log("No schedule found for EMPLOYEE: ", selectedEmp.employeeId);
+      }
     }
   };
 
@@ -261,6 +273,18 @@ export default function SignInScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       </ImageBackground>
+
+      {/* {hasPermission && isCameraOpen && (
+          <View style={styles.cameraContainer}>
+            <CameraView
+              cameraRef={setCameraRef}
+              takePicture={takePicture}
+              toggleCameraType={toggleCameraType}
+              setIsCameraOpen={setIsCameraOpen}
+              cameraType={cameraType}
+            />
+          </View>
+        )} */}
     </ScrollView>
   );
 }
@@ -387,5 +411,9 @@ const styles = StyleSheet.create({
     margin: 10,
     justifyContent: "center",
     alignItems: "center",
+  },
+  cameraContainer: {
+    flex: 1,
+    width: "100%",
   },
 });
