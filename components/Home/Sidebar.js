@@ -14,12 +14,20 @@ import ItemCategory from "./SmallComponents/Sidebar/ItemCategory";
 
 import { retrieveItemCategory } from "@services/firebase/Home/retrieveItemCategory";
 
-export default function Sidebar() {
+export default function Sidebar({ setSelectedCategoryCode }) {
   const [active, setActive] = useState(0);
 
   const itemCategoriesData = retrieveItemCategory();
 
-  const itemCategories = itemCategoriesData.map((item) => item.itemCategoryDesc);
+  const itemCategories = itemCategoriesData.map((item) => ({
+    categoryCode: item.itemCategoryCode,
+    categoryName: item.itemCategoryDesc,
+  }));
+
+  const handleCategoryPress = (index, categoryCode) => {
+    setActive(index);
+    setSelectedCategoryCode(categoryCode);
+  };
 
   return (
     <View style={styles.container}>
@@ -27,8 +35,8 @@ export default function Sidebar() {
         data={itemCategories}
         renderItem={({ item, index }) => (
           <ItemCategory
-            categoryName={item}
-            onPress={() => setActive(index)}
+            categoryName={item.categoryName}
+            onPress={() => handleCategoryPress(index, item.categoryCode)}
             active={active === index}
           />
         )}

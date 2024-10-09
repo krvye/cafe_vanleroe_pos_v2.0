@@ -8,17 +8,23 @@ import {
   useWindowDimensions,
 } from "react-native";
 
-import itemData from "@utils/Home/ItemData";
+import { retrieveMenuItems } from "@services/firebase/Home/retrieveMenuItems";
 
-export default function Items({ setModalState }) {
+export default function Items({ setModalState, selectedCategoryCode }) {
   const styles = makeStyles(useWindowDimensions().height);
+
+  const itemData = retrieveMenuItems();
+
+  const filteredItems = selectedCategoryCode
+    ? itemData.filter((item) => item.categoryCode === selectedCategoryCode)
+    : itemData;
   return (
     <ScrollView
       contentContainerStyle={styles.contentContainer}
       style={styles.container}
       nestedScrollEnabled={true}
     >
-      {itemData.map((item, index) => (
+      {filteredItems.map((item, index) => (
         <TouchableOpacity
           style={styles.productContainer}
           key={index}
@@ -26,8 +32,8 @@ export default function Items({ setModalState }) {
             setModalState(true);
           }}
         >
-          <Image source={item.image} style={styles.productImage} />
-          <Text style={styles.productName}>{item.name}</Text>
+          <Image source={{ uri: item.image }} style={styles.productImage} />
+          <Text style={styles.productName}>{item.productName}</Text>
           {/* <Text style={styles.productPrice}>{item.price}</Text> */}
         </TouchableOpacity>
       ))}

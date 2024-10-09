@@ -2,14 +2,35 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 
-import itemCategories from "@utils/Home/SidebarFakeData";
+import { retrieveItemCategory } from "@services/firebase/Home/retrieveItemCategory";
 
-export default function Dropdown({ setNewItemState }) {
+export default function Dropdown({
+  setNewItemState,
+  setSelectedCategoryCode,
+  selectedCategoryCode,
+}) {
+  const itemCategoriesData = retrieveItemCategory();
+
+  const itemCategories = itemCategoriesData.map((item) => ({
+    categoryCode: item.itemCategoryCode,
+    categoryName: item.itemCategoryDesc,
+  }));
+
   return (
     <View style={styles.container}>
-      <Picker style={styles.picker}>
+      <Picker
+        selectedValue={selectedCategoryCode}
+        style={styles.picker}
+        onValueChange={(itemValue) => {
+          setSelectedCategoryCode(itemValue);
+        }}
+      >
         {itemCategories.map((category, index) => (
-          <Picker.Item key={index} label={category} value={category} />
+          <Picker.Item
+            key={index}
+            label={category.categoryName}
+            value={category.categoryCode}
+          />
         ))}
       </Picker>
       <TouchableOpacity

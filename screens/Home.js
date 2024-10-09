@@ -15,14 +15,16 @@ export default function HomeScreen() {
   const [itemSize, setItemSize] = useState("Small");
   const [discount, setDiscount] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("cash");
+  const [selectedCategoryCode, setSelectedCategoryCode] = useState(null);
 
   return (
     <View style={styles.container}>
-      <Sidebar />
+      <Sidebar setSelectedCategoryCode={setSelectedCategoryCode} />
       <MenuItems
         setModalState={setModalState}
         setViewOrderState={setViewOrderState}
         setFoodService={setFoodService}
+        selectedCategoryCode={selectedCategoryCode}
       />
       <AddOrder
         modalState={modalState}
