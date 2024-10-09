@@ -13,6 +13,7 @@ import {
 import { employeeInformation } from "../services/firebase/SignIn/RetrieveEmployees";
 import { employeeDocuments } from "../services/firebase/SignIn/RetrieveEmployeeDocuments";
 import processTimeIn from "../services/firebase/SignIn/ProcessTimeIn";
+import processTimeOut from "../services/firebase/SignIn/ProcessTimeOut";
 import { employeeSched } from "../services/firebase/SignIn/RetrieveEmpSched";
 import { timeInOut } from "../services/firebase/SignIn/RetrieveTimeInOut";
 
@@ -123,12 +124,15 @@ export default function SignInScreen({ navigation }) {
     if (selectedEmp) {
       if (getEmpTimeEntryData(selectedEmp.employeeId) === "No data found") {
         console.log("You must clock in before proceeding with login.");
-        Alert.alert("Notice", "You must clock in before proceeding with login.");
+        Alert.alert(
+          "Notice",
+          "You must clock in before proceeding with login."
+        );
       } else {
         navigation.navigate("TabNavigator");
       }
     } else {
-      Alert.alert("Notice", "Select your profile."); 
+      Alert.alert("Notice", "Select your profile.");
       console.log("Select your profile.");
     }
   };
@@ -161,7 +165,7 @@ export default function SignInScreen({ navigation }) {
       // Check if user sched is equal to current date
       if (userSched === currentDate) {
         console.log("Time entry Data: ", empTimeInDate);
-        // Check if user already time in 
+        // Check if user already time in
         if (empTimeInDate === "No data found") {
           processTimeIn(currentUserEmail);
         } else {
@@ -176,29 +180,34 @@ export default function SignInScreen({ navigation }) {
         console.log("No schedule found for EMPLOYEE: ", selectedEmp.employeeId);
       }
     } else {
-      Alert.alert("Notice", "Select your profile."); 
+      Alert.alert("Notice", "Select your profile.");
       console.log("Select your profile.");
     }
   };
 
-  // Handler time out 
+  // Handler time out
   const handleTimeOut = () => {
     if (selectedEmp) {
       const userSched = getSchedule(selectedEmp.employeeId);
       const currentUserEmail = getCurrentUserEmail(selectedEmp.employeeId);
-      const employeeTimeOut = getEmpTimeEntryData(selectedEmp.employeeId)?.timeOut;
-      const employeeTimeIn = getEmpTimeEntryData(selectedEmp.employeeId)?.timeIn;
+      const employeeTimeOut = getEmpTimeEntryData(
+        selectedEmp.employeeId
+      )?.timeOut;
+      const employeeTimeIn = getEmpTimeEntryData(
+        selectedEmp.employeeId
+      )?.timeIn;
 
       setTimeOutButtonClick(true);
       if (userSched === currentDate) {
         if (employeeTimeOut === "0" && employeeTimeIn !== "0") {
-          console.log("Time Out!"); 
+          console.log("Time Out!");
+          processTimeOut(currentUserEmail);
         } else if (!employeeTimeIn || employeeTimeIn === "0") {
-          Alert.alert("Time in time has not been logged yet.")
-          console.log("Time in time has not been logged yet.")
+          Alert.alert("Time in time has not been logged yet.");
+          console.log("Time in time has not been logged yet.");
         } else {
           Alert.alert("Notice", "Time out already punched.");
-          console.log("Time out already punched."); 
+          console.log("Time out already punched.");
         }
       } else {
         Alert.alert(
@@ -208,7 +217,47 @@ export default function SignInScreen({ navigation }) {
         console.log("No schedule found for EMPLOYEE: ", selectedEmp.employeeId);
       }
     } else {
-      Alert.alert("Notice", "Select your profile."); 
+      Alert.alert("Notice", "Select your profile.");
+      console.log("Select your profile.");
+    }
+  };
+
+  // Handler break in
+  const handleBreakIn = () => {
+    if (selectedEmp) {
+      const userSched = getSchedule(selectedEmp.employeeId);
+      const currentUserEmail = getCurrentUserEmail(selectedEmp.employeeId);
+      const employeeTimeOut = getEmpTimeEntryData(
+        selectedEmp.employeeId
+      )?.timeOut;
+      const employeeTimeIn = getEmpTimeEntryData(
+        selectedEmp.employeeId
+      )?.timeIn;
+      const employeeBreakIn = getEmpTimeEntryData(
+        selectedEmp.employeeId
+      )?.breakIn;
+
+      if (userSched === currentDate) {
+        if (
+          (!employeeTimeIn || employeeTimeIn === "0")
+        ) {
+          Alert.alert("Notice", "You need to log your time in first.");
+          console.log("Log your time in first.");
+        } else if (employeeTimeIn !== "0" && employeeBreakIn === "0") { // break time logic here
+          console.log("Break Time!"); 
+          console.log("Break time: ", currentUserEmail);
+        } else {
+          Alert.alert("Notice", "You've already logged your break time.");
+        } 
+      } else {
+        Alert.alert(
+          "Notice",
+          `No schedule found for ${getFirstName(selectedEmp.employeeId)}`
+        );
+        console.log("No schedule found for EMPLOYEE: ", selectedEmp.employeeId);
+      }
+    } else {
+      Alert.alert("Notice", "Select your profile.");
       console.log("Select your profile.");
     }
   };
@@ -301,6 +350,7 @@ export default function SignInScreen({ navigation }) {
                   styles.breakInAndOutButton,
                   { backgroundColor: "#B66619" },
                 ]}
+                onPress={handleBreakIn}
               >
                 <Text style={{ color: "#fff", fontSize: 16, fontWeight: 500 }}>
                   Break In
