@@ -8,24 +8,22 @@ import {
   View,
 } from "react-native";
 
+import { retrievePaymentMethods } from "@services/firebase/Home/retrievePaymentMethods";
+
 export default function PaymentMethod({ paymentMethod, setPaymentMethod }) {
   const [selectedButton, setSelectedButton] = useState(null);
 
-  const handlePress = (button) => {
-    setSelectedButton((prevButton) => (prevButton === button ? 0 : button));
-    if (button === "cash") {
-      setPaymentMethod((prevButton) =>
-        prevButton === "cash" ? "cash" : "cash"
-      );
-    } else if (button === "gcash") {
-      setPaymentMethod((prevButton) =>
-        prevButton === "gcash" ? "cash" : "gcash"
-      );
-    } else if (button === "maya") {
-      setPaymentMethod((prevButton) =>
-        prevButton === "maya" ? "cash" : "maya"
-      );
-    }
+  console.log(paymentMethod);
+
+  const paymentMethods = retrievePaymentMethods();
+
+  const handlePress = (selectedPaymentMethod) => {
+    setSelectedButton((prevButton) =>
+      prevButton === selectedPaymentMethod ? 0 : selectedPaymentMethod
+    );
+    setPaymentMethod((prevMethod) =>
+      prevMethod === selectedPaymentMethod ? "cash" : selectedPaymentMethod
+    );
   };
 
   const getButtonColor = (button) => {
@@ -35,46 +33,32 @@ export default function PaymentMethod({ paymentMethod, setPaymentMethod }) {
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Payment method</Text>
+
       <View style={styles.methodContainer}>
-        <Pressable
-          style={[
-            styles.imageContainer,
-            { backgroundColor: getButtonColor("cash") },
-          ]}
-          onPress={() => handlePress("cash")}
-        >
-          <Image
+        {paymentMethods.map((paymentMethod) => (
+          <>
+            <Pressable
+              style={[
+                styles.imageContainer,
+                {
+                  backgroundColor: getButtonColor(
+                    paymentMethod.paymentMethodDesc
+                  ),
+                },
+              ]}
+              onPress={() => handlePress(paymentMethod.paymentMethodDesc)}
+            >
+              {/* <Image
             style={styles.cashImage}
             source={require("@assets/cash.png")}
-          />
-        </Pressable>
-        <Pressable
-          style={[
-            styles.imageContainer,
-            { backgroundColor: getButtonColor("gcash") },
-          ]}
-          onPress={() => handlePress("gcash")}
-        >
-          <Image
-            style={styles.methodImage}
-            source={require("@assets/gcash.png")}
-          />
-        </Pressable>
-        <Pressable
-          style={[
-            styles.imageContainer,
-            { backgroundColor: getButtonColor("maya") },
-          ]}
-          onPress={() => handlePress("maya")}
-        >
-          <Image
-            style={styles.methodImage}
-            source={require("@assets/maya.png")}
-          />
-        </Pressable>
+          /> */}
+              <Text>{paymentMethod.paymentMethodDesc}</Text>
+            </Pressable>
+          </>
+        ))}
       </View>
 
-      {(paymentMethod === "gcash" || paymentMethod === "maya") && (
+      {(paymentMethod === "Gcash" || paymentMethod === "Maya") && (
         <TextInput
           style={styles.referenceInput}
           placeholder="Input Reference Number"
@@ -103,6 +87,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
   },
+
   methodContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
