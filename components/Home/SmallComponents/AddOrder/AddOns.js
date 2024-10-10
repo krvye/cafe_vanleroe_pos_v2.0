@@ -5,7 +5,21 @@ import { AntDesign } from "@expo/vector-icons";
 import { retrieveItemAddOns } from "@services/firebase/Home/retrieveItemAddOns";
 
 export default function AddOns() {
-  const [quantity, setQuantity] = useState(0);
+  const [quantities, setQuantities] = useState({});
+
+  const handleIncrement = (index) => {
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [index]: (prevQuantities[index] || 0) + 1,
+    }));
+  };
+
+  const handleDecrement = (index) => {
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [index]: Math.max((prevQuantities[index] || 0) - 1, 0),
+    }));
+  };
 
   const itemAddOns = retrieveItemAddOns();
 
@@ -13,14 +27,14 @@ export default function AddOns() {
     <View>
       <Text style={styles.headerText}>Add-ons</Text>
       {itemAddOns.map((addOn, index) => (
-        <View style={styles.container}>
+        <View key={index} style={styles.container}>
           <View style={styles.itemContainer}>
             {/* <Image
-            source={{
-              uri: "https://images.unsplash.com/photo-1509042239860-f550ce710b93",
-            }}
-            style={styles.productImage}
-          /> */}
+        source={{
+          uri: "https://images.unsplash.com/photo-1509042239860-f550ce710b93",
+        }}
+        style={styles.productImage}
+      /> */}
 
             <View>
               <Text style={styles.productName}>{addOn.addOnDesc}</Text>
@@ -28,21 +42,11 @@ export default function AddOns() {
             </View>
           </View>
           <View style={styles.counterContainer}>
-            <TouchableOpacity
-              onPress={() => {
-                if (quantity > 0) {
-                  setQuantity(quantity - 1);
-                }
-              }}
-            >
+            <TouchableOpacity onPress={() => handleDecrement(index)}>
               <AntDesign name="minuscircle" size={30} color="gray" />
             </TouchableOpacity>
-            <Text style={styles.counterText}>{quantity}</Text>
-            <TouchableOpacity
-              onPress={() => {
-                setQuantity(quantity + 1);
-              }}
-            >
+            <Text style={styles.counterText}>{quantities[index] || 0}</Text>
+            <TouchableOpacity onPress={() => handleIncrement(index)}>
               <AntDesign name="pluscircle" size={30} color="black" />
             </TouchableOpacity>
           </View>
