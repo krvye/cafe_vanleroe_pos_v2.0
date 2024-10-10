@@ -41,24 +41,6 @@ export default function SalesTable({
     return modeOfPaymentData ? modeOfPaymentData.paymentMethodDesc : "";
   };
 
-  // Convert to 12-hour time format
-  // const convertToTwelveHour = (time) => {
-  //   let [hour, minute] = time.split(':').map(Number);;
-  //   let period = 'AM';
-
-  //   if (hour >= 12) {
-  //     period = 'PM';
-  //   }
-
-  //   if (hour === 0) {
-  //     hour = 12;
-  //   } else if (hour > 12) {
-  //     hour -= 12;
-  //   }
-
-  //   return `${hour}:${minute < 10 ? '0':''}${minute} ${period}`;
-  // }
-
   const renderItem = ({ item, index }) => {
     const orderedItems = Array.isArray(item.orderItems)
       ? item.orderItems
@@ -76,8 +58,6 @@ export default function SalesTable({
         <Text style={[styles.dataText, { width: 300 }]}>
           {item.orderTakenBy}
         </Text>
-        {/* <Text style={[styles.dataText, { width: 100 }]}>{convertToTwelveHour(item.elapsedTime)}</Text> */}
-        {/* <Text style={[styles.dataText, { width: 180 }]}>{item.branch}</Text> */}
         <Text style={[styles.dataText, { width: 230 }]}>{getModeOfPayment(paymentMethods)}</Text>
         <Text style={[styles.dataText, { width: 150 }]}>
           {getOrderMode(item.orderMode)}
@@ -130,8 +110,6 @@ export default function SalesTable({
             <Text style={[styles.headerText, { width: 300 }]}>
               Customer Name
             </Text>
-            {/* <Text style={[styles.headerText, { width: 100 }]}>Time</Text> */}
-            {/* <Text style={[styles.headerText, { width: 180 }]}>Branch</Text> */}
             <Text style={[styles.headerText, { width: 230 }]}>
               Mode of Payment
             </Text>
