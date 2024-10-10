@@ -11,22 +11,19 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import InvTable from "../components/Inventory/InvTable";
 import { firestore } from "../firebase"; // Adjust import based on your file structure
-import { collection, getDocs, addDoc } from "firebase/firestore"; // Import addDoc to write data
+import { collection, getDocs, addDoc, query, where } from "firebase/firestore"; // Import query and where to filter data
 
 export default function InventoryScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [isAM, setIsAM] = useState(true); // To check which button was clicked (AM or PM)
   const [formData, setFormData] = useState({
-    firstName: "", // Added for employee first name
-    lastName: "", // Added for employee last name
+    firstName: "", // Employee first name
+    lastName: "", // Employee last name
     timeChecked: "AM", // Default value for Time Checked
-    itemName: "",
-    blkStockQty: "", // Holds the selected item name
-    blkDisplayQty: "",
   });
 
   const [itemsByCategory, setItemsByCategory] = useState({}); // State to hold items grouped by category
-  const [selectedItem, setSelectedItem] = useState(null); // To hold the selected item for tracking
+  const [selectedItems, setSelectedItems] = useState([]); // To hold selected items and their inputs
 
   const handleInputChange = (name, value) => {
     setFormData({
@@ -35,45 +32,96 @@ export default function InventoryScreen({ navigation }) {
     });
   };
 
+  const handleItemInputChange = (itemName, fieldName, value) => {
+    setSelectedItems((prevSelectedItems) => {
+      const existingItemIndex = prevSelectedItems.findIndex(
+        (item) => item.itemName === itemName
+      );
+
+      // Update existing item input or add a new one
+      if (existingItemIndex >= 0) {
+        const updatedItem = {
+          ...prevSelectedItems[existingItemIndex],
+          [fieldName]: value,
+        };
+        return [
+          ...prevSelectedItems.slice(0, existingItemIndex),
+          updatedItem,
+          ...prevSelectedItems.slice(existingItemIndex + 1),
+        ];
+      } else {
+        return [
+          ...prevSelectedItems,
+          { itemName, [fieldName]: value },
+        ];
+      }
+    });
+  };
+
   const handleAddInventory = async () => {
     const currentDate = new Date();
     const dateChecked = currentDate.toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
     const timeChecked = currentDate.toTimeString().split(" ")[0]; // Get current time HH:MM:SS
 
-    // Only submit fields that have values
-    const inventoryData = {
-      ...(selectedItem && {
-        itemName: selectedItem.itemName,
-        itemCategoryCode: selectedItem.itemCategoryCode,
-        itemCategory: selectedItem.itemCategory,
-        itemType: selectedItem.itemType,
-      }),
-      ...(formData.timeChecked && { inventoryTimeType: formData.timeChecked }), // AM or PM from dropdown
-      timeChecked, // Current time when added
-      dateChecked, // Current date
-      ...(formData.firstName && { employeeFirstName: formData.firstName }), // Only include if not empty
-      ...(formData.lastName && { employeeLastName: formData.lastName }), // Only include if not empty
-      ...(formData[`stockQty-${selectedItem?.itemName}`] && {
-        stockQty: formData[`stockQty-${selectedItem?.itemName}`],
-      }),
-      ...(formData[`displayQty-${selectedItem?.itemName}`] && {
-        displayQty: formData[`displayQty-${selectedItem?.itemName}`],
-      }),
-    };
-
     try {
-      // Write the data to Firestore (assuming you have a collection called 'INVENTORY_RECORDS')
-      await addDoc(collection(firestore, "POS_INVENTORY_ITEMS"), inventoryData);
-      console.log("Inventory record added:", inventoryData);
+      // Retrieve employee ID using lastName
+      let employeeId = null;
+      if (formData.lastName) {
+        const employeeQuery = query(
+          collection(firestore, "EMPLOYEE_INFORMATION"),
+          where("lastName", "==", formData.lastName)
+        );
+        const employeeSnapshot = await getDocs(employeeQuery);
+        if (!employeeSnapshot.empty) {
+          employeeId = employeeSnapshot.docs[0].data().employeeId; // Get the first employeeId found
+        }
+      }
+
+      // Loop through each selected item and save to Firestore
+      await Promise.all(
+        selectedItems.map(async (item) => {
+          const inventoryData = {
+            timeChecked, // Current time
+            dateChecked, // Current date
+            ...(employeeId && { employeeId }), // Save employeeId instead of first and last name
+            inventoryTimeType: formData.timeChecked, // Save selected time type (AM/PM)
+          };
+
+          // Check itemCategory in itemsByCategory to determine itemType, itemCategory, and itemCategoryCode
+          const itemCategoryData = Object.values(itemsByCategory).flat().find(i => i.itemName === item.itemName);
+          
+          if (itemCategoryData) {
+            const { itemType, itemCategory, itemCategoryCode } = itemCategoryData;
+
+            // Add itemType, itemCategory, and itemCategoryCode to inventory data
+            inventoryData.itemType = itemType;
+            inventoryData.itemCategory = itemCategory;
+            inventoryData.itemCategoryCode = itemCategoryCode;
+
+            if (itemType === "BLK") {
+              inventoryData.blkStockQty = item.stockQty || 0; // Store stock qty in blkStockQty or 0 if not provided
+              inventoryData.blkDisplayQty = item.displayQty || 0; // Store display qty in blkDisplayQty or 0 if not provided
+            } else if (itemType === "CTB") {
+              inventoryData.ctbStockQty = item.stockQty || 0; // Store stock qty in ctbStockQty or 0 if not provided
+              inventoryData.ctbDisplayQty = item.displayQty || 0; // Store display qty in ctbDisplayQty or 0 if not provided
+            }
+          }
+
+          // Write the data to Firestore
+          await addDoc(collection(firestore, "POS_INVENTORY_ITEMS"), inventoryData);
+          console.log("Inventory record added:", inventoryData);
+        })
+      );
     } catch (error) {
       console.error("Error adding inventory record:", error);
     }
 
     setModalVisible(false); // Close the modal after adding
+    setSelectedItems([]); // Clear selected items after submission
   };
 
-  const openModal = (isAMInventory) => {
-    setIsAM(isAMInventory);
+  const openModal = (isAM) => {
+    setIsAM(isAM);
     setModalVisible(true);
   };
 
@@ -187,66 +235,61 @@ export default function InventoryScreen({ navigation }) {
                     {itemsByCategory[categoryCode].map((item, index) => (
                       <View key={index} style={styles.tableRow}>
                         <View style={styles.tableCell}>
-                          <Text
-                            style={styles.itemNameText}
-                            onPress={() => setSelectedItem(item)} // Set selected item on press
-                          >
-                            {item.itemName}
-                          </Text>
+                          <Text style={styles.itemNameText}>{item.itemName}</Text>
                         </View>
 
-                        <TextInput
-                          style={styles.input}
-                          placeholder="Stock Quantity"
-                          keyboardType="numeric"
-                          onChangeText={(text) =>
-                            handleInputChange(`stockQty-${item.itemName}`, text)
-                          }
-                        />
-
                         {item.itemType === "BLK" ? (
-                          <Picker
-                            selectedValue={
-                              formData[`displayQty-${item.itemName}`] || "FULL"
-                            }
-                            style={styles.picker}
-                            onValueChange={(value) =>
-                              handleInputChange(
-                                `displayQty-${item.itemName}`,
-                                value
-                              )
-                            }
-                          >
-                            <Picker.Item label="Full" value="FULL" />
-                            <Picker.Item label="Half" value="HALF" />
-                            <Picker.Item label="AE" value="AE" />
-                            <Picker.Item label="Empty" value="EMPTY" />
-                          </Picker>
-                        ) : (
-                          <TextInput
-                            style={styles.input}
-                            placeholder="Display Quantity"
-                            keyboardType="numeric"
-                            onChangeText={(text) =>
-                              handleInputChange(
-                                `displayQty-${item.itemName}`,
-                                text
-                              )
-                            }
-                          />
-                        )}
+                          <>
+                            <TextInput
+                              style={styles.input}
+                              placeholder="Stock Quantity"
+                              keyboardType="numeric"
+                              onChangeText={(text) =>
+                                handleItemInputChange(item.itemName, "stockQty", text)
+                              }
+                            />
+                            <Picker
+                              selectedValue={selectedItems.find(i => i.itemName === item.itemName)?.displayQty || "FULL"}
+                              onValueChange={(value) =>
+                                handleItemInputChange(item.itemName, "displayQty", value)
+                              }
+                            >
+                              <Picker.Item label="FULL" value="FULL" />
+                              <Picker.Item label="HALF" value="HALF" />
+                              <Picker.Item label="EMPTY" value="EMPTY" />
+                            </Picker>
+                          </>
+                        ) : item.itemType === "CTB" ? (
+                          <>
+                            <TextInput
+                              style={styles.input}
+                              placeholder="Stock Quantity"
+                              keyboardType="numeric"
+                              onChangeText={(text) =>
+                                handleItemInputChange(item.itemName, "stockQty", text)
+                              }
+                            />
+                            <TextInput
+                              style={styles.input}
+                              placeholder="Display Quantity"
+                              keyboardType="numeric"
+                              onChangeText={(text) =>
+                                handleItemInputChange(item.itemName, "displayQty", text)
+                              }
+                            />
+                          </>
+                        ) : null}
                       </View>
                     ))}
                   </View>
                 ))}
 
-                {/* Buttons */}
                 <View style={styles.buttonContainer}>
                   <TouchableOpacity
                     style={styles.addButton}
                     onPress={handleAddInventory}
                   >
-                    <Text style={styles.buttonText}>Add</Text>
+                    <Text style={styles.buttonText}>Add Inventory</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.cancelButton}
