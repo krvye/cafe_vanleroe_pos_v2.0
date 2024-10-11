@@ -237,17 +237,16 @@ export default function SignInScreen({ navigation }) {
       )?.breakIn;
 
       if (userSched === currentDate) {
-        if (
-          (!employeeTimeIn || employeeTimeIn === "0")
-        ) {
+        if (!employeeTimeIn || employeeTimeIn === "0") {
           Alert.alert("Notice", "You need to log your time in first.");
           console.log("Log your time in first.");
-        } else if (employeeTimeIn !== "0" && employeeBreakIn === "0") { // break time logic here
+        } else if (employeeTimeIn !== "0" && employeeBreakIn === "0") {
+          // break time logic here
           processBreakIn(currentUserEmail);
         } else {
           Alert.alert("Notice", "You've already logged your break time.");
           console.log("You have already logged your break time.");
-        } 
+        }
       } else {
         Alert.alert(
           "Notice",
@@ -271,22 +270,24 @@ export default function SignInScreen({ navigation }) {
       const employeeBreakIn = getEmpTimeEntryData(
         selectedEmp.employeeId
       )?.breakIn;
-      const employeeBreakOut = getEmpTimeEntryData(selectedEmp.employeeId)?.breakOut;
+      const employeeBreakOut = getEmpTimeEntryData(
+        selectedEmp.employeeId
+      )?.breakOut;
       console.log("employee break out: ", employeeBreakOut);
-
 
       if (userSched === currentDate) {
         if (!employeeTimeIn || employeeTimeIn === "0") {
           Alert.alert("Notice", "You need to log your time in first.");
           console.log("Log your time in first.");
         } else if (employeeBreakIn === "0") {
-          console.log("You need to log your break time first."); 
+          console.log("You need to log your break time first.");
           Alert.alert("Notice", "You need to log your break time first.");
-        } else if (employeeBreakOut === "0") { // break out logic here 
+        } else if (employeeBreakOut === "0") {
+          // break out logic here
           processBreakOut(currentUserEmail);
         } else {
           console.log("You've already logged your break out.");
-          Alert.alert("You've already logged your break out."); 
+          Alert.alert("You've already logged your break out.");
         }
       } else {
         Alert.alert(
@@ -299,7 +300,7 @@ export default function SignInScreen({ navigation }) {
       Alert.alert("Notice", "Select your profile.");
       console.log("Select your profile.");
     }
-  }
+  };
 
   return (
     <ScrollView style={styles.container}>
