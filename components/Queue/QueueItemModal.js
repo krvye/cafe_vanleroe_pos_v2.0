@@ -6,7 +6,7 @@ import {
   Pressable,
   ScrollView,
 } from "react-native";
-
+import { useState, useEffect } from "react";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 
 import OrderDetails from "./OrderDetails";
@@ -21,6 +21,13 @@ export default function QueueItemModal({
   handleDoneOrderStatus,
   handleVoidOrderStatus,
 }) {
+  const initialTimerValue =
+    selectedOrder?.elapsedTimeValue || selectedOrder?.elapsedTime;
+  const [orderTimer, setOrderTimer] = useState("");
+
+  console.log("Initial Timer value: ", initialTimerValue);
+
+  // Map order status
   const getOrderStatusDesc = (orderStatusCode) => {
     const orderStatus = orderStatusInfo.find(
       (order) => order.orderStatusCode === orderStatusCode
@@ -28,16 +35,29 @@ export default function QueueItemModal({
     return orderStatus ? orderStatus.orderStatusDesc : " ";
   };
 
-  // Convert elapsed time to seconds only
-  const convertTimeToSeconds = (time) => {
-    // const [minutes, seconds] = time.split(':').map(Number);
-    // return minutes * 60 + seconds;
-    return time;
-  };
+  // Countdown order time
+  useEffect(() => {
+    if (!initialTimerValue) return;
 
-  const orderElapsedTime = selectedOrder?.elapsedTime;
-  const convertTime = convertTimeToSeconds(orderElapsedTime);
-  console.log(convertTime);
+    const [minutes, seconds] = initialTimerValue.split(":").map(Number);
+    let totalSeconds = minutes * 60 + seconds;
+
+    // Countdown
+    const timer = setInterval(() => {
+      if (totalSeconds > 0) {
+        totalSeconds -= 1;
+        const newMinutes = Math.floor(totalSeconds / 60)
+          .toString()
+          .padStart(2, "0");
+        const newSeconds = (totalSeconds % 60).toString().padStart(2, "0");
+        setOrderTimer(`${newMinutes}:${newSeconds}`);
+      } else {
+        clearInterval(timer);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [initialTimerValue]);
 
   return (
     <Modal visible={openQueueItem} transparent={true}>
@@ -56,19 +76,15 @@ export default function QueueItemModal({
           </View>
 
           <View style={styles.mainQueueDetailsContainer}>
-            <Text style={styles.elapsedTimeText}>
-              Elapsed Time: {selectedOrder?.elapsedTime}
-              {/* <CountDown
-                    until={convertTimeToSeconds(selectedOder?.elapsedTime)}
-                    // size={15}
-                    timeToShow={['M', 'S']}
-                    timeLabels={{ m: null, s: null }}
-                    showSeparator
-                    digitTxtStyle={{ color: isTimerDone ? '#F44336' : '#828487'}}
-                    separatorStyle={{color: isTimerDone ? '#F44336' : '#828487'}}
-                    onFinish={() => setIsTimerDone(true)}
-                  /> */}
-            </Text>
+            {initialTimerValue === "00:00" ? (
+              <Text style={styles.orderItemRedStyle}>
+                Elapsed Time: {initialTimerValue}
+              </Text>
+            ) : (
+              <Text style={styles.elapsedTimeText}>
+                Elapsed Time: {orderTimer}
+              </Text>
+            )}
             <ScrollView style={styles.orderItemContainer}>
               <OrderDetails
                 selectedOrder={selectedOrder}
@@ -184,5 +200,11 @@ const styles = StyleSheet.create({
     color: "#0e0e0e",
     fontSize: 16,
     fontWeight: 600,
+  },
+  orderItemRedStyle: {
+    fontSize: 20,
+    fontWeight: 500,
+    marginLeft: 45,
+    color: "#F44336",
   },
 });

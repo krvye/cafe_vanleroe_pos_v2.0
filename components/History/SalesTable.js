@@ -14,6 +14,7 @@ export default function SalesTable({
   salesInfo,
   orderModeInfo,
   modeOfPaymentInfo,
+  addOnsInfo,
 }) {
   const [visibleItems, setVisibleItems] = useState({});
 
@@ -41,6 +42,12 @@ export default function SalesTable({
     return modeOfPaymentData ? modeOfPaymentData.paymentMethodDesc : "";
   };
 
+  // Map addOnsDesc from POS_ITEMS_ADDONS
+  const getAddOns = (addOnsCode) => {
+    const addOnsData = addOnsInfo.find((item) => item.addOnCode === addOnsCode);
+    return addOnsData ? addOnsData.addOnDesc : " ";
+  };
+
   const renderItem = ({ item, index }) => {
     const orderedItems = Array.isArray(item.orderItems)
       ? item.orderItems
@@ -48,21 +55,33 @@ export default function SalesTable({
           .join("\n")
       : item.orderItems;
 
-    const paymentMethods = item.paymentMethods.map(
-      (method) => method.modeOfPayment
-    ).join(',');
+    const orderAddOns = Array.isArray(item.orderItems)
+      ? item.orderItems.map(({ addOns }) => addOns)
+      : item.orderItems;
 
+    const orderAddOnsArr = []
+    for (const item of orderAddOns) {
+      orderAddOnsArr.push(item);
+    }
+
+    console.log("Order Add ons array: ", orderAddOnsArr);
+
+    const paymentMethods = item.paymentMethods
+      .map((method) => method.modeOfPayment)
+      .join(",");
 
     return (
       <View style={styles.row}>
-        <Text style={[styles.dataText, { width: 300 }]}>
+        <Text style={[styles.dataText, { width: 250 }]}>
           {item.orderTakenBy}
         </Text>
-        <Text style={[styles.dataText, { width: 230 }]}>{getModeOfPayment(paymentMethods)}</Text>
+        <Text style={[styles.dataText, { width: 200 }]}>
+          {getModeOfPayment(paymentMethods)}
+        </Text>
         <Text style={[styles.dataText, { width: 150 }]}>
           {getOrderMode(item.orderMode)}
         </Text>
-        <Text style={[styles.dataText, { width: 180 }]}>
+        <Text style={[styles.dataText, { width: 120 }]}>
           {Object.values(item.orderItems).reduce(
             (total, item) => total + item.itemQuantity,
             0
@@ -70,14 +89,27 @@ export default function SalesTable({
         </Text>
 
         {Array.isArray(item.orderItems) ? (
-            <Text style={[styles.dataText, { width: 280 }]}>
+          <>
+            <Text style={[styles.dataText, { width: 270 }]}>
               {visibleItems[index]
                 ? orderedItems
                 : `${item.orderItems[0].itemQuantity} - ${item.orderItems[0].itemName} \n`}
             </Text>
+            <Text style={[styles.dataText, { width: 170 }]}>
+              {visibleItems[index]
+                ? orderAddOnsArr.map((order) => getAddOns(order)).join('\n')
+                : `${getAddOns(item.orderItems[0].addOns)} \n`}
+            </Text>
+          </>
         ) : (
-          <Text style={[styles.dataText, { width: 280 }]}>{orderedItems}
-          </Text>
+          <>
+            <Text style={[styles.dataText, { width: 270 }]}>
+              {orderedItems}
+            </Text>
+            <Text style={[styles.dataText, { width: 170 }]}>
+              {getAddOns(orderAddOns)}
+            </Text>
+          </>
         )}
 
         <Text style={[styles.dataText, { width: 100 }]}>
@@ -104,24 +136,29 @@ export default function SalesTable({
 
   return (
     <View style={styles.container}>
-      <ScrollView horizontal style={{ borderRadius: 5, width: "98%" }} showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        horizontal
+        style={{ borderRadius: 5, width: "98%" }}
+        showsHorizontalScrollIndicator={false}
+      >
         <View style={styles.listContainer}>
           <View style={styles.header}>
-            <Text style={[styles.headerText, { width: 300 }]}>
+            <Text style={[styles.headerText, { width: 250 }]}>
               Customer Name
             </Text>
-            <Text style={[styles.headerText, { width: 230 }]}>
+            <Text style={[styles.headerText, { width: 200 }]}>
               Mode of Payment
             </Text>
             <Text style={[styles.headerText, { width: 150 }]}>Order Mode</Text>
-            <Text style={[styles.headerText, { width: 180 }]}>
-              No. of Ordered Items
+            <Text style={[styles.headerText, { width: 120 }]}>
+              Total Ordered Items
             </Text>
-            <Text style={[styles.headerText, { width: 280 }]}>
+            <Text style={[styles.headerText, { width: 270 }]}>
               Ordered Items
             </Text>
-            <Text style={[styles.headerText, { width: 100 }]}>Price</Text>
-            <Text style={[styles.headerText, { width: 80 }]}></Text>
+            <Text style={[styles.headerText, { width: 170 }]}>Add Ons</Text>
+            <Text style={[styles.headerText, { width: 100 }]}>Total Price</Text>
+            <Text style={[styles.headerText, { width: 100 }]}></Text>
           </View>
           <View style={styles.rowContainer}>
             <FlatList

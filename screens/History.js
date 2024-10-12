@@ -6,6 +6,7 @@ import SalesTable from "../components/History/SalesTable";
 import { SalesInformation } from "../services/firebase/History/RetrieveSales";
 import { OrderMode } from "../services/firebase/History/RetrieveOrderMode";
 import { ModeOfPayment } from "../services/firebase/History/RetrieveMOP";
+import { posAddOns } from "../services/firebase/History/RetrieveAddOns";
 
 export default function HistoryScreen() {
   const {
@@ -30,6 +31,7 @@ export default function HistoryScreen() {
   } = SalesInformation();
   const orderModeInfo = OrderMode();
   const modeOfPaymentInfo = ModeOfPayment();
+  const addOnsInfo = posAddOns(); 
 
   return (
     <View style={styles.container}>
@@ -57,6 +59,7 @@ export default function HistoryScreen() {
           salesInfo={salesData}
           orderModeInfo={orderModeInfo}
           modeOfPaymentInfo={modeOfPaymentInfo}
+          addOnsInfo={addOnsInfo}
         />
       </ScrollView>
     </View>

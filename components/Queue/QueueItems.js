@@ -18,9 +18,9 @@ export default function QueueItems({
   const [fbCountdownTimer, setFbCountdownTimer] = useState({});
 
   // Handler for open queue button
-  const handleOpenQueueItem = (order) => {
+  const handleOpenQueueItem = (order, elapsedTimeValue) => {
     setOpenQueueItem(true);
-    setSelectedOrder(order);
+    setSelectedOrder({ ...order, elapsedTimeValue });
     console.log("Open Item!");
   };
 
@@ -184,7 +184,12 @@ export default function QueueItems({
                   </Pressable>
                   <Pressable
                     style={styles.openButton}
-                    onPress={() => handleOpenQueueItem(order)}
+                    onPress={() =>
+                      handleOpenQueueItem(
+                        order,
+                        dineInCountdownTimer[orderIndex] || order.elapsedTime
+                      )
+                    }
                   >
                     <Text style={styles.buttonText}>Open</Text>
                   </Pressable>
@@ -230,7 +235,12 @@ export default function QueueItems({
                   </Pressable>
                   <Pressable
                     style={styles.openButton}
-                    onPress={() => handleOpenQueueItem(order)}
+                    onPress={() =>
+                      handleOpenQueueItem(
+                        order,
+                        takeOutCountdownTimer[orderIndex] || order.elapsedTime
+                      )
+                    }
                   >
                     <Text style={styles.buttonText}>Open</Text>
                   </Pressable>
@@ -276,7 +286,12 @@ export default function QueueItems({
                   </Pressable>
                   <Pressable
                     style={styles.openButton}
-                    onPress={() => handleOpenQueueItem(order)}
+                    onPress={() =>
+                      handleOpenQueueItem(
+                        order,
+                        grabFpCountdownTimer[orderIndex] || order.elapsedTime
+                      )
+                    }
                   >
                     <Text style={styles.buttonText}>Open</Text>
                   </Pressable>
@@ -322,7 +337,12 @@ export default function QueueItems({
                   </Pressable>
                   <Pressable
                     style={styles.openButton}
-                    onPress={() => handleOpenQueueItem(order)}
+                    onPress={() =>
+                      handleOpenQueueItem(
+                        order,
+                        fbCountdownTimer[orderIndex] || order.elapsedTime
+                      )
+                    }
                   >
                     <Text style={styles.buttonText}>Open</Text>
                   </Pressable>
