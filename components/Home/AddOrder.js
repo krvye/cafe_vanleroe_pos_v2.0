@@ -24,6 +24,12 @@ export default function AddOrder({
   setModalState,
   setItemSize,
   selectedItem,
+  foodService,
+  itemSize,
+  setItemPrice,
+  itemPrice,
+  setTotalPrice,
+  totalPrice,
 }) {
   const [active, setActive] = useState(0);
 
@@ -51,9 +57,16 @@ export default function AddOrder({
             setItemSize={setItemSize}
           />
 
-          <ItemQuantitySelector selectedItem={selectedItem} />
+          <ItemQuantitySelector
+            selectedItem={selectedItem}
+            foodService={foodService}
+            itemSize={itemSize}
+            setItemPrice={setItemPrice}
+            itemPrice={itemPrice}
+            setTotalPrice={setTotalPrice}
+          />
 
-          <AddOns />
+          <AddOns setTotalPrice={setTotalPrice} />
 
           <View style={styles.bottomBorder}></View>
 
@@ -62,7 +75,7 @@ export default function AddOrder({
           <View style={styles.submitContainer}>
             <View>
               <Text style={styles.totalLabel}>Total</Text>
-              <Text style={styles.totalAmount}>P120</Text>
+              <Text style={styles.totalAmount}>P{totalPrice}</Text>
             </View>
             <TouchableOpacity
               style={styles.addButton}

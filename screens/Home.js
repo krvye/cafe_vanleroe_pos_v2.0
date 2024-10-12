@@ -11,12 +11,16 @@ export default function HomeScreen() {
   const [modalState, setModalState] = useState(false);
   const [viewOrderState, setViewOrderState] = useState(false);
   const [paymentDetailsState, setPaymentDetailsState] = useState(false);
-  const [foodService, setFoodService] = useState("Dine In");
-  const [itemSize, setItemSize] = useState("Small");
+  const [foodService, setFoodService] = useState("");
+  const [itemSize, setItemSize] = useState("");
   const [discount, setDiscount] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("cash");
   const [selectedCategoryCode, setSelectedCategoryCode] = useState(null);
   const [selectedItem, setSelectedItem] = useState("");
+  const [itemPrice, setItemPrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  console.log(totalPrice);
 
   return (
     <View style={styles.container}>
@@ -33,6 +37,12 @@ export default function HomeScreen() {
         setModalState={setModalState}
         setItemSize={setItemSize}
         selectedItem={selectedItem}
+        foodService={foodService}
+        itemSize={itemSize}
+        setItemPrice={setItemPrice}
+        itemPrice={itemPrice}
+        setTotalPrice={setTotalPrice}
+        totalPrice={totalPrice}
       />
       <ViewOrderModal
         viewOrderState={viewOrderState}

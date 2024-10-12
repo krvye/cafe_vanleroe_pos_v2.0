@@ -1,27 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 import { retrieveItemAddOns } from "@services/firebase/Home/retrieveItemAddOns";
 
-export default function AddOns() {
+export default function AddOns({ setTotalPrice }) {
   const [quantities, setQuantities] = useState({});
 
+  const itemAddOns = retrieveItemAddOns();
+
+  const calculateTotalPrice = (newQuantities) => {
+    let total = 0;
+    itemAddOns.forEach((addOn, index) => {
+      total += (newQuantities[index] || 0) * addOn.addOnPrice;
+    });
+    setTotalPrice((prev) => prev + total);
+  };
+
   const handleIncrement = (index) => {
-    setQuantities((prevQuantities) => ({
-      ...prevQuantities,
-      [index]: (prevQuantities[index] || 0) + 1,
-    }));
+    setQuantities((prevQuantities) => {
+      const updatedQuantities = {
+        ...prevQuantities,
+        [index]: (prevQuantities[index] || 0) + 1,
+      };
+      calculateTotalPrice(updatedQuantities);
+      return updatedQuantities;
+    });
   };
 
   const handleDecrement = (index) => {
-    setQuantities((prevQuantities) => ({
-      ...prevQuantities,
-      [index]: Math.max((prevQuantities[index] || 0) - 1, 0),
-    }));
+    setQuantities((prevQuantities) => {
+      const updatedQuantities = {
+        ...prevQuantities,
+        [index]: Math.max((prevQuantities[index] || 0) - 1, 0),
+      };
+      calculateTotalPrice(updatedQuantities);
+      return updatedQuantities;
+    });
   };
-
-  const itemAddOns = retrieveItemAddOns();
 
   return (
     <View>

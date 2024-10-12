@@ -1,9 +1,53 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Image, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-export default function ItemQuantitySelector({ selectedItem }) {
+export default function ItemQuantitySelector({
+  selectedItem,
+  foodService,
+  itemSize,
+  setItemPrice,
+  itemPrice,
+  setTotalPrice,
+}) {
   const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+    const basePrice = getProductPrice();
+    const itemFinalPrice = basePrice * quantity;
+    setItemPrice(itemFinalPrice);
+    setTotalPrice((prevTotal) => prevTotal + itemFinalPrice);
+  }, [quantity, selectedItem, foodService, itemSize]);
+
+  const getProductPrice = () => {
+    if (foodService === "Grab") {
+      if (itemSize === "Small") {
+        return selectedItem.grabAmountSmall;
+      } else if (itemSize === "Medium") {
+        return selectedItem.grabAmountMedium;
+      } else if (itemSize === "Large") {
+        return selectedItem.grabAmountLarge;
+      }
+    } else if (foodService === "Foodpanda") {
+      if (itemSize === "Small") {
+        return selectedItem.fpAmountSmall;
+      } else if (itemSize === "Medium") {
+        return selectedItem.fpAmountMedium;
+      } else if (itemSize === "Large") {
+        return selectedItem.fpAmountLarge;
+      }
+    } else {
+      if (itemSize === "Small") {
+        return selectedItem.amountSmall;
+      } else if (itemSize === "Medium") {
+        return selectedItem.amountMedium;
+      } else if (itemSize === "Large") {
+        return selectedItem.amountLarge;
+      }
+    }
+
+    return selectedItem.itemAmount;
+  };
 
   return (
     <View style={styles.container}>
@@ -18,7 +62,7 @@ export default function ItemQuantitySelector({ selectedItem }) {
           <Text style={styles.productName}>{selectedItem.productName}</Text>
           <View>
             <Text style={styles.priceLabel}>Price</Text>
-            <Text style={styles.productPrice}>P120</Text>
+            <Text style={styles.productPrice}>{itemPrice.toFixed(2)}</Text>
           </View>
         </View>
       </View>
