@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text, Pressable, ScrollView } from "react-native";
-// import { useState } from "react"; 
+import { useState, useEffect } from "react";
 // import CountDown from 'react-native-countdown-component';
 
 export default function QueueItems({
@@ -9,58 +9,152 @@ export default function QueueItems({
   inprogressGrabFpInfo,
   inprogressFbInfo,
   setSelectedOrder,
-  handleVoidOrderStatus, 
+  handleVoidOrderStatus,
 }) {
-  // For handling timers 
-  // const [isDineTimerDone, setIsDineTimerDone] = useState(inprogressDineInfo.map(() => false));
-  // const [isTakeTimerDone, setIsTakeTimerDone] = useState(inprogressTakeOutInfo.map(() => false)); 
-  // const [isFpGbTimerDone, setIsFpGbTimerDone] = useState(inprogressGrabFpInfo.map(() => false)); 
-  // const [isFbTimerDone, setIsFbTimerDone] = useState(inprogressFbInfo.map(() => false)); 
+  // Timer states
+  const [dineInCountdownTimer, setDineInCountdownTimer] = useState({});
+  const [takeOutCountdownTimer, setTakeOutCountdownTimer] = useState({});
+  const [grabFpCountdownTimer, setGrabFpCountdownTimer] = useState({});
+  const [fbCountdownTimer, setFbCountdownTimer] = useState({});
 
-
+  // Handler for open queue button
   const handleOpenQueueItem = (order) => {
     setOpenQueueItem(true);
-    setSelectedOrder(order); 
+    setSelectedOrder(order);
     console.log("Open Item!");
   };
 
-  // Handle Dine In Timer
-  // const handleDineTimer = (order) => {
-  //   const updatedTimer = [...isDineTimerDone]; 
-  //   updatedTimer[order] = true; 
-  //   setIsDineTimerDone(updatedTimer); 
-  // }
-  // Handle Take out timer
-  // const handleTakeTimer = (order) => {
-  //   const updatedTimer = [...isTakeTimerDone]; 
-  //   updatedTimer[order] = true; 
-  //   setIsTakeTimerDone(updatedTimer); 
-  // }
-  // Handle FP and GB Timer
-  // const handleFpGrabTimer = (order) => {
-  //   const updatedTimer = [...isFpGbTimerDone]; 
-  //   updatedTimer[order] = true; 
-  //   setIsFpGbTimerDone(updatedTimer); 
-  // }
-  // Handle FB Timer
-  // const handleFbTimer = (order) => {
-  //   const updatedTimer = [...isFbTimerDone]; 
-  //   updatedTimer[order] = true; 
-  //   setIsFbTimerDone(updatedTimer); 
-  // }
-  
-  // Convert elapsed time to seconds only
-  // const convertTimeToSeconds = (time) => {
-  //   const [minutes, seconds] = time.split(':').map(Number);
-  //   return minutes * 60 + seconds;
-  // };
+  // Countdown Elapse time
+  useEffect(() => {
+    // Dine in
+    const dineInCountdown = inprogressDineInfo.map((order, index) => {
+      const [minutes, seconds] = order.elapsedTime.split(":").map(Number);
+      let totalSeconds = minutes * 60 + seconds;
+
+      // Countdown
+      const countdown = setInterval(() => {
+        if (totalSeconds > 0) {
+          totalSeconds -= 1;
+          // Convert to "mm:ss"
+          const newMinutes = Math.floor(totalSeconds / 60)
+            .toString()
+            .padStart(2, "0");
+          const newSeconds = (totalSeconds % 60).toString().padStart(2, "0");
+
+          setDineInCountdownTimer((prevTimers) => ({
+            ...prevTimers,
+            [index]: `${newMinutes}:${newSeconds}`,
+          }));
+        } else {
+          clearInterval(countdown);
+        }
+      }, 1000);
+
+      return countdown;
+    });
+
+    // Take out
+    const takeOutCountdown = inprogressTakeOutInfo.map((order, index) => {
+      const [minutes, seconds] = order.elapsedTime.split(":").map(Number);
+      let totalSeconds = minutes * 60 + seconds;
+
+      // Countdown
+      const countdown = setInterval(() => {
+        if (totalSeconds > 0) {
+          totalSeconds -= 1;
+          // Convert to "mm:ss"
+          const newMinutes = Math.floor(totalSeconds / 60)
+            .toString()
+            .padStart(2, "0");
+          const newSeconds = (totalSeconds % 60).toString().padStart(2, "0");
+
+          setTakeOutCountdownTimer((prevTimers) => ({
+            ...prevTimers,
+            [index]: `${newMinutes}:${newSeconds}`,
+          }));
+        } else {
+          clearInterval(countdown);
+        }
+      }, 1000);
+
+      return countdown;
+    });
+
+    // Grab/FP
+    const grabFpCountdown = inprogressGrabFpInfo.map((order, index) => {
+      const [minutes, seconds] = order.elapsedTime.split(":").map(Number);
+      let totalSeconds = minutes * 60 + seconds;
+
+      // Countdown
+      const countdown = setInterval(() => {
+        if (totalSeconds > 0) {
+          totalSeconds -= 1;
+          // Convert to "mm:ss"
+          const newMinutes = Math.floor(totalSeconds / 60)
+            .toString()
+            .padStart(2, "0");
+          const newSeconds = (totalSeconds % 60).toString().padStart(2, "0");
+
+          setGrabFpCountdownTimer((prevTimers) => ({
+            ...prevTimers,
+            [index]: `${newMinutes}:${newSeconds}`,
+          }));
+        } else {
+          clearInterval(countdown);
+        }
+      }, 1000);
+
+      return countdown;
+    });
+
+    const fbCountdown = inprogressFbInfo.map((order, index) => {
+      const [minutes, seconds] = order.elapsedTime.split(":").map(Number);
+      let totalSeconds = minutes * 60 + seconds;
+
+      // Countdown
+      const countdown = setInterval(() => {
+        if (totalSeconds > 0) {
+          totalSeconds -= 1;
+          // Convert to "mm:ss"
+          const newMinutes = Math.floor(totalSeconds / 60)
+            .toString()
+            .padStart(2, "0");
+          const newSeconds = (totalSeconds % 60).toString().padStart(2, "0");
+
+          setFbCountdownTimer((prevTimers) => ({
+            ...prevTimers,
+            [index]: `${newMinutes}:${newSeconds}`,
+          }));
+        } else {
+          clearInterval(countdown);
+        }
+      }, 1000);
+
+      return countdown;
+    });
+
+    return () => {
+      dineInCountdown.forEach((countdown) => clearInterval(countdown));
+      takeOutCountdown.forEach((countdown) => clearInterval(countdown));
+      grabFpCountdown.forEach((countdown) => clearInterval(countdown));
+      fbCountdown.forEach((countdown) => clearInterval(countdown));
+    };
+  }, [
+    inprogressDineInfo,
+    inprogressTakeOutInfo,
+    inprogressGrabFpInfo,
+    inprogressFbInfo,
+  ]);
 
   return (
     <View style={styles.container}>
       {/*Dine in*/}
       <View style={styles.ordermodeContainer}>
         <Text style={styles.ordermodeTextStyles}>Dine In</Text>
-        <ScrollView contentContainerStyle={styles.queueItemsContainer} showsHorizontalScrollIndicator={false}>
+        <ScrollView
+          contentContainerStyle={styles.queueItemsContainer}
+          showsHorizontalScrollIndicator={false}
+        >
           {inprogressDineInfo.map((order, orderIndex) => {
             return (
               <View key={orderIndex} style={styles.queueItem}>
@@ -68,19 +162,17 @@ export default function QueueItems({
                   <Text style={styles.queueItemTextStyles}>
                     Order No. {order.orderNo} {order.orderTakenBy}
                   </Text>
-                  <Text style={styles.queueItemTextStyles}>
-                    Elapsed Time: 
-                    {/* <CountDown
-                    until={convertTimeToSeconds(order.elapsedTime)}
-                    // size={15}
-                    timeToShow={['M', 'S']}
-                    timeLabels={{ m: null, s: null }}
-                    showSeparator
-                    digitTxtStyle={{ color: isDineTimerDone[orderIndex] ? '#F44336' : '#0e0e0e'}}
-                    separatorStyle={{color: isDineTimerDone[orderIndex] ? '#F44336' : '#0e0e0e'}}
-                    onFinish={() => handleDineTimer(orderIndex)}
-                  /> */}
-                  </Text>
+                  {dineInCountdownTimer[orderIndex] === "00:00" ? (
+                    <Text style={styles.queueItemRedStyle}>
+                      Elapsed Time:{" "}
+                      {dineInCountdownTimer[orderIndex] || order.elapsedTime}
+                    </Text>
+                  ) : (
+                    <Text style={styles.queueItemTextStyles}>
+                      Elapsed Time:{" "}
+                      {dineInCountdownTimer[orderIndex] || order.elapsedTime}
+                    </Text>
+                  )}
                 </View>
                 <View style={styles.horizontalLine} />
                 <View style={styles.buttonContainer}>
@@ -105,7 +197,10 @@ export default function QueueItems({
       {/*Take Out*/}
       <View style={styles.ordermodeContainer}>
         <Text style={styles.ordermodeTextStyles}>Take Out</Text>
-        <ScrollView contentContainerStyle={styles.queueItemsContainer} showsHorizontalScrollIndicator={false}>
+        <ScrollView
+          contentContainerStyle={styles.queueItemsContainer}
+          showsHorizontalScrollIndicator={false}
+        >
           {inprogressTakeOutInfo.map((order, orderIndex) => {
             return (
               <View key={orderIndex} style={styles.queueItem}>
@@ -113,19 +208,17 @@ export default function QueueItems({
                   <Text style={styles.queueItemTextStyles}>
                     Order No. {order.orderNo} {order.orderTakenBy}
                   </Text>
-                  <Text style={styles.queueItemTextStyles}>
-                    Elapsed Time: 
-                    {/* <CountDown
-                    until={convertTimeToSeconds(order.elapsedTime)}
-                    // size={15}
-                    timeToShow={['M', 'S']}
-                    timeLabels={{ m: null, s: null }}
-                    showSeparator
-                    digitTxtStyle={{ color: isTakeTimerDone[orderIndex] ? '#F44336' : '#0e0e0e'}}
-                    separatorStyle={{color: isTakeTimerDone[orderIndex] ? '#F44336' : '#0e0e0e'}}
-                    onFinish={() => handleTakeTimer(orderIndex)}
-                  /> */}
-                  </Text>
+                  {takeOutCountdownTimer[orderIndex] === "00:00" ? (
+                    <Text style={styles.queueItemRedStyle}>
+                      Elapsed Time:{" "}
+                      {takeOutCountdownTimer[orderIndex] || order.elapsedTime}
+                    </Text>
+                  ) : (
+                    <Text style={styles.queueItemTextStyles}>
+                      Elapsed Time:{" "}
+                      {takeOutCountdownTimer[orderIndex] || order.elapsedTime}
+                    </Text>
+                  )}
                 </View>
                 <View style={styles.horizontalLine} />
                 <View style={styles.buttonContainer}>
@@ -150,7 +243,10 @@ export default function QueueItems({
       {/*Foodpanda/Grab*/}
       <View style={styles.ordermodeContainer}>
         <Text style={styles.ordermodeTextStyles}>Foodpanda/Grab</Text>
-        <ScrollView contentContainerStyle={styles.queueItemsContainer} showsHorizontalScrollIndicator={false}>
+        <ScrollView
+          contentContainerStyle={styles.queueItemsContainer}
+          showsHorizontalScrollIndicator={false}
+        >
           {inprogressGrabFpInfo.map((order, orderIndex) => {
             return (
               <View key={orderIndex} style={styles.queueItem}>
@@ -158,19 +254,17 @@ export default function QueueItems({
                   <Text style={styles.queueItemTextStyles}>
                     Order No. {order.orderNo} {order.orderTakenBy}
                   </Text>
-                  <Text style={styles.queueItemTextStyles}>
-                    Elapsed Time: 
-                    {/* <CountDown
-                    until={convertTimeToSeconds(order.elapsedTime)}
-                    // size={15}
-                    timeToShow={['M', 'S']}
-                    timeLabels={{ m: null, s: null }}
-                    showSeparator
-                    digitTxtStyle={{ color: isFpGbTimerDone[orderIndex] ? '#F44336' : '#0e0e0e'}}
-                    separatorStyle={{color: isFpGbTimerDone[orderIndex] ? '#F44336' : '#0e0e0e'}}
-                    onFinish={() => handleFpGrabTimer(orderIndex)}
-                  /> */}
-                  </Text>
+                  {grabFpCountdownTimer[orderIndex] === "00:00" ? (
+                    <Text style={styles.queueItemRedStyle}>
+                      Elapsed Time:{" "}
+                      {grabFpCountdownTimer[orderIndex] || order.elapsedTime}
+                    </Text>
+                  ) : (
+                    <Text style={styles.queueItemTextStyles}>
+                      Elapsed Time:{" "}
+                      {grabFpCountdownTimer[orderIndex] || order.elapsedTime}
+                    </Text>
+                  )}
                 </View>
                 <View style={styles.horizontalLine} />
                 <View style={styles.buttonContainer}>
@@ -195,7 +289,10 @@ export default function QueueItems({
       {/*Facebook*/}
       <View style={styles.ordermodeContainer}>
         <Text style={styles.ordermodeTextStyles}>Facebook</Text>
-        <ScrollView contentContainerStyle={styles.queueItemsContainer} showsHorizontalScrollIndicator={false}>
+        <ScrollView
+          contentContainerStyle={styles.queueItemsContainer}
+          showsHorizontalScrollIndicator={false}
+        >
           {inprogressFbInfo.map((order, orderIndex) => {
             return (
               <View key={orderIndex} style={styles.queueItem}>
@@ -203,19 +300,17 @@ export default function QueueItems({
                   <Text style={styles.queueItemTextStyles}>
                     Order No. {order.orderNo} {order.orderTakenBy}
                   </Text>
-                  <Text style={styles.queueItemTextStyles}>
-                    Elapsed Time: 
-                    {/* <CountDown
-                    until={convertTimeToSeconds(order.elapsedTime)}
-                    // size={15}
-                    timeToShow={['M', 'S']}
-                    timeLabels={{ m: null, s: null }}
-                    showSeparator
-                    digitTxtStyle={{ color: isFbTimerDone[orderIndex] ? '#F44336' : '#0e0e0e'}}
-                    separatorStyle={{color: isFbTimerDone[orderIndex] ? '#F44336' : '#0e0e0e'}}
-                    onFinish={() => handleFbTimer(orderIndex)}
-                  /> */}
-                  </Text>
+                  {fbCountdownTimer[orderIndex] === "00:00" ? (
+                    <Text style={styles.queueItemRedStyle}>
+                      Elapsed Time:{" "}
+                      {fbCountdownTimer[orderIndex] || order.elapsedTime}
+                    </Text>
+                  ) : (
+                    <Text style={styles.queueItemTextStyles}>
+                      Elapsed Time:{" "}
+                      {fbCountdownTimer[orderIndex] || order.elapsedTime}
+                    </Text>
+                  )}
                 </View>
                 <View style={styles.horizontalLine} />
                 <View style={styles.buttonContainer}>
@@ -263,11 +358,11 @@ const styles = StyleSheet.create({
     height: 170,
     backgroundColor: "#F9BC4D",
     borderRadius: 15,
-    justifyContent: 'center',
+    justifyContent: "center",
     marginBottom: 15,
   },
   queueItemDetailsContainer: {
-    width: '100%', 
+    width: "100%",
   },
   buttonContainer: {
     width: "100%",
@@ -278,21 +373,21 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   voidButton: {
-    backgroundColor: '#F9BC4D', 
-    borderColor: '#B66619',
+    backgroundColor: "#F9BC4D",
+    borderColor: "#B66619",
     borderWidth: 1,
-    height: '100%', 
-    width: "40%", 
-    borderRadius: 20, 
-    justifyContent: 'center', 
-    alignItems: 'center',
+    height: "100%",
+    width: "40%",
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
   },
   openButton: {
-    height: '100%', 
-    width: "40%", 
+    height: "100%",
+    width: "40%",
     borderRadius: 20,
-    justifyContent: 'center', 
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   ordermodeTextStyles: {
     marginLeft: 25,
@@ -305,6 +400,12 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     color: "#0e0e0e",
   },
+  queueItemRedStyle: {
+    fontWeight: 500,
+    fontSize: 18,
+    marginLeft: 20,
+    color: "#F44336",
+  },
   buttonText: {
     fontWeight: 600,
     fontSize: 15,
@@ -312,9 +413,9 @@ const styles = StyleSheet.create({
     color: "#0e0e0e",
   },
   horizontalLine: {
-    height: 1, 
-    width: '100%', 
-    backgroundColor: '#B66619',
+    height: 1,
+    width: "100%",
+    backgroundColor: "#B66619",
     marginTop: 15,
   },
   voidButtonText: {
