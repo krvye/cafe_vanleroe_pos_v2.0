@@ -23,12 +23,24 @@ import imageBG from "../assets/bg4.jpg";
 import imagePRF from "../assets/prf.png";
 import { StatusBar } from "expo-status-bar";
 
-export default function SignInScreen({ navigation }) {
+export default function SignInScreen({ navigation, route }) {
+  // Filter based on branch
+  const { branchCode } = route.params;
+  console.log("Branch: ", branchCode);
+
   // Retrieve employee information, documents, schedule, and holiday
   const employeeInfo = employeeInformation();
   const empDocuInfo = employeeDocuments();
-  const empSchedInfo = employeeSched();
+  const empSchedInfo = employeeSched().filter(
+    (employee) => employee.branchCode === branchCode
+  );
   const timeInOutInfo = timeInOut();
+
+  // Find Employee ID from EMP_SCHED
+  const empIdFromEmpSched = empSchedInfo.map((employee) => employee.employeeId);
+  const filteredEmpDocu = empDocuInfo.filter((doc) =>
+    empIdFromEmpSched.includes(doc.employeeId)
+  );
 
   // Find employee name
   const getFirstName = (employeeId) => {
@@ -325,7 +337,7 @@ export default function SignInScreen({ navigation }) {
             contentContainerStyle={styles.avatarContainer}
             showsHorizontalScrollIndicator={false}
           >
-            {empDocuInfo.map((image, index) => (
+            {filteredEmpDocu.map((image, index) => (
               <View key={index} style={styles.avatarAndNameContainer}>
                 <TouchableOpacity
                   style={[

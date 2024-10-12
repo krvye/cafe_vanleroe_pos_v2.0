@@ -7,27 +7,31 @@ import AddExpenseModal from "../components/Expenses/AddExpenseModal";
 
 import { ExpensesInformation } from "../services/firebase/Expenses/RetrieveExpenses";
 import { ExpensesTypeInformation } from "../services/firebase/Expenses/RetrieveExpenseType";
+import { BranchesDetails } from "../services/firebase/Expenses/RetrieveBranches";
 
 export default function ExpensesScreen() {
   const [openAddExpense, setOpenAddExpense] = useState(false);
   
-  const expensesInfo = ExpensesInformation(); 
+  const {expensesData, totalExpenses} = ExpensesInformation(); 
   const expensesTypeInfo = ExpensesTypeInformation();
+  const branchesInfo = BranchesDetails();
 
   return (
     <View style={styles.container}>
       <View contentContainerStyle={styles.scrollContainer}>
         <TodayExpenses 
           setOpenAddExpense={setOpenAddExpense}
+          totalExpenses={totalExpenses}
         />
         <ExpensesTable 
-          expensesInfo={expensesInfo}
+          expensesInfo={expensesData}
           expensesTypeInfo={expensesTypeInfo}
         />
         <AddExpenseModal 
           openAddExpense={openAddExpense}
           setOpenAddExpense={setOpenAddExpense}
           expensesTypeInfo={expensesTypeInfo}
+          branchesInfo={branchesInfo}
         />
       </View>
     </View>

@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
 import { getFirestore, collection, onSnapshot } from "firebase/firestore";
 import app from "../firebaseConfig";
+import { useBranches } from "../../../context/BranchContext"; 
 
 export const InProgressDineInOrder = () => {
+  const { selectedBranch } = useBranches(); 
+  const branchCode = selectedBranch ? selectedBranch.branchCode : null; 
+
+
   const [inprogressDineInOrder, setInProgressDineInOrder] = useState([]);
 
   useEffect(() => {
@@ -23,7 +28,8 @@ export const InProgressDineInOrder = () => {
           return (
             order.orderStatus === "MAKE" &&
             order.consumeMethod === "DINE" &&
-            order.orderDate === currDate 
+            order.orderDate === currDate && 
+            order.branchCode === branchCode
           );
         });
 

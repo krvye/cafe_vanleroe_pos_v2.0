@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { getFirestore, collection, onSnapshot } from "firebase/firestore";
 import app from "../firebaseConfig";
+import { useBranches } from "../../../context/BranchContext";
 
 export const SalesInformation = () => {
+  const { selectedBranch } = useBranches; 
+  const branchCode = selectedBranch ? selectedBranch.branchCode : null;
+  
   const [salesData, setSalesData] = useState([]);
 
   // For computations
@@ -40,7 +44,7 @@ export const SalesInformation = () => {
         const dailySalesData = dailySalesInfo.filter((sale) => {
           const currDate = new Date().toISOString().split("T")[0];
           console.log("Current Date: ", currDate);
-          return sale.orderDate === currDate && sale.orderStatus === "DONE";
+          return (sale.orderDate === currDate && sale.orderStatus === "DONE" && sale.branchCode === branchCode);
         });
 
         setSalesData(dailySalesData);

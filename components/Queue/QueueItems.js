@@ -1,6 +1,5 @@
 import { StyleSheet, View, Text, Pressable, ScrollView } from "react-native";
 import { useState, useEffect } from "react";
-// import CountDown from 'react-native-countdown-component';
 
 export default function QueueItems({
   setOpenQueueItem,

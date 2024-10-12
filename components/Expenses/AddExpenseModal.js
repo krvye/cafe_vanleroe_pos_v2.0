@@ -13,12 +13,18 @@ import { AntDesign } from "@expo/vector-icons";
 
 import AddItem from "../Expenses/smallComponents/AddItem";
 import { StoreExpenses } from "../../services/firebase/Expenses/StoreExpenses";
+import { useBranches } from "../../context/BranchContext"; 
 
 export default function AddExpenseModal({
   openAddExpense,
   setOpenAddExpense,
   expensesTypeInfo,
+  branchesInfo
 }) {
+  const { selectedBranch } = useBranches(); 
+  const selectedBranchCode = selectedBranch ? selectedBranch.branchCode : null; 
+  console.log("Expenses selected branch: ", selectedBranchCode);
+
   // useState for adding items handler
   const [addItem, setAddItem] = useState(false);
   const [addAllItems, setAddAllItems] = useState(false);
@@ -53,7 +59,7 @@ export default function AddExpenseModal({
 
     const expenses = {
       dateChecked: currDate,
-      branchCode: branchCode,
+      branchCode: selectedBranchCode,
       expenseTypeCd: expenseType,
       receiptNumber: receiptNumber,
       itemName: itemName,
@@ -82,7 +88,7 @@ export default function AddExpenseModal({
   const handleAddAllItems = async () => {
     const currentExpense = {
       dateChecked: currDate,
-      branchCode: branchCode,
+      branchCode: selectedBranchCode,
       expenseTypeCd: expenseType,
       receiptNumber: receiptNumber,
       itemName: itemName,
@@ -113,6 +119,13 @@ export default function AddExpenseModal({
     setAddItem(false);
     console.log("Final Expense Items: ", [...expenseItems, currentExpense]);
   };
+
+  // Map branch desc
+  const getBranchDesc = (selectedBranchCode) => {
+    const branchData = branchesInfo.find((branch) => branch.branchCode === selectedBranchCode); 
+    return branchData ? branchData.branchDesc : " ";
+  }
+
 
   return (
     <Modal animationType="slide" transparent={true} visible={openAddExpense}>
@@ -148,15 +161,15 @@ export default function AddExpenseModal({
           {/* Input Branch */}
           <View style={styles.inputTitleCon}>
             <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
-              Branch:
+              Branch: 
             </Text>
           </View>
           <View style={styles.inputContainer}>
             <TextInput
               style={[styles.input, styles.inputTitleText]}
-              placeholder="Branch"
+              placeholder={getBranchDesc(selectedBranchCode)}
               placeholderTextColor={"gray"}
-              value={branchCode}
+              value={getBranchDesc(selectedBranchCode)}
               onChangeText={setBranchCode}
             />
           </View>
@@ -228,7 +241,7 @@ export default function AddExpenseModal({
               placeholder="Quantity"
               placeholderTextColor={"gray"}
               value={itemQTY}
-              onChangeText={setItemQTY}
+              onChangeText={(value) => setItemQTY(Number(value))}
             />
           </View>
 
@@ -244,7 +257,7 @@ export default function AddExpenseModal({
               placeholder="Item Price"
               placeholderTextColor={"gray"}
               value={itemPrice}
-              onChangeText={setItemPrice}
+              onChangeText={(value) => setItemPrice(parseFloat(value, 10))}
             />
           </View>
 
@@ -260,7 +273,7 @@ export default function AddExpenseModal({
               placeholder="Receipt Total"
               placeholderTextColor={"gray"}
               value={receiptTotal}
-              onChangeText={setReceiptTotal}
+              onChangeText={(value) => setReceiptTotal(parseFloat(value, 10))}
             />
           </View>
 

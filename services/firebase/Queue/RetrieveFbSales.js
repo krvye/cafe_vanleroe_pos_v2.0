@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { getFirestore, collection, onSnapshot } from "firebase/firestore";
 import app from "../firebaseConfig";
+import { useBranches } from "../../../context/BranchContext";
 
 export const InProgressFbOrder = () => {
+  const { selectedBranch } = useBranches(); 
+  const branchCode = selectedBranch ? selectedBranch.branchCode : null; 
+
   const [inprogressFbOrder, setInprogressFbOrder] = useState([]);
 
   useEffect(() => {
@@ -21,7 +25,8 @@ export const InProgressFbOrder = () => {
         return (
           order.orderStatus === "MAKE" &&
           order.orderDate === currDate &&
-          order.orderMode === "FB"
+          order.orderMode === "FB" && 
+          order.branchCode === branchCode
         );
       });
       setInprogressFbOrder(filteredInprogressFb);

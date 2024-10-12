@@ -17,7 +17,7 @@ export default function SplashScreen({ navigation }) {
 
   const handleSelectBranch = (branchCode) => {
     selectBranch(branchCode);
-    navigation.navigate("SignInScreen");
+    navigation.navigate("SignInScreen", { branchCode });
   };
 
   // Realtime TIME

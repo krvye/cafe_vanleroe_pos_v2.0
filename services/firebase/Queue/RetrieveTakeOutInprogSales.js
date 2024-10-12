@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { getFirestore, collection, onSnapshot } from "firebase/firestore";
 import app from "../firebaseConfig";
+import { useBranches } from "../../../context/BranchContext"; 
 
 export const InProgressTakeOutOrder = () => {
+  const { selectedBranch } = useBranches(); 
+  const branchCode = selectedBranch ? selectedBranch.branchCode : null; 
   const [inprogressTakeOutOrder, setinprogressTakeOutOrder] = useState([]);
 
   useEffect(() => {
@@ -24,7 +27,8 @@ export const InProgressTakeOutOrder = () => {
             return (
               order.orderStatus === "MAKE" &&
               order.consumeMethod === "TAKE" &&
-              order.orderDate === currDate
+              order.orderDate === currDate && 
+              order.branchCode === branchCode
             );
           }
         );
