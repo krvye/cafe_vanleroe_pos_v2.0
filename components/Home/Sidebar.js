@@ -15,7 +15,7 @@ import ItemCategory from "./SmallComponents/Sidebar/ItemCategory";
 import { retrieveItemCategory } from "@services/firebase/Home/retrieveItemCategory";
 
 export default function Sidebar({ setSelectedCategoryCode }) {
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(null);
 
   const itemCategoriesData = retrieveItemCategory();
 

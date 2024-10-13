@@ -14,14 +14,14 @@ export default function HomeScreen() {
   const [foodService, setFoodService] = useState("");
   const [itemSize, setItemSize] = useState("");
   const [discount, setDiscount] = useState(0);
-  const [paymentMethod, setPaymentMethod] = useState("cash");
+  const [paymentMethod, setPaymentMethod] = useState("");
   const [selectedCategoryCode, setSelectedCategoryCode] = useState(null);
   const [selectedItem, setSelectedItem] = useState("");
   const [itemPrice, setItemPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [subTotal, setSubTotal] = useState(0);
-
-  console.log(totalPrice);
+  const [finalTotal, setFinalTotal] = useState(0);
+  const [paymentDetails, setPaymentDetails] = useState([]);
 
   return (
     <View style={styles.container}>
@@ -54,12 +54,17 @@ export default function HomeScreen() {
         foodService={foodService}
         subTotal={subTotal}
         discount={discount}
+        setFinalTotal={setFinalTotal}
+        finalTotal={finalTotal}
       />
       <PaymentDetails
         paymentDetailsState={paymentDetailsState}
         setPaymentDetailsState={setPaymentDetailsState}
         paymentMethod={paymentMethod}
         setPaymentMethod={setPaymentMethod}
+        finalTotal={finalTotal}
+        setPaymentDetails={setPaymentDetails}
+        paymentDetails={paymentDetails}
       />
     </View>
   );

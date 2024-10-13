@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function PayNow({
@@ -5,7 +6,13 @@ export default function PayNow({
   setPaymentDetailsState,
   subTotal,
   discount,
+  setFinalTotal,
+  finalTotal,
 }) {
+  useEffect(() => {
+    setFinalTotal(subTotal - discount);
+  }, [subTotal, discount, setFinalTotal]);
+
   return (
     <View style={styles.container}>
       <View style={styles.amountContainer}>
@@ -21,9 +28,7 @@ export default function PayNow({
 
       <View style={styles.amountContainer}>
         <Text style={styles.amountLabel}>Total</Text>
-        <Text style={styles.totalAmount}>
-          ₱{(subTotal - discount).toFixed(2)}
-        </Text>
+        <Text style={styles.totalAmount}>₱{finalTotal.toFixed(2)}</Text>
       </View>
       <TouchableOpacity
         style={styles.payNowButton}

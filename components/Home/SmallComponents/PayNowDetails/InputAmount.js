@@ -9,11 +9,24 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { light } from "@mui/material/styles/createPalette";
 import { useState } from "react";
 
-export default function InputAmount() {
+export default function InputAmount({
+  setPaidAmount,
+  setPaymentDetails,
+  paymentMethod,
+}) {
   const [amount, setAmount] = useState("");
 
   const addToAmount = (num) => {
-    setAmount((prevAmount) => prevAmount + num.toString());
+    setAmount((prevAmount) => prevAmount + num);
+  };
+
+  const handleAddPress = () => {
+    setAmount("");
+    setPaidAmount((prev) => prev + parseFloat(amount));
+    setPaymentDetails((prevDetails) => [
+      ...prevDetails,
+      { paymentMethod: paymentMethod, paidAmount: parseFloat(amount) },
+    ]);
   };
 
   return (
@@ -151,20 +164,13 @@ export default function InputAmount() {
         >
           <Text style={styles.boldText}>.</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.inputLightBlock}>
+        <TouchableOpacity
+          style={styles.inputLightBlock}
+          onPress={handleAddPress}
+        >
           <Text style={styles.lightText}>Add</Text>
         </TouchableOpacity>
       </View>
-
-      <TouchableOpacity style={styles.confirmButton}>
-        <MaterialIcons name="check" size={24} color="white" />
-        <Text style={styles.buttonText}>Confirm Payment Method</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.printButton}>
-        <MaterialIcons name="check" size={24} color="white" />
-        <Text style={styles.buttonText}>Complete and Print Receipt</Text>
-      </TouchableOpacity>
     </View>
   );
 }
@@ -239,28 +245,5 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 28,
     color: "#0B57A0",
-  },
-
-  confirmButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#19191C",
-    borderRadius: 15,
-    paddingVertical: 10,
-    gap: 10,
-    marginBottom: 15,
-  },
-  printButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#B66619",
-    borderRadius: 15,
-    paddingVertical: 10,
-    gap: 10,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 14,
-    fontWeight: "600",
   },
 });

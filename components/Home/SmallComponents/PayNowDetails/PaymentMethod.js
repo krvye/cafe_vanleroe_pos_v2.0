@@ -13,8 +13,6 @@ import { retrievePaymentMethods } from "@services/firebase/Home/retrievePaymentM
 export default function PaymentMethod({ paymentMethod, setPaymentMethod }) {
   const [selectedButton, setSelectedButton] = useState(null);
 
-  console.log(paymentMethod);
-
   const paymentMethods = retrievePaymentMethods();
 
   const handlePress = (selectedPaymentMethod) => {
@@ -22,7 +20,7 @@ export default function PaymentMethod({ paymentMethod, setPaymentMethod }) {
       prevButton === selectedPaymentMethod ? 0 : selectedPaymentMethod
     );
     setPaymentMethod((prevMethod) =>
-      prevMethod === selectedPaymentMethod ? "cash" : selectedPaymentMethod
+      prevMethod === selectedPaymentMethod ? "" : selectedPaymentMethod
     );
   };
 
@@ -38,6 +36,7 @@ export default function PaymentMethod({ paymentMethod, setPaymentMethod }) {
         {paymentMethods.map((paymentMethod) => (
           <>
             <Pressable
+              key={paymentMethod.id}
               style={[
                 styles.imageContainer,
                 {

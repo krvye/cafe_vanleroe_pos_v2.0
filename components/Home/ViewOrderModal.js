@@ -24,6 +24,8 @@ export default function ViewOrderModal({
   foodService,
   subTotal,
   discount,
+  setFinalTotal,
+  finalTotal,
 }) {
   const discountCodes = retrieveDiscountCodes();
 
@@ -53,6 +55,8 @@ export default function ViewOrderModal({
             setPaymentDetailsState={setPaymentDetailsState}
             subTotal={subTotal}
             discount={discount}
+            setFinalTotal={setFinalTotal}
+            finalTotal={finalTotal}
           />
         </KeyboardAvoidingView>
       </ScrollView>
