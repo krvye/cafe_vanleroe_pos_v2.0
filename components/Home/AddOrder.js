@@ -75,7 +75,7 @@ export default function AddOrder({
           <View style={styles.submitContainer}>
             <View>
               <Text style={styles.totalLabel}>Total</Text>
-              <Text style={styles.totalAmount}>P{totalPrice}</Text>
+              <Text style={styles.totalAmount}>₱{totalPrice}</Text>
             </View>
             <TouchableOpacity
               style={styles.addButton}

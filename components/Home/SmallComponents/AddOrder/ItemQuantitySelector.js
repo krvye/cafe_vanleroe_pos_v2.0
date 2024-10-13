@@ -7,46 +7,61 @@ export default function ItemQuantitySelector({
   foodService,
   itemSize,
   setItemPrice,
-  itemPrice,
   setTotalPrice,
 }) {
   const [quantity, setQuantity] = useState(1);
+  const [itemFinalPrice, setItemFinalPrice] = useState(0);
 
   useEffect(() => {
+    // Calculate initial price based on the default quantity and selected properties.
     const basePrice = getProductPrice();
-    const itemFinalPrice = basePrice * quantity;
-    setItemPrice(itemFinalPrice);
-    setTotalPrice((prevTotal) => prevTotal + itemFinalPrice);
-  }, [quantity, selectedItem, foodService, itemSize]);
+    const initialPrice = basePrice * quantity;
+    setItemFinalPrice(initialPrice);
+    setItemPrice(initialPrice);
+    setTotalPrice(initialPrice);
+  }, [selectedItem, foodService, itemSize]);
 
   const getProductPrice = () => {
     if (foodService === "Grab") {
-      if (itemSize === "Small") {
-        return selectedItem.grabAmountSmall;
-      } else if (itemSize === "Medium") {
-        return selectedItem.grabAmountMedium;
-      } else if (itemSize === "Large") {
-        return selectedItem.grabAmountLarge;
-      }
+      if (itemSize === "Small") return selectedItem.grabAmountSmall;
+      if (itemSize === "Medium") return selectedItem.grabAmountMedium;
+      if (itemSize === "Large") return selectedItem.grabAmountLarge;
     } else if (foodService === "Foodpanda") {
-      if (itemSize === "Small") {
-        return selectedItem.fpAmountSmall;
-      } else if (itemSize === "Medium") {
-        return selectedItem.fpAmountMedium;
-      } else if (itemSize === "Large") {
-        return selectedItem.fpAmountLarge;
-      }
+      if (itemSize === "Small") return selectedItem.fpAmountSmall;
+      if (itemSize === "Medium") return selectedItem.fpAmountMedium;
+      if (itemSize === "Large") return selectedItem.fpAmountLarge;
     } else {
-      if (itemSize === "Small") {
-        return selectedItem.amountSmall;
-      } else if (itemSize === "Medium") {
-        return selectedItem.amountMedium;
-      } else if (itemSize === "Large") {
-        return selectedItem.amountLarge;
-      }
+      if (itemSize === "Small") return selectedItem.amountSmall;
+      if (itemSize === "Medium") return selectedItem.amountMedium;
+      if (itemSize === "Large") return selectedItem.amountLarge;
     }
-
     return selectedItem.itemAmount;
+  };
+
+  const handleIncrement = () => {
+    const basePrice = getProductPrice();
+    setQuantity((prevQuantity) => {
+      const newQuantity = prevQuantity + 1;
+      const newPrice = basePrice * newQuantity;
+      setTotalPrice((prevTotal) => prevTotal + basePrice);
+      setItemPrice(newPrice);
+      setItemFinalPrice(newPrice);
+      return newQuantity;
+    });
+  };
+
+  const handleDecrement = () => {
+    const basePrice = getProductPrice();
+    if (quantity > 1) {
+      setQuantity((prevQuantity) => {
+        const newQuantity = prevQuantity - 1;
+        const newPrice = basePrice * newQuantity;
+        setTotalPrice((prevTotal) => prevTotal - basePrice);
+        setItemPrice(newPrice);
+        setItemFinalPrice(newPrice);
+        return newQuantity;
+      });
+    }
   };
 
   return (
@@ -62,26 +77,18 @@ export default function ItemQuantitySelector({
           <Text style={styles.productName}>{selectedItem.productName}</Text>
           <View>
             <Text style={styles.priceLabel}>Price</Text>
-            <Text style={styles.productPrice}>{itemPrice.toFixed(2)}</Text>
+            <Text style={styles.productPrice}>
+              ₱{getProductPrice().toFixed(2)}
+            </Text>
           </View>
         </View>
       </View>
       <View style={styles.counterContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            if (quantity > 0) {
-              setQuantity(quantity - 1);
-            }
-          }}
-        >
+        <TouchableOpacity onPress={handleDecrement}>
           <AntDesign name="minuscircle" size={30} color="gray" />
         </TouchableOpacity>
         <Text style={styles.counterText}>{quantity}</Text>
-        <TouchableOpacity
-          onPress={() => {
-            setQuantity(quantity + 1);
-          }}
-        >
+        <TouchableOpacity onPress={handleIncrement}>
           <AntDesign name="pluscircle" size={30} color="black" />
         </TouchableOpacity>
       </View>
@@ -97,7 +104,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-
   itemContainer: { flexDirection: "row", gap: 10 },
   productImage: {
     width: 75,
@@ -115,7 +121,6 @@ const styles = StyleSheet.create({
     color: "#B66619",
     fontWeight: "600",
   },
-
   counterContainer: {
     flexDirection: "row",
     gap: 10,
