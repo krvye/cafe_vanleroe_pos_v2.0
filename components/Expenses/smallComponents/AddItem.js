@@ -16,6 +16,7 @@ export default function AddItem({
     if (itemName && itemQTY && itemPrice && receiptTotal) {
       handleAddItem(itemName, itemQTY, itemPrice, receiptTotal);
     }
+    console.log("Item Added!");
   }
 
   return (
@@ -43,8 +44,8 @@ export default function AddItem({
           style={[styles.input, styles.inputTitleText]}
           placeholder="Quantity"
           placeholderTextColor={"gray"}
-          value={itemQTY}
-          onChangeText={setItemQTY}
+          value={itemQTY.toString()}
+          onChangeText={(value) => setItemQTY(Number(value))}
         />
       </View>
 
@@ -58,8 +59,8 @@ export default function AddItem({
           style={[styles.input, styles.inputTitleText]}
           placeholder="Item Price"
           placeholderTextColor={"gray"}
-          value={itemPrice}
-          onChangeText={setItemPrice}
+          value={itemPrice.toString()}
+          onChangeText={(value) => setItemPrice(parseFloat(value, 10))}
         />
       </View>
 
@@ -73,8 +74,8 @@ export default function AddItem({
           style={[styles.input, styles.inputTitleText]}
           placeholder="Total Price"
           placeholderTextColor={"gray"}
-          value={receiptTotal}
-          onChangeText={setReceiptTotal}
+          value={receiptTotal.toString()}
+          onChangeText={(value) => setReceiptTotal(parseFloat(value, 10))}
         />
       </View>
 
