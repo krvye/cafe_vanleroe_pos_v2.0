@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
   },
   branchText: {
     fontSize: 18,
-    color: "#B66619",
-    fontWeight: 500,
+    color: "#0e0e0e",
+    fontWeight: 450,
   },
 });
