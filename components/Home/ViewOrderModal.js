@@ -1,9 +1,20 @@
-import { Modal, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 
 import CustomerDetails from "./SmallComponents/ViewOrder/CustomerDetails";
 import OrderDetails from "./SmallComponents/ViewOrder/OrderDetails";
 import Discounts from "./SmallComponents/ViewOrder/Discounts";
 import PayNow from "./SmallComponents/ViewOrder/PayNow";
+
+import { retrieveDiscountCodes } from "@services/firebase/Home/retrieveDiscountCodes";
 
 export default function ViewOrderModal({
   viewOrderState,
@@ -11,25 +22,39 @@ export default function ViewOrderModal({
   setPaymentDetailsState,
   setDiscount,
   foodService,
+  subTotal,
+  discount,
 }) {
+  const discountCodes = retrieveDiscountCodes();
+
   return (
     <Modal visible={viewOrderState} transparent={true}>
       <ScrollView style={styles.container}>
-        <CustomerDetails
-          setModalState={setViewOrderState}
-          foodService={foodService}
-        />
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "android" ? "height" : "padding"}
+        >
+          <CustomerDetails
+            setModalState={setViewOrderState}
+            foodService={foodService}
+          />
 
-        <View style={styles.borderLine}></View>
+          <View style={styles.borderLine}></View>
 
-        <OrderDetails />
+          <OrderDetails />
 
-        <Discounts setDiscount={setDiscount} />
+          <Discounts
+            setDiscount={setDiscount}
+            subTotal={subTotal}
+            discountCodes={discountCodes}
+          />
 
-        <PayNow
-          setViewOrderState={setViewOrderState}
-          setPaymentDetailsState={setPaymentDetailsState}
-        />
+          <PayNow
+            setViewOrderState={setViewOrderState}
+            setPaymentDetailsState={setPaymentDetailsState}
+            subTotal={subTotal}
+            discount={discount}
+          />
+        </KeyboardAvoidingView>
       </ScrollView>
     </Modal>
   );

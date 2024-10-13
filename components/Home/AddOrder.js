@@ -6,7 +6,6 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -30,10 +29,18 @@ export default function AddOrder({
   itemPrice,
   setTotalPrice,
   totalPrice,
+  setSubTotal,
 }) {
   const [active, setActive] = useState(0);
 
   const productName = selectedItem.productName ? selectedItem.productName : "";
+
+  const handleAddOrder = () => {
+    // Set the subTotal with the current totalPrice when the order is confirmed.
+    setSubTotal((prev) => prev + totalPrice);
+    // Close the modal without resetting the totalPrice.
+    setModalState(false);
+  };
 
   return (
     <Modal visible={modalState} transparent={true}>
@@ -75,12 +82,9 @@ export default function AddOrder({
           <View style={styles.submitContainer}>
             <View>
               <Text style={styles.totalLabel}>Total</Text>
-              <Text style={styles.totalAmount}>₱{totalPrice}</Text>
+              <Text style={styles.totalAmount}>₱{totalPrice.toFixed(2)}</Text>
             </View>
-            <TouchableOpacity
-              style={styles.addButton}
-              onPress={() => setModalState(false)}
-            >
+            <TouchableOpacity style={styles.addButton} onPress={handleAddOrder}>
               <Text style={styles.buttonText}>Add to order</Text>
             </TouchableOpacity>
           </View>

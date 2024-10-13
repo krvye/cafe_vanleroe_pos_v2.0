@@ -1,22 +1,29 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function PayNow({ setViewOrderState, setPaymentDetailsState }) {
+export default function PayNow({
+  setViewOrderState,
+  setPaymentDetailsState,
+  subTotal,
+  discount,
+}) {
   return (
     <View style={styles.container}>
       <View style={styles.amountContainer}>
         <Text style={styles.amountLabel}>Sub Total</Text>
-        <Text style={styles.amountText}>P593</Text>
+        <Text style={styles.amountText}>₱{subTotal.toFixed(2)}</Text>
       </View>
       <View style={styles.amountContainer}>
         <Text style={styles.amountLabel}>Discount</Text>
-        <Text style={styles.amountText}>P0</Text>
+        <Text style={styles.amountText}>₱{discount}</Text>
       </View>
 
       <View style={styles.brokenBorder}></View>
 
       <View style={styles.amountContainer}>
         <Text style={styles.amountLabel}>Total</Text>
-        <Text style={styles.totalAmount}>P593</Text>
+        <Text style={styles.totalAmount}>
+          ₱{(subTotal - discount).toFixed(2)}
+        </Text>
       </View>
       <TouchableOpacity
         style={styles.payNowButton}

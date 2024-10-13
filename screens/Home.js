@@ -19,6 +19,7 @@ export default function HomeScreen() {
   const [selectedItem, setSelectedItem] = useState("");
   const [itemPrice, setItemPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [subTotal, setSubTotal] = useState(0);
 
   console.log(totalPrice);
 
@@ -43,6 +44,7 @@ export default function HomeScreen() {
         itemPrice={itemPrice}
         setTotalPrice={setTotalPrice}
         totalPrice={totalPrice}
+        setSubTotal={setSubTotal}
       />
       <ViewOrderModal
         viewOrderState={viewOrderState}
@@ -50,6 +52,8 @@ export default function HomeScreen() {
         setPaymentDetailsState={setPaymentDetailsState}
         setDiscount={setDiscount}
         foodService={foodService}
+        subTotal={subTotal}
+        discount={discount}
       />
       <PaymentDetails
         paymentDetailsState={paymentDetailsState}
