@@ -39,6 +39,8 @@ export default function AddOrder({
   const [addOnPrice, setAddOnPrice] = useState(0);
 
   console.log("Total Single Item Price: ", itemPrice + addOnPrice);
+  console.log("Item Price: ", itemPrice);
+  console.log("Add On Price: ", addOnPrice);
 
   const productName = selectedItem.productName ? selectedItem.productName : "";
 
@@ -65,6 +67,17 @@ export default function AddOrder({
     setSubTotal((prev) => prev + totalPrice);
 
     // Close the modal without resetting the totalPrice.
+    setAddOnPrice(0);
+    setQuantity(1);
+    setNote("");
+    setItemSize("");
+    setActive(0);
+    setModalState(false);
+  };
+
+  const handleCloseAddOrder = () => {
+    // Close the modal without resetting the totalPrice.
+    setAddOnPrice(0);
     setQuantity(1);
     setNote("");
     setItemSize("");
@@ -86,7 +99,7 @@ export default function AddOrder({
               <Text style={styles.addOrderLabel}>
                 Add order - {productName}
               </Text>
-              <Pressable onPress={() => setModalState(false)}>
+              <Pressable onPress={handleCloseAddOrder}>
                 <AntDesign name="close" size={24} color="black" />
               </Pressable>
             </View>
