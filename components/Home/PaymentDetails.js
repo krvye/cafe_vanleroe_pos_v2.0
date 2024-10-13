@@ -8,6 +8,10 @@ import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
+import * as Print from "expo-print";
+
+import generateReceipt from "@utils/Home/generateReceipt";
+
 export default function PaymentDetails({
   paymentDetailsState,
   setPaymentDetailsState,
@@ -18,6 +22,16 @@ export default function PaymentDetails({
   paymentDetails,
 }) {
   const [paidAmount, setPaidAmount] = useState(0);
+
+  const printReceipt = async () => {
+    const html = await generateReceipt();
+    await Print.printAsync({ html });
+  };
+
+  const handlePrintPress = () => {
+    printReceipt();
+    setPaymentDetailsState(false);
+  };
 
   console.log(paidAmount);
 
@@ -51,7 +65,10 @@ export default function PaymentDetails({
                 <MaterialIcons name="check" size={24} color="white" />
                 <Text style={styles.buttonText}>Confirm Payment Method</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.printButton}>
+              <TouchableOpacity
+                style={styles.printButton}
+                onPress={handlePrintPress}
+              >
                 <MaterialIcons name="check" size={24} color="white" />
                 <Text style={styles.buttonText}>
                   Complete and Print Receipt

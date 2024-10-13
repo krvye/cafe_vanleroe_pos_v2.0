@@ -27,6 +27,7 @@
     "babel-plugin-module-resolver": "^5.0.2",
     "expo": "~51.0.37",
     "expo-camera": "^15.0.16",
+    "expo-print": "~13.0.1",
     "expo-screen-orientation": "~7.0.5",
     "expo-status-bar": "~1.12.1",
     "expo-updates": "~0.25.27",
