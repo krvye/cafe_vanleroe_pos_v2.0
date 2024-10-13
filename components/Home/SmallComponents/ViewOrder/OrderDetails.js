@@ -9,16 +9,52 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
 
-export default function OrderDetails() {
+export default function OrderDetails({
+  orderDetails,
+  setOrderDetails,
+  setSubTotal,
+}) {
   const { height } = useWindowDimensions();
   const styles = makeStyles(height);
 
-  const [quantity, setQuantity] = useState(1);
+  // Initialize quantities for each order based on the orderDetails length
+  const [quantities, setQuantities] = useState(
+    orderDetails.map((orderDetail) => orderDetail.quantity) // Initialize with the quantity for each item
+  );
+
+  const handleDecreaseQuantity = (index, order) => {
+    setSubTotal((prevSubTotal) => prevSubTotal - order.itemPrice);
+    setQuantities((prev) => {
+      const newQuantities = [...prev];
+      if (newQuantities[index] > 1) {
+        newQuantities[index] -= 1;
+      } else {
+        // Remove the order if quantity goes to 0
+        const updatedOrderDetails = orderDetails.filter((_, i) => i !== index);
+        setOrderDetails(updatedOrderDetails);
+        const updatedQuantities = newQuantities.filter((_, i) => i !== index);
+        setQuantities(updatedQuantities);
+      }
+      return newQuantities;
+    });
+  };
+
+  const handleIncreaseQuantity = (index, order) => {
+    setQuantities((prev) => {
+      const newQuantities = [...prev];
+      newQuantities[index] += 1;
+      return newQuantities;
+    });
+    setSubTotal((prevSubTotal) => prevSubTotal + order.itemPrice);
+    console.log("Item Price: ", order.itemPrice);
+  };
+
   return (
     <View>
       <Text style={styles.headerText}>Order Details</Text>
       <View style={styles.container}>
         <View style={styles.productContainer}>
+          {/* Uncomment the Image block if you want to use images */}
           {/* <Image
             source={{
               uri: "https://images.unsplash.com/photo-1509042239860-f550ce710b93",
@@ -26,33 +62,50 @@ export default function OrderDetails() {
             style={styles.productImage}
           /> */}
           <View style={styles.productDetailsContainer}>
-            <Text style={styles.productName}>Dark Mocha</Text>
-            <View>
-              <Text style={styles.productDetails}>Size: M</Text>
-              <Text style={styles.productDetails}>Add Ons: N/A</Text>
-              <Text style={styles.productDetails}>Order Notes: N/A</Text>
-              <Text style={styles.productPrice}>P 120</Text>
-            </View>
+            {orderDetails.length > 0 ? (
+              orderDetails.map((order, index) => (
+                <View key={index} style={styles.orderItemContainer}>
+                  <Text style={styles.productName}>{order.productName}</Text>
+                  <View>
+                    <Text style={styles.productDetails}>
+                      Size: {order.itemSize}
+                    </Text>
+                    <Text style={styles.productDetails}>Add Ons: </Text>
+                    {order.addOns.length > 0 ? (
+                      order.addOns.map((addOn, addOnIndex) => (
+                        <Text key={addOnIndex} style={styles.productDetails}>
+                          - {addOn.desc}: ₱{addOn.price}
+                        </Text>
+                      ))
+                    ) : (
+                      <Text style={styles.productDetails}>None</Text>
+                    )}
+                    <Text style={styles.productDetails}>
+                      Order Notes: {order.note}
+                    </Text>
+                    <Text style={styles.productPrice}>₱{order.totalPrice}</Text>
+                  </View>
+
+                  {/* Quantity Selector */}
+                  <View style={styles.counterContainer}>
+                    <TouchableOpacity
+                      onPress={() => handleDecreaseQuantity(index, order)}
+                    >
+                      <AntDesign name="minuscircle" size={30} color="gray" />
+                    </TouchableOpacity>
+                    <Text style={styles.counterText}>{quantities[index]}</Text>
+                    <TouchableOpacity
+                      onPress={() => handleIncreaseQuantity(index, order)}
+                    >
+                      <AntDesign name="pluscircle" size={30} color="black" />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              ))
+            ) : (
+              <Text style={styles.emptyText}>No items in the order.</Text>
+            )}
           </View>
-        </View>
-        <View style={styles.counterContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              if (quantity > 0) {
-                setQuantity(quantity - 1);
-              }
-            }}
-          >
-            <AntDesign name="minuscircle" size={30} color="gray" />
-          </TouchableOpacity>
-          <Text style={styles.counterText}>{quantity}</Text>
-          <TouchableOpacity
-            onPress={() => {
-              setQuantity(quantity + 1);
-            }}
-          >
-            <AntDesign name="pluscircle" size={30} color="black" />
-          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -76,7 +129,6 @@ const makeStyles = (height) =>
       fontWeight: "bold",
       color: "#19191C",
     },
-
     container: {
       paddingVertical: 15,
       flexDirection: "row",
@@ -85,8 +137,12 @@ const makeStyles = (height) =>
       borderBottomWidth: 1,
       borderBottomColor: "#E4E4E4",
     },
-
     productContainer: { flexDirection: "row", gap: 10, alignItems: "center" },
+    orderItemContainer: {
+      flexDirection: "column",
+      gap: 10,
+      marginBottom: 15,
+    },
     productImage: {
       width: height <= 480 ? 55 : 75,
       height: height <= 480 ? 55 : 75,
@@ -107,5 +163,12 @@ const makeStyles = (height) =>
       fontSize: height <= 480 ? 12 : 16,
       color: "#B66619",
       fontWeight: "600",
+    },
+    emptyText: {
+      fontSize: 16,
+      color: "#9C9C9C",
+      fontStyle: "italic",
+      textAlign: "center",
+      marginTop: 20,
     },
   });

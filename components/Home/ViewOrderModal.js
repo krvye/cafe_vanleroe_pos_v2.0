@@ -22,10 +22,13 @@ export default function ViewOrderModal({
   setPaymentDetailsState,
   setDiscount,
   foodService,
+  setSubTotal,
   subTotal,
   discount,
   setFinalTotal,
   finalTotal,
+  orderDetails,
+  setOrderDetails,
 }) {
   const discountCodes = retrieveDiscountCodes();
 
@@ -42,7 +45,11 @@ export default function ViewOrderModal({
 
           <View style={styles.borderLine}></View>
 
-          <OrderDetails />
+          <OrderDetails
+            orderDetails={orderDetails}
+            setOrderDetails={setOrderDetails}
+            setSubTotal={setSubTotal}
+          />
 
           <Discounts
             setDiscount={setDiscount}

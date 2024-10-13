@@ -61,10 +61,10 @@ export default function PaymentDetails({
 
           {paidAmount >= finalTotal && (
             <>
-              <TouchableOpacity style={styles.confirmButton}>
+              {/* <TouchableOpacity style={styles.confirmButton}>
                 <MaterialIcons name="check" size={24} color="white" />
                 <Text style={styles.buttonText}>Confirm Payment Method</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <TouchableOpacity
                 style={styles.printButton}
                 onPress={handlePrintPress}

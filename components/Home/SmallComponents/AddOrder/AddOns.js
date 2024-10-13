@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-
 import { retrieveItemAddOns } from "@services/firebase/Home/retrieveItemAddOns";
 
-export default function AddOns({ setTotalPrice }) {
+export default function AddOns({ setAddOns, setAddOnPrice }) {
   const [quantities, setQuantities] = useState({});
+  const [selectedAddOns, setSelectedAddOns] = useState([]);
 
   const itemAddOns = retrieveItemAddOns();
+
+  useEffect(() => {
+    // Update the parent component's state whenever selectedAddOns changes
+    setAddOns(selectedAddOns);
+  }, [selectedAddOns]);
 
   const handleIncrement = (index) => {
     setQuantities((prevQuantities) => {
@@ -16,7 +21,19 @@ export default function AddOns({ setTotalPrice }) {
         [index]: (prevQuantities[index] || 0) + 1,
       };
       const priceDifference = itemAddOns[index].addOnPrice;
-      setTotalPrice((prev) => prev + priceDifference);
+
+      // Add add-on to selectedAddOns state
+      setSelectedAddOns((prevSelected) => [
+        ...prevSelected,
+        {
+          desc: itemAddOns[index].addOnDesc,
+          price: itemAddOns[index].addOnPrice,
+        },
+      ]);
+
+      // Update the total price in both totalPrice and itemPrice
+      setAddOnPrice((prev) => prev + priceDifference); // Directly add to the item price
+
       return updatedQuantities;
     });
   };
@@ -28,10 +45,25 @@ export default function AddOns({ setTotalPrice }) {
         [index]: Math.max((prevQuantities[index] || 0) - 1, 0),
       };
       const priceDifference = itemAddOns[index].addOnPrice;
-      // Only subtract from total price if quantity is greater than 0
+
+      // Remove add-on from selectedAddOns state if quantity is reduced
       if (prevQuantities[index] > 0) {
-        setTotalPrice((prev) => prev - priceDifference);
+        setSelectedAddOns((prevSelected) =>
+          prevSelected.filter(
+            (item, i) =>
+              i !==
+              prevSelected.findIndex(
+                (addOn) =>
+                  addOn.desc === itemAddOns[index].addOnDesc &&
+                  addOn.price === itemAddOns[index].addOnPrice
+              )
+          )
+        );
+
+        // Update the total price in both totalPrice and itemPrice
+        setAddOnPrice((prev) => prev - priceDifference); // Directly subtract from the item price
       }
+
       return updatedQuantities;
     });
   };

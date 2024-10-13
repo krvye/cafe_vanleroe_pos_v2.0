@@ -12,7 +12,6 @@ export default function HomeScreen() {
   const [viewOrderState, setViewOrderState] = useState(false);
   const [paymentDetailsState, setPaymentDetailsState] = useState(false);
   const [foodService, setFoodService] = useState("");
-  const [itemSize, setItemSize] = useState("");
   const [discount, setDiscount] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("");
   const [selectedCategoryCode, setSelectedCategoryCode] = useState(null);
@@ -22,6 +21,7 @@ export default function HomeScreen() {
   const [subTotal, setSubTotal] = useState(0);
   const [finalTotal, setFinalTotal] = useState(0);
   const [paymentDetails, setPaymentDetails] = useState([]);
+  const [orderDetails, setOrderDetails] = useState([]);
 
   return (
     <View style={styles.container}>
@@ -36,15 +36,14 @@ export default function HomeScreen() {
       <AddOrder
         modalState={modalState}
         setModalState={setModalState}
-        setItemSize={setItemSize}
         selectedItem={selectedItem}
         foodService={foodService}
-        itemSize={itemSize}
         setItemPrice={setItemPrice}
         itemPrice={itemPrice}
         setTotalPrice={setTotalPrice}
         totalPrice={totalPrice}
         setSubTotal={setSubTotal}
+        setOrderDetails={setOrderDetails}
       />
       <ViewOrderModal
         viewOrderState={viewOrderState}
@@ -52,10 +51,13 @@ export default function HomeScreen() {
         setPaymentDetailsState={setPaymentDetailsState}
         setDiscount={setDiscount}
         foodService={foodService}
+        setSubTotal={setSubTotal}
         subTotal={subTotal}
         discount={discount}
         setFinalTotal={setFinalTotal}
         finalTotal={finalTotal}
+        orderDetails={orderDetails}
+        setOrderDetails={setOrderDetails}
       />
       <PaymentDetails
         paymentDetailsState={paymentDetailsState}

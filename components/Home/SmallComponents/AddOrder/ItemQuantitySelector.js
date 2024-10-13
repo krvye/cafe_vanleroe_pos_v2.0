@@ -7,18 +7,14 @@ export default function ItemQuantitySelector({
   foodService,
   itemSize,
   setItemPrice,
-  setTotalPrice,
+  quantity,
+  setQuantity,
 }) {
-  const [quantity, setQuantity] = useState(1);
-  const [itemFinalPrice, setItemFinalPrice] = useState(0);
-
   useEffect(() => {
     // Calculate initial price based on the default quantity and selected properties.
     const basePrice = getProductPrice();
     const initialPrice = basePrice * quantity;
-    setItemFinalPrice(initialPrice);
-    setItemPrice(initialPrice);
-    setTotalPrice(initialPrice);
+    setItemPrice(basePrice);
   }, [selectedItem, foodService, itemSize]);
 
   const getProductPrice = () => {
@@ -42,10 +38,6 @@ export default function ItemQuantitySelector({
     const basePrice = getProductPrice();
     setQuantity((prevQuantity) => {
       const newQuantity = prevQuantity + 1;
-      const newPrice = basePrice * newQuantity;
-      setTotalPrice((prevTotal) => prevTotal + basePrice);
-      setItemPrice(newPrice);
-      setItemFinalPrice(newPrice);
       return newQuantity;
     });
   };
@@ -55,10 +47,6 @@ export default function ItemQuantitySelector({
     if (quantity > 1) {
       setQuantity((prevQuantity) => {
         const newQuantity = prevQuantity - 1;
-        const newPrice = basePrice * newQuantity;
-        setTotalPrice((prevTotal) => prevTotal - basePrice);
-        setItemPrice(newPrice);
-        setItemFinalPrice(newPrice);
         return newQuantity;
       });
     }
@@ -78,7 +66,9 @@ export default function ItemQuantitySelector({
           <View>
             <Text style={styles.priceLabel}>Price</Text>
             <Text style={styles.productPrice}>
-              ₱{getProductPrice().toFixed(2)}
+              {getProductPrice() > 0
+                ? `₱${getProductPrice().toFixed(2)}`
+                : "Not Available Size"}
             </Text>
           </View>
         </View>

@@ -6,18 +6,18 @@ import {
   TextInput,
 } from "react-native";
 
-export default function AddNote() {
+export default function AddNote({ note, setNote }) {
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
+    <>
       <Text style={styles.headerText}>Add note</Text>
       <TextInput
         style={styles.textInput}
         placeholder="Type your note here.."
         placeholderTextColor={"#C2C2C2"}
+        value={note}
+        onChangeText={(text) => setNote(text)}
       />
-    </KeyboardAvoidingView>
+    </>
   );
 }
 
