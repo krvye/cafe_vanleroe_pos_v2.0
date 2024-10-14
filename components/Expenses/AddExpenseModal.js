@@ -13,16 +13,16 @@ import { AntDesign } from "@expo/vector-icons";
 
 import AddItem from "../Expenses/smallComponents/AddItem";
 import { StoreExpenses } from "../../services/firebase/Expenses/StoreExpenses";
-import { useBranches } from "../../context/BranchContext"; 
+import { useBranches } from "../../context/BranchContext";
 
 export default function AddExpenseModal({
   openAddExpense,
   setOpenAddExpense,
   expensesTypeInfo,
-  branchesInfo
+  branchesInfo,
 }) {
-  const { selectedBranch } = useBranches(); 
-  const selectedBranchCode = selectedBranch ? selectedBranch.branchCode : null; 
+  const { selectedBranch } = useBranches();
+  const selectedBranchCode = selectedBranch ? selectedBranch.branchCode : null;
   console.log("Expenses selected branch: ", selectedBranchCode);
 
   // useState for adding items handler
@@ -47,6 +47,14 @@ export default function AddExpenseModal({
 
   // Exit modal and cancel button
   const handleExitModal = () => {
+    setBranchCode("");
+    setExpenseType("");
+    setReceiptNumber(0);
+    setItemName("");
+    setItemQTY(0);
+    setItemPrice(0.0);
+    setReceiptTotal(0.0);
+
     setOpenAddExpense(false);
     setAddItem(false);
     setAddAllItems(false);
@@ -98,8 +106,10 @@ export default function AddExpenseModal({
     };
     setExpenseItems((prevItems) => [...prevItems, currentExpense]);
 
+    const allExpenses = [...expenseItems, currentExpense]; 
+
     // Iterate each expense item to store in firebase
-    for (const expense of [...expenseItems, currentExpense]) {
+    for (const expense of allExpenses) {
       await StoreExpenses(expense);
       console.log("expense: ", expense);
     }
@@ -117,20 +127,21 @@ export default function AddExpenseModal({
     // Close the modal
     setOpenAddExpense(false);
     setAddItem(false);
-    console.log("Final Expense Items: ", [...expenseItems, currentExpense]);
+    console.log("Final Expense Items: ", allExpenses);
   };
 
   // Map branch desc
   const getBranchDesc = (selectedBranchCode) => {
-    const branchData = branchesInfo.find((branch) => branch.branchCode === selectedBranchCode); 
+    const branchData = branchesInfo.find(
+      (branch) => branch.branchCode === selectedBranchCode
+    );
     return branchData ? branchData.branchDesc : " ";
-  }
-
+  };
 
   return (
     <Modal animationType="slide" transparent={true} visible={openAddExpense}>
       <View style={styles.container}>
-        <ScrollView style={styles.addExpenseContainer}>
+        <ScrollView style={styles.addExpenseContainer} showsHorizontalScrollIndicator={false}>
           <View style={styles.exitContainer}>
             <Pressable onPress={handleExitModal}>
               <AntDesign
@@ -155,13 +166,14 @@ export default function AddExpenseModal({
               placeholderTextColor={"gray"}
               value={currDate}
               onChangeText={setCurrDate}
+              editable={false}
             />
           </View>
 
           {/* Input Branch */}
           <View style={styles.inputTitleCon}>
             <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
-              Branch: 
+              Branch:
             </Text>
           </View>
           <View style={styles.inputContainer}>
@@ -170,7 +182,7 @@ export default function AddExpenseModal({
               placeholder={getBranchDesc(selectedBranchCode)}
               placeholderTextColor={"gray"}
               value={getBranchDesc(selectedBranchCode)}
-              onChangeText={setBranchCode}
+              editable={false}
             />
           </View>
 
@@ -187,9 +199,9 @@ export default function AddExpenseModal({
               onValueChange={(itemValue) => setExpenseType(itemValue)}
             >
               <Picker.Item label="Select Expense Type" value="" />
-              {expensesTypeInfo.map((expType) => (
+              {expensesTypeInfo.map((expType, index) => (
                 <Picker.Item
-                  //   key={expType.expenseTypeCd}
+                  key={index}
                   label={expType.expenseTypeDesc}
                   value={expType.expenseTypeCd}
                 />
@@ -240,7 +252,7 @@ export default function AddExpenseModal({
               style={[styles.input, styles.inputTitleText]}
               placeholder="Quantity"
               placeholderTextColor={"gray"}
-              value={itemQTY}
+              value={itemQTY.toString()}
               onChangeText={(value) => setItemQTY(Number(value))}
             />
           </View>
@@ -256,7 +268,7 @@ export default function AddExpenseModal({
               style={[styles.input, styles.inputTitleText]}
               placeholder="Item Price"
               placeholderTextColor={"gray"}
-              value={itemPrice}
+              value={itemPrice.toString()}
               onChangeText={(value) => setItemPrice(parseFloat(value, 10))}
             />
           </View>
@@ -272,7 +284,7 @@ export default function AddExpenseModal({
               style={[styles.input, styles.inputTitleText]}
               placeholder="Receipt Total"
               placeholderTextColor={"gray"}
-              value={receiptTotal}
+              value={receiptTotal.toString()}
               onChangeText={(value) => setReceiptTotal(parseFloat(value, 10))}
             />
           </View>
@@ -323,7 +335,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   addExpenseContainer: {
-    maxHeight: 500,
+    maxHeight: "80%",
     width: "30%",
     backgroundColor: "#FFFFFF",
     borderRadius: 10,

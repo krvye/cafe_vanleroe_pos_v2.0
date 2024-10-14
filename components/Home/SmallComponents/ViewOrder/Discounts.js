@@ -9,28 +9,62 @@ import {
   useWindowDimensions,
 } from "react-native";
 
-export default function Discounts({ setDiscount }) {
+export default function Discounts({ setDiscount, subTotal, discountCodes }) {
   const { height } = useWindowDimensions();
   const styles = makeStyles(height);
 
   const [selectedButton, setSelectedButton] = useState(null);
+  const [customDiscountCode, setCustomDiscountCode] = useState("");
+
+  const studentDiscount = 10.00000001;
 
   const handlePress = (button) => {
     setSelectedButton((prevButton) => (prevButton === button ? 0 : button));
-    if (button === "senior" || button === "student" || button === "20") {
-      setDiscount((prevButton) => (prevButton === 0.2 ? 0 : 0.2));
+    if (button === "senior" || button === "20") {
+      setDiscount((prevButton) =>
+        prevButton === 0.2 ? 0 : (subTotal * 0.2).toFixed(2)
+      );
+    } else if (button === "student") {
+      setDiscount((prevButton) =>
+        prevButton === studentDiscount ? 0 : studentDiscount.toFixed(2)
+      );
     } else if (button === "10") {
-      setDiscount((prevButton) => (prevButton === 0.1 ? 0 : 0.1));
+      setDiscount((prevButton) =>
+        prevButton === 0.1 ? 0 : (subTotal * 0.1).toFixed(2)
+      );
     } else if (button === "30") {
-      setDiscount((prevButton) => (prevButton === 0.3 ? 0 : 0.3));
+      setDiscount((prevButton) =>
+        prevButton === 0.3 ? 0 : (subTotal * 0.3).toFixed(2)
+      );
     } else if (button === "40") {
-      setDiscount((prevButton) => (prevButton === 0.4 ? 0 : 0.4));
+      setDiscount((prevButton) =>
+        prevButton === 0.4 ? 0 : (subTotal * 0.4).toFixed(2)
+      );
+    }
+  };
+
+  const handleApplyDiscount = () => {
+    const foundDiscount = discountCodes.find(
+      (code) => code.discountCd === customDiscountCode.trim()
+    );
+
+    if (foundDiscount) {
+      const discountAmount = foundDiscount.discountAmount;
+      setDiscount((prevButton) =>
+        prevButton === discountAmount ? 0 : discountAmount.toFixed(2)
+      );
+      setSelectedButton(customDiscountCode);
+    } else {
+      alert("Invalid discount code.");
+      setSelectedButton(null);
+      setDiscount(0);
     }
   };
 
   const getButtonColor = (button) => {
     return selectedButton === button ? "#592508" : "#B66619";
   };
+
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Percentage Discounts</Text>
@@ -103,9 +137,14 @@ export default function Discounts({ setDiscount }) {
       </Text>
       <TextInput
         placeholder="Add discount/voucher code"
+        value={customDiscountCode}
+        onChangeText={setCustomDiscountCode}
         style={styles.addDiscount}
       />
-      <TouchableOpacity style={styles.applyButton}>
+      <TouchableOpacity
+        style={styles.applyButton}
+        onPress={handleApplyDiscount}
+      >
         <Text style={styles.applyText}>Apply</Text>
       </TouchableOpacity>
     </View>
@@ -137,23 +176,11 @@ const makeStyles = (height) =>
       alignItems: "center",
       justifyContent: "center",
     },
-    discountButtonPressed: {
-      backgroundColor: "#592508",
-      padding: 10,
-      borderRadius: 10,
-      paddingHorizontal: 10,
-      paddingVertical: 15,
-      borderRadius: 60,
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
-    },
     discountText: {
       color: "white",
       fontWeight: "600",
       fontSize: height <= 480 ? 10 : 16,
     },
-
     customDiscountLabel: {
       fontSize: 20,
       fontWeight: "bold",

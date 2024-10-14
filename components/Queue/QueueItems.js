@@ -364,13 +364,14 @@ const styles = StyleSheet.create({
     marginTop: 25,
     flexDirection: "column",
     width: "25%",
+    height: 850,
   },
   queueItemsContainer: {
     marginTop: 10,
     width: "100%",
-    height: "100%",
+    height: '100%',
     flexDirection: "column",
-    alignItems: "center",
+    alignItems: 'center',
   },
   queueItem: {
     width: "90%",

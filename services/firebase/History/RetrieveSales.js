@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { getFirestore, collection, onSnapshot } from "firebase/firestore";
 import app from "../firebaseConfig";
-import { useBranches } from "../../../context/BranchContext";
+import { useBranches } from "../../../context/BranchContext"; 
 
 export const SalesInformation = () => {
-  const { selectedBranch } = useBranches; 
-  const branchCode = selectedBranch ? selectedBranch.branchCode : null;
+  const { selectedBranch } = useBranches(); 
+  const branchCode = selectedBranch ? selectedBranch.branchCode : null; 
+  console.log("Daily Sales in Branch: ", branchCode);
   
   const [salesData, setSalesData] = useState([]);
 

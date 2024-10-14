@@ -64,7 +64,6 @@ export default function QueueItemModal({
       <View style={styles.container}>
         <View style={styles.queueItemContainer}>
           <View style={styles.headerContainer}>
-            <Ionicons name="arrow-back-outline" size={25} color="#19191C" />
             <Text style={styles.headerText}>
               Order No. {selectedOrder?.orderNo}{" "}
               {getOrderStatusDesc(selectedOrder?.orderStatus)} -{" "}
@@ -124,8 +123,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   queueItemContainer: {
-    height: "65%",
-    width: "60%",
+    height: "60%",
+    width: "55%",
     backgroundColor: "#FFFFFF",
     // justifyContent: "center",
     // alignItems: "center",
@@ -146,6 +145,8 @@ const styles = StyleSheet.create({
   headerText: {
     fontWeight: 600,
     fontSize: 20,
+    textAlign: 'center',
+    marginLeft: 25,
   },
   mainQueueDetailsContainer: {
     flexDirection: "column",
@@ -195,11 +196,13 @@ const styles = StyleSheet.create({
     color: "#B66619",
     fontSize: 16,
     fontWeight: 600,
+    textAlign: 'center',
   },
   allDoneText: {
     color: "#0e0e0e",
     fontSize: 16,
     fontWeight: 600,
+    textAlign: 'center',
   },
   orderItemRedStyle: {
     fontSize: 20,

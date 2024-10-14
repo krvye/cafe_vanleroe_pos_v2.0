@@ -26,7 +26,7 @@ export const InProgressGrabFpOrder = () => {
           return (
             order.orderStatus === "MAKE" &&
             order.orderDate === currDate &&
-            (order.orderMode === "FP" || order.orderMode === "GRAB") && 
+            (order.orderMode === "FP" || order.orderMode === "GB") && 
             order.branchCode === branchCode
           );
         });

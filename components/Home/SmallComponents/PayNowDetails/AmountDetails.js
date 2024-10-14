@@ -1,26 +1,32 @@
 import { StyleSheet, Text, View } from "react-native";
 
-export default function AmountDetails() {
+export default function AmountDetails({
+  finalTotal,
+  paymentMethod,
+  paidAmount,
+  paymentDetails,
+}) {
   return (
     <View style={styles.container}>
       <View style={styles.amountContainer}>
         <Text style={styles.amountLabel}>Total Amount</Text>
-        <Text style={styles.amountText}>P593</Text>
+        <Text style={styles.amountText}>₱{finalTotal.toFixed(2)}</Text>
       </View>
 
-      <View style={styles.amountContainer}>
-        <Text style={styles.amountLabel}>Payment Method - Cash</Text>
-        <Text style={styles.amountDeducted}>-P100</Text>
-      </View>
-
-      <View style={styles.amountContainer}>
-        <Text style={styles.amountLabel}>Payment Method - GCash</Text>
-        <Text style={styles.amountDeducted}>-P493</Text>
-      </View>
+      {paymentDetails.map((detail) => (
+        <View style={styles.amountContainer}>
+          <Text style={styles.amountLabel}>
+            Payment Method - {detail.paymentMethod}
+          </Text>
+          <Text style={styles.amountDeducted}>-₱{detail.paidAmount}</Text>
+        </View>
+      ))}
 
       <View style={styles.amountContainer}>
         <Text style={styles.amountLabel}>Change</Text>
-        <Text style={styles.amountText}>P0</Text>
+        <Text style={styles.amountText}>
+          ₱{(paidAmount - finalTotal).toFixed(2)}
+        </Text>
       </View>
     </View>
   );

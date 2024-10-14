@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Image,
+  KeyboardAvoidingView,
   Modal,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -15,25 +16,74 @@ import { AntDesign } from "@expo/vector-icons";
 import ItemSizesButtons from "./SmallComponents/AddOrder/ItemSizesButtons";
 import ItemQuantitySelector from "./SmallComponents/AddOrder/ItemQuantitySelector";
 import AddOns from "./SmallComponents/AddOrder/AddOns";
-
 import itemSizes from "@utils/Home/ItemSizes";
 import AddNote from "./SmallComponents/AddOrder/AddNote";
 
 export default function AddOrder({
   modalState,
   setModalState,
-  setItemSize,
   selectedItem,
   foodService,
-  itemSize,
   setItemPrice,
   itemPrice,
   setTotalPrice,
   totalPrice,
+  setSubTotal,
+  setOrderDetails,
 }) {
+  const [itemSize, setItemSize] = useState("");
   const [active, setActive] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const [addOns, setAddOns] = useState([]);
+  const [note, setNote] = useState("");
+  const [addOnPrice, setAddOnPrice] = useState(0);
+
+  console.log("Total Single Item Price: ", itemPrice + addOnPrice);
+  console.log("Item Price: ", itemPrice);
+  console.log("Add On Price: ", addOnPrice);
 
   const productName = selectedItem.productName ? selectedItem.productName : "";
+
+  useEffect(() => {
+    setTotalPrice((itemPrice + addOnPrice) * quantity);
+  }, [itemPrice, addOnPrice, quantity]);
+
+  const handleAddOrder = () => {
+    // Create an order object with relevant details.
+    const newOrder = {
+      productName: selectedItem.productName,
+      itemSize: itemSize,
+      itemPrice: itemPrice + addOnPrice,
+      quantity: quantity,
+      totalPrice: totalPrice,
+      addOns: addOns, // Include selected add-ons in the order object
+      note: note,
+    };
+
+    // Update the order details by adding the new order.
+    setOrderDetails((prevOrders) => [...prevOrders, newOrder]);
+
+    // Set the subTotal with the current totalPrice when the order is confirmed.
+    setSubTotal((prev) => prev + totalPrice);
+
+    // Close the modal without resetting the totalPrice.
+    setAddOnPrice(0);
+    setQuantity(1);
+    setNote("");
+    setItemSize("");
+    setActive(0);
+    setModalState(false);
+  };
+
+  const handleCloseAddOrder = () => {
+    // Close the modal without resetting the totalPrice.
+    setAddOnPrice(0);
+    setQuantity(1);
+    setNote("");
+    setItemSize("");
+    setActive(0);
+    setModalState(false);
+  };
 
   return (
     <Modal visible={modalState} transparent={true}>
@@ -42,48 +92,54 @@ export default function AddOrder({
           style={styles.container}
           showsVerticalScrollIndicator={false}
         >
-          <View style={styles.headerContainer}>
-            <Text style={styles.addOrderLabel}>Add order - {productName}</Text>
-            <Pressable onPress={() => setModalState(false)}>
-              <AntDesign name="close" size={24} color="black" />
-            </Pressable>
-          </View>
-          <View style={styles.bottomBorder}></View>
-
-          <ItemSizesButtons
-            active={active}
-            setActive={setActive}
-            itemSizes={itemSizes}
-            setItemSize={setItemSize}
-          />
-
-          <ItemQuantitySelector
-            selectedItem={selectedItem}
-            foodService={foodService}
-            itemSize={itemSize}
-            setItemPrice={setItemPrice}
-            itemPrice={itemPrice}
-            setTotalPrice={setTotalPrice}
-          />
-
-          <AddOns setTotalPrice={setTotalPrice} />
-
-          <View style={styles.bottomBorder}></View>
-
-          <AddNote />
-
-          <View style={styles.submitContainer}>
-            <View>
-              <Text style={styles.totalLabel}>Total</Text>
-              <Text style={styles.totalAmount}>P{totalPrice}</Text>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "android" ? "height" : "padding"}
+          >
+            <View style={styles.headerContainer}>
+              <Text style={styles.addOrderLabel}>
+                Add order - {productName}
+              </Text>
+              <Pressable onPress={handleCloseAddOrder}>
+                <AntDesign name="close" size={24} color="black" />
+              </Pressable>
             </View>
-            <TouchableOpacity
-              style={styles.addButton}
-              onPress={() => setModalState(false)}
-            >
-              <Text style={styles.buttonText}>Add to order</Text>
-            </TouchableOpacity>
-          </View>
+            <View style={styles.bottomBorder}></View>
+
+            <ItemSizesButtons
+              active={active}
+              setActive={setActive}
+              itemSizes={itemSizes}
+              setItemSize={setItemSize}
+            />
+
+            <ItemQuantitySelector
+              selectedItem={selectedItem}
+              foodService={foodService}
+              itemSize={itemSize}
+              setItemPrice={setItemPrice}
+              quantity={quantity}
+              setQuantity={setQuantity}
+            />
+
+            <AddOns setAddOns={setAddOns} setAddOnPrice={setAddOnPrice} />
+
+            <View style={styles.bottomBorder}></View>
+
+            <AddNote note={note} setNote={setNote} />
+
+            <View style={styles.submitContainer}>
+              <View>
+                <Text style={styles.totalLabel}>Total</Text>
+                <Text style={styles.totalAmount}>₱{totalPrice.toFixed(2)}</Text>
+              </View>
+              <TouchableOpacity
+                style={styles.addButton}
+                onPress={handleAddOrder}
+              >
+                <Text style={styles.buttonText}>Add to order</Text>
+              </TouchableOpacity>
+            </View>
+          </KeyboardAvoidingView>
         </ScrollView>
       </View>
     </Modal>
