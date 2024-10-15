@@ -72,8 +72,8 @@ export default function SalesTable({
 
     return (
       <View style={styles.row}>
-        <Text style={[styles.dataText, { width: 250 }]}>
-          {item.orderTakenBy}
+        <Text style={[styles.dataText, { width: 200 }]}>
+          {item.orderNo}
         </Text>
         <Text style={[styles.dataText, { width: 200 }]}>
           {getModeOfPayment(paymentMethods)}
@@ -81,7 +81,7 @@ export default function SalesTable({
         <Text style={[styles.dataText, { width: 150 }]}>
           {getOrderMode(item.orderMode)}
         </Text>
-        <Text style={[styles.dataText, { width: 120 }]}>
+        <Text style={[styles.dataText, { width: 170 }]}>
           {Object.values(item.orderItems).reduce(
             (total, item) => total + item.itemQuantity,
             0
@@ -143,14 +143,14 @@ export default function SalesTable({
       >
         <View style={styles.listContainer}>
           <View style={styles.header}>
-            <Text style={[styles.headerText, { width: 250 }]}>
-              Customer Name
+            <Text style={[styles.headerText, { width: 200 }]}>
+              Order No.
             </Text>
             <Text style={[styles.headerText, { width: 200 }]}>
               Mode of Payment
             </Text>
             <Text style={[styles.headerText, { width: 150 }]}>Order Mode</Text>
-            <Text style={[styles.headerText, { width: 120 }]}>
+            <Text style={[styles.headerText, { width: 170 }]}>
               Total Ordered Items
             </Text>
             <Text style={[styles.headerText, { width: 270 }]}>

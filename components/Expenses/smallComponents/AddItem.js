@@ -7,17 +7,17 @@ export default function AddItem({
   handleAddItem,
   itemLength,
 }) {
-  const [itemName, setItemName] = useState("");  
-  const [itemQTY, setItemQTY] = useState(0);
-  const [itemPrice, setItemPrice] = useState(0.0);
-  const [receiptTotal, setReceiptTotal] = useState(0.0); 
+  const [itemName, setItemName] = useState("");
+  const [itemQTY, setItemQTY] = useState("");
+  const [itemPrice, setItemPrice] = useState("");
+  const [receiptTotal, setReceiptTotal] = useState("");
 
   const addItem = () => {
     if (itemName && itemQTY && itemPrice && receiptTotal) {
       handleAddItem(itemName, itemQTY, itemPrice, receiptTotal);
     }
     console.log("Item Added!");
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -59,8 +59,8 @@ export default function AddItem({
           style={[styles.input, styles.inputTitleText]}
           placeholder="Item Price"
           placeholderTextColor={"gray"}
-          value={itemPrice.toString()}
-          onChangeText={(value) => setItemPrice(parseFloat(value, 10))}
+          value={itemPrice}
+          onChangeText={setItemPrice}
         />
       </View>
 
@@ -74,8 +74,8 @@ export default function AddItem({
           style={[styles.input, styles.inputTitleText]}
           placeholder="Total Price"
           placeholderTextColor={"gray"}
-          value={receiptTotal.toString()}
-          onChangeText={(value) => setReceiptTotal(parseFloat(value, 10))}
+          value={receiptTotal}
+          onChangeText={setReceiptTotal}
         />
       </View>
 

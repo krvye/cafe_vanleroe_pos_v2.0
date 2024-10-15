@@ -11,11 +11,125 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 
-import itemCategories from "@utils/Home/SidebarFakeData";
+import { retrieveItemCategory } from "../../services/firebase/Home/retrieveItemCategory";
+import { retrieveMenuItems } from "../../services/firebase/Home/retrieveMenuItems";
+import { StoreDrinks } from "../../services/firebase/Menu/storeDrinks";
+import { StoreNonDrinks } from "../../services/firebase/Menu/storeNonDrinks";
 import { useState } from "react";
 
 export default function DrinksModal({ newItemState, setNewItemState }) {
+  const itemCategories = retrieveItemCategory();
+
+  const allMenu = retrieveMenuItems();
   const [itemType, setItemType] = useState("Drinks");
+
+  const [productName, setProductName] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  // Drinks
+  const [amountSmall, setAmountSmall] = useState("");
+  const [amountMedium, setAmountMedium] = useState("");
+  const [amountLarge, setAmountLarge] = useState("");
+  const [fpAmountSmall, setFpAmountSmall] = useState("");
+  const [fpAmountMedium, setFpAmountMedium] = useState("");
+  const [fpAmountLarge, setFpAmountLarge] = useState("");
+  const [grabAmountSmall, setGrabAmountSmall] = useState("");
+  const [grabAmountMedium, setGrabAmountMedium] = useState("");
+  const [grabAmountLarge, setGrabAmountLarge] = useState("");
+  // Non Drinks
+  const [itemAmount, setItemAmount] = useState("");
+  const [fpItemAmount, setFpItemAmount] = useState("");
+  const [grabItemAmount, setGrabItemAmount] = useState("");
+
+  function incrementProductId(productId) {
+    const prefix = productId.match(/[A-Z]+/)[0];
+    const numberPart = productId.match(/\d+/)[0];
+    const incrementedValue = (parseInt(numberPart, 10) + 1).toString();
+    const paddedIncrementedValue = incrementedValue.padStart(
+      numberPart.length,
+      "0"
+    );
+
+    return `${prefix}${paddedIncrementedValue}`;
+  }
+
+  const handleApplyChanges = async () => {
+    setNewItemState(false);
+    const filteredMenu = allMenu.filter(
+      (menu) => menu.categoryCode === selectedCategory
+    );
+
+    const productIds = filteredMenu.map((menu) => menu.productId);
+    const highestProductId = productIds.sort().pop();
+    const incrementedProductId = incrementProductId(highestProductId);
+    console.log("Product Ids: ", productIds);
+    console.log("Highest Product Id: ", highestProductId);
+    console.log("Incremented Product ID: ", incrementedProductId);
+
+    if (itemType === "Drinks") {
+      await StoreDrinks(
+        incrementedProductId,
+        productName,
+        amountSmall,
+        amountMedium,
+        amountLarge,
+        fpAmountSmall,
+        fpAmountMedium,
+        fpAmountLarge,
+        grabAmountSmall,
+        grabAmountMedium,
+        grabAmountLarge,
+        selectedCategory
+      );
+
+      setAmountSmall("");
+      setAmountMedium("");
+      setAmountLarge("");
+      setFpAmountSmall("");
+      setFpAmountMedium("");
+      setFpAmountLarge("");
+      setGrabAmountSmall("");
+      setGrabAmountMedium("");
+      setGrabAmountLarge("");
+    } else {
+      await StoreNonDrinks(
+        incrementedProductId,
+        productName,
+        itemAmount,
+        fpItemAmount,
+        grabItemAmount,
+        selectedCategory
+      );
+      setItemAmount("");
+      setFpItemAmount("");
+      setGrabItemAmount("");
+    }
+
+    setProductName("");
+    setSelectedCategory("");
+  };
+
+  const handleCancelButton = () => {
+    setNewItemState(false);
+
+    if (itemType === "Drinks") {
+      setAmountSmall("");
+      setAmountMedium("");
+      setAmountLarge("");
+      setFpAmountSmall("");
+      setFpAmountMedium("");
+      setFpAmountLarge("");
+      setGrabAmountSmall("");
+      setGrabAmountMedium("");
+      setGrabAmountLarge("");
+    } else {
+      setItemAmount("");
+      setFpItemAmount("");
+      setGrabItemAmount("");
+    }
+
+    setProductName("");
+    setSelectedCategory("");
+  };
 
   return (
     <Modal visible={newItemState} transparent={true}>
@@ -63,13 +177,23 @@ export default function DrinksModal({ newItemState, setNewItemState }) {
           <TextInput
             style={styles.bigInput}
             placeholder="Enter the item name"
+            value={productName}
+            onChangeText={setProductName}
           />
 
           <Text style={styles.labelText}>Category</Text>
 
-          <Picker style={styles.picker}>
+          <Picker
+            style={styles.picker}
+            selectedValue={selectedCategory}
+            onValueChange={setSelectedCategory || ""}
+          >
             {itemCategories.map((category, index) => (
-              <Picker.Item key={index} label={category} value={category} />
+              <Picker.Item
+                key={index}
+                label={category.itemCategoryDesc}
+                value={category.itemCategoryCode}
+              />
             ))}
           </Picker>
 
@@ -80,17 +204,29 @@ export default function DrinksModal({ newItemState, setNewItemState }) {
               <View style={styles.priceContainer}>
                 <View>
                   <Text style={styles.priceLabelText}>Small</Text>
-                  <TextInput style={styles.smallInput} />
+                  <TextInput
+                    style={styles.smallInput}
+                    value={amountSmall}
+                    onChangeText={setAmountSmall}
+                  />
                 </View>
 
                 <View>
                   <Text style={styles.priceLabelText}>Medium</Text>
-                  <TextInput style={styles.smallInput} />
+                  <TextInput
+                    style={styles.smallInput}
+                    value={amountMedium}
+                    onChangeText={setAmountMedium}
+                  />
                 </View>
 
                 <View>
                   <Text style={styles.priceLabelText}>Large</Text>
-                  <TextInput style={styles.smallInput} />
+                  <TextInput
+                    style={styles.smallInput}
+                    value={amountLarge}
+                    onChangeText={setAmountLarge}
+                  />
                 </View>
               </View>
 
@@ -99,17 +235,29 @@ export default function DrinksModal({ newItemState, setNewItemState }) {
               <View style={styles.priceContainer}>
                 <View>
                   <Text style={styles.priceLabelText}>Small</Text>
-                  <TextInput style={styles.smallInput} />
+                  <TextInput
+                    style={styles.smallInput}
+                    value={fpAmountSmall}
+                    onChangeText={setFpAmountSmall}
+                  />
                 </View>
 
                 <View>
                   <Text style={styles.priceLabelText}>Medium</Text>
-                  <TextInput style={styles.smallInput} />
+                  <TextInput
+                    style={styles.smallInput}
+                    value={fpAmountMedium}
+                    onChangeText={setFpAmountMedium}
+                  />
                 </View>
 
                 <View>
                   <Text style={styles.priceLabelText}>Large</Text>
-                  <TextInput style={styles.smallInput} />
+                  <TextInput
+                    style={styles.smallInput}
+                    value={fpAmountLarge}
+                    onChangeText={setFpAmountLarge}
+                  />
                 </View>
               </View>
 
@@ -118,17 +266,29 @@ export default function DrinksModal({ newItemState, setNewItemState }) {
               <View style={styles.priceContainer}>
                 <View>
                   <Text style={styles.priceLabelText}>Small</Text>
-                  <TextInput style={styles.smallInput} />
+                  <TextInput
+                    style={styles.smallInput}
+                    value={grabAmountSmall}
+                    onChangeText={setGrabAmountSmall}
+                  />
                 </View>
 
                 <View>
                   <Text style={styles.priceLabelText}>Medium</Text>
-                  <TextInput style={styles.smallInput} />
+                  <TextInput
+                    style={styles.smallInput}
+                    value={grabAmountMedium}
+                    onChangeText={setGrabAmountMedium}
+                  />
                 </View>
 
                 <View>
                   <Text style={styles.priceLabelText}>Large</Text>
-                  <TextInput style={styles.smallInput} />
+                  <TextInput
+                    style={styles.smallInput}
+                    value={grabAmountLarge}
+                    onChangeText={setGrabAmountLarge}
+                  />
                 </View>
               </View>
             </>
@@ -138,15 +298,27 @@ export default function DrinksModal({ newItemState, setNewItemState }) {
             <>
               <Text style={styles.priceLabelText}>Price</Text>
 
-              <TextInput style={styles.bigInput} />
+              <TextInput
+                style={styles.bigInput}
+                value={itemAmount}
+                onChangeText={setItemAmount}
+              />
 
               <Text style={styles.priceLabelText}>Foodpanda Rates</Text>
 
-              <TextInput style={styles.bigInput} />
+              <TextInput
+                style={styles.bigInput}
+                value={fpItemAmount}
+                onChangeText={setFpItemAmount}
+              />
 
               <Text style={styles.priceLabelText}>Grab Rates</Text>
 
-              <TextInput style={styles.bigInput} />
+              <TextInput
+                style={styles.bigInput}
+                value={grabItemAmount}
+                onChangeText={setGrabItemAmount}
+              />
             </>
           )}
 
@@ -155,17 +327,13 @@ export default function DrinksModal({ newItemState, setNewItemState }) {
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.cancelButton}
-              onPress={() => {
-                setNewItemState(false);
-              }}
+              onPress={handleCancelButton}
             >
               <Text style={styles.cancelText}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.applyButton}
-              onPress={() => {
-                setNewItemState(false);
-              }}
+              onPress={handleApplyChanges}
             >
               <Text style={styles.applyText}>Apply Changes</Text>
             </TouchableOpacity>

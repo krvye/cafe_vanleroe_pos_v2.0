@@ -37,22 +37,22 @@ export default function AddExpenseModal({
   ); // Set current date
   const [branchCode, setBranchCode] = useState("");
   const [expenseType, setExpenseType] = useState("");
-  const [receiptNumber, setReceiptNumber] = useState(0);
+  const [receiptNumber, setReceiptNumber] = useState("");
 
   // useState for expense Items
   const [itemName, setItemName] = useState("");
-  const [itemQTY, setItemQTY] = useState(0);
-  const [itemPrice, setItemPrice] = useState(0.0);
-  const [receiptTotal, setReceiptTotal] = useState(0.0);
+  const [itemQTY, setItemQTY] = useState("");
+  const [itemPrice, setItemPrice] = useState("");
+  const [receiptTotal, setReceiptTotal] = useState("");
 
   // Exit modal and cancel button
   const handleExitModal = () => {
     setBranchCode("");
     setExpenseType("");
-    setReceiptNumber(0);
+    setReceiptNumber("");
     setItemName("");
-    setItemQTY(0);
-    setItemPrice(0.0);
+    setItemQTY("");
+    setItemPrice("");
     setReceiptTotal(0.0);
 
     setOpenAddExpense(false);
@@ -101,8 +101,8 @@ export default function AddExpenseModal({
       receiptNumber: receiptNumber,
       itemName: itemName,
       itemQTY: itemQTY,
-      itemPrice: itemPrice,
-      receiptTotal: receiptTotal,
+      itemPrice: parseFloat(itemPrice),
+      receiptTotal: parseFloat(receiptTotal),
     };
     setExpenseItems((prevItems) => [...prevItems, currentExpense]);
 
@@ -117,11 +117,11 @@ export default function AddExpenseModal({
     // Reset input fields
     setBranchCode("");
     setExpenseType("");
-    setReceiptNumber(0);
+    setReceiptNumber("");
     setItemName("");
-    setItemQTY(0);
-    setItemPrice(0.0);
-    setReceiptTotal(0.0);
+    setItemQTY("");
+    setItemPrice("");
+    setReceiptTotal("");
     // Reset expenseItems
     setExpenseItems([]);
     // Close the modal
@@ -252,7 +252,7 @@ export default function AddExpenseModal({
               style={[styles.input, styles.inputTitleText]}
               placeholder="Quantity"
               placeholderTextColor={"gray"}
-              value={itemQTY.toString()}
+              value={itemQTY}
               onChangeText={(value) => setItemQTY(Number(value))}
             />
           </View>
@@ -268,8 +268,8 @@ export default function AddExpenseModal({
               style={[styles.input, styles.inputTitleText]}
               placeholder="Item Price"
               placeholderTextColor={"gray"}
-              value={itemPrice.toString()}
-              onChangeText={(value) => setItemPrice(parseFloat(value, 10))}
+              value={itemPrice}
+              onChangeText={setItemPrice}
             />
           </View>
 
@@ -284,8 +284,8 @@ export default function AddExpenseModal({
               style={[styles.input, styles.inputTitleText]}
               placeholder="Receipt Total"
               placeholderTextColor={"gray"}
-              value={receiptTotal.toString()}
-              onChangeText={(value) => setReceiptTotal(parseFloat(value, 10))}
+              value={receiptTotal}
+              onChangeText={setReceiptTotal}
             />
           </View>
 

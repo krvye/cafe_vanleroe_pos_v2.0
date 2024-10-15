@@ -8,10 +8,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 
-import itemCategories from "@utils/Home/SidebarFakeData";
+import { retrieveItemCategory } from "../../services/firebase/Home/retrieveItemCategory";
+
+import { UpdateDrinks } from "../../services/firebase/Menu/updateDrinks";
 
 export default function DrinksModal({
   modalState,
@@ -19,6 +22,108 @@ export default function DrinksModal({
   selectedItem,
 }) {
   console.log("Selected Item: ", selectedItem);
+  const itemCategories = retrieveItemCategory();
+
+  const [productName, setProductName] = useState("");
+  const [amountSmall, setAmountSmall] = useState("");
+  const [amountMedium, setAmountMedium] = useState("");
+  const [amountLarge, setAmountLarge] = useState("");
+  const [fpAmountSmall, setFpAmountSmall] = useState("");
+  const [fpAmountMedium, setFpAmountMedium] = useState("");
+  const [fpAmountLarge, setFpAmountLarge] = useState("");
+  const [grabAmountSmall, setGrabAmountSmall] = useState("");
+  const [grabAmountMedium, setGrabAmountMedium] = useState("");
+  const [grabAmountLarge, setGrabAmountLarge] = useState("");
+
+  const [selectedItemCategory, setSelectedItemCategory] = useState("");
+
+  const handleApplyChanges = async () => {
+    setModalState(false);
+
+    const updateProductName = productName || selectedItem.productName;
+    const updateCategory = selectedItemCategory;
+
+    const updateAmountSmall =
+      amountSmall !== "" ? parseFloat(amountSmall) : selectedItem.amountSmall;
+    const updateAmountMedium =
+      amountMedium !== ""
+        ? parseFloat(amountMedium)
+        : selectedItem.amountMedium;
+    const updateAmountLarge =
+      amountLarge !== "" ? parseFloat(amountLarge) : selectedItem.amountLarge;
+
+    const updateFpAmountSmall =
+      fpAmountSmall !== ""
+        ? parseFloat(fpAmountSmall)
+        : selectedItem.fpAmountSmall;
+    const updateFpAmountMedium =
+      fpAmountMedium !== ""
+        ? parseFloat(fpAmountMedium)
+        : selectedItem.fpAmountMedium;
+    const updateFpAmountLarge =
+      fpAmountLarge !== ""
+        ? parseFloat(fpAmountLarge)
+        : selectedItem.fpAmountLarge;
+
+    const updateGrabAmountSmall =
+      grabAmountSmall !== ""
+        ? parseFloat(grabAmountSmall)
+        : selectedItem.grabAmountSmall;
+    const updateGrabAmountMedium =
+      grabAmountMedium !== ""
+        ? parseFloat(grabAmountMedium)
+        : selectedItem.grabAmountMedium;
+    const updateGrabAmountLarge =
+      grabAmountLarge !== ""
+        ? parseFloat(grabAmountLarge)
+        : selectedItem.grabAmountLarge;
+
+    console.log("Updated Category: ", updateCategory);
+
+    await UpdateDrinks(
+      selectedItem,
+      updateProductName,
+      updateCategory,
+      updateAmountSmall,
+      updateAmountMedium,
+      updateAmountLarge,
+      updateFpAmountSmall,
+      updateFpAmountMedium,
+      updateFpAmountLarge,
+      updateGrabAmountSmall,
+      updateGrabAmountMedium,
+      updateGrabAmountLarge
+    );
+
+    setProductName("");
+    setSelectedItemCategory("");
+    setAmountSmall("");
+    setAmountMedium("");
+    setAmountLarge("");
+    setFpAmountSmall("");
+    setFpAmountMedium("");
+    setFpAmountLarge("");
+    setGrabAmountSmall("");
+    setGrabAmountMedium("");
+    setGrabAmountLarge("");
+  };
+
+  const handleCancelButton = () => {
+    setModalState(false);
+
+    setProductName("");
+    setSelectedItemCategory("");
+    setAmountSmall("");
+    setAmountMedium("");
+    setAmountLarge("");
+    setFpAmountSmall("");
+    setFpAmountMedium("");
+    setFpAmountLarge("");
+    setGrabAmountSmall("");
+    setGrabAmountMedium("");
+    setGrabAmountLarge("");
+  };
+
   return (
     <Modal visible={modalState} transparent={true}>
       <View style={styles.modalStyles}>
@@ -27,7 +132,9 @@ export default function DrinksModal({
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.headerContainer}>
-            <Text style={styles.headerText}>Edit Item: {selectedItem.productName}</Text>
+            <Text style={styles.headerText}>
+              Edit Item: {selectedItem.productName}
+            </Text>
             <AntDesign
               name="close"
               size={24}
@@ -51,13 +158,26 @@ export default function DrinksModal({
 
           <Text style={styles.labelText}>Item Name</Text>
 
-          <TextInput style={styles.bigInput} value={selectedItem.productName} />
+          <TextInput
+            style={styles.bigInput}
+            placeholder={selectedItem.productName}
+            value={productName || null}
+            onChangeText={setProductName}
+          />
 
           <Text style={styles.labelText}>Category</Text>
 
-          <Picker style={styles.picker}>
+          <Picker
+            style={styles.picker}
+            selectedValue={selectedItemCategory || ""}
+            onValueChange={setSelectedItemCategory}
+          >
             {itemCategories.map((category, index) => (
-              <Picker.Item key={index} label={category} value={category} />
+              <Picker.Item
+                key={index}
+                label={category.itemCategoryDesc}
+                value={category.itemCategoryCode}
+              />
             ))}
           </Picker>
 
@@ -66,17 +186,32 @@ export default function DrinksModal({
           <View style={styles.priceContainer}>
             <View>
               <Text style={styles.priceLabelText}>Small</Text>
-              <TextInput style={styles.smallInput} />
+              <TextInput
+                style={styles.smallInput}
+                placeholder={selectedItem.amountSmall}
+                value={amountSmall || null}
+                onChangeText={setAmountSmall}
+              />
             </View>
 
             <View>
               <Text style={styles.priceLabelText}>Medium</Text>
-              <TextInput style={styles.smallInput} />
+              <TextInput
+                style={styles.smallInput}
+                placeholder={selectedItem.amountMedium}
+                value={amountMedium || null}
+                onChangeText={setAmountMedium}
+              />
             </View>
 
             <View>
               <Text style={styles.priceLabelText}>Large</Text>
-              <TextInput style={styles.smallInput} />
+              <TextInput
+                style={styles.smallInput}
+                placeholder={selectedItem.amountLarge}
+                value={amountLarge || null}
+                onChangeText={setAmountLarge}
+              />
             </View>
           </View>
 
@@ -85,17 +220,32 @@ export default function DrinksModal({
           <View style={styles.priceContainer}>
             <View>
               <Text style={styles.priceLabelText}>Small</Text>
-              <TextInput style={styles.smallInput} />
+              <TextInput
+                style={styles.smallInput}
+                placeholder={selectedItem.fpAmountSmall}
+                value={fpAmountSmall || null}
+                onChangeText={setFpAmountSmall}
+              />
             </View>
 
             <View>
               <Text style={styles.priceLabelText}>Medium</Text>
-              <TextInput style={styles.smallInput} />
+              <TextInput
+                style={styles.smallInput}
+                placeholder={selectedItem.fpAmountMedium}
+                value={fpAmountMedium || null}
+                onChangeText={setFpAmountMedium}
+              />
             </View>
 
             <View>
               <Text style={styles.priceLabelText}>Large</Text>
-              <TextInput style={styles.smallInput} />
+              <TextInput
+                style={styles.smallInput}
+                placeholder={selectedItem.fpAmountLarge}
+                value={fpAmountLarge || null}
+                onChangeText={setFpAmountLarge}
+              />
             </View>
           </View>
 
@@ -104,17 +254,32 @@ export default function DrinksModal({
           <View style={styles.priceContainer}>
             <View>
               <Text style={styles.priceLabelText}>Small</Text>
-              <TextInput style={styles.smallInput} />
+              <TextInput
+                style={styles.smallInput}
+                placeholder={selectedItem.grabAmountSmall}
+                value={grabAmountSmall || null}
+                onChangeText={setGrabAmountSmall}
+              />
             </View>
 
             <View>
               <Text style={styles.priceLabelText}>Medium</Text>
-              <TextInput style={styles.smallInput} />
+              <TextInput
+                style={styles.smallInput}
+                placeholder={selectedItem.grabAmountMedium}
+                value={grabAmountMedium || null}
+                onChangeText={setGrabAmountMedium}
+              />
             </View>
 
             <View>
               <Text style={styles.priceLabelText}>Large</Text>
-              <TextInput style={styles.smallInput} />
+              <TextInput
+                style={styles.smallInput}
+                placeholder={selectedItem.grabAmountLarge}
+                value={grabAmountLarge || null}
+                onChangeText={setGrabAmountLarge}
+              />
             </View>
           </View>
 
@@ -123,17 +288,13 @@ export default function DrinksModal({
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.cancelButton}
-              onPress={() => {
-                setModalState(false);
-              }}
+              onPress={handleCancelButton}
             >
               <Text style={styles.cancelText}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.applyButton}
-              onPress={() => {
-                setModalState(false);
-              }}
+              onPress={handleApplyChanges}
             >
               <Text style={styles.applyText}>Apply Changes</Text>
             </TouchableOpacity>

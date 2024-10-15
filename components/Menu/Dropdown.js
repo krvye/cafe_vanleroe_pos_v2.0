@@ -19,7 +19,7 @@ export default function Dropdown({
   return (
     <View style={styles.container}>
       <Picker
-        selectedValue={selectedCategoryCode}
+        selectedValue={selectedCategoryCode || ""}
         style={styles.picker}
         onValueChange={(itemValue) => {
           setSelectedCategoryCode(itemValue);

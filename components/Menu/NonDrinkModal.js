@@ -10,10 +10,74 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-import itemCategories from "@utils/Home/SidebarFakeData";
-import { Picker } from "@react-native-picker/picker";
+import { retrieveItemCategory } from "../../services/firebase/Home/retrieveItemCategory";
+import { UpdateNonDrinks } from "../../services/firebase/Menu/updateNonDrinks";
 
-export default function NonDrinkModal({ modalState, setModalState, selectedItem }) {
+import { Picker } from "@react-native-picker/picker";
+import { useState } from "react";
+
+export default function NonDrinkModal({
+  modalState,
+  setModalState,
+  selectedItem,
+}) {
+  itemCategories = retrieveItemCategory();
+
+  const [productName, setProductName] = useState("");
+  const [selectedItemCategory, setSelectedItemCategory] = useState("");
+  const [itemAmount, setItemAmount] = useState("");
+  const [fpItemAmount, setFpItemAmount] = useState("");
+  const [grabItemAmount, setGrabItemAmount] = useState("");
+
+  const handleApplyChanges = async () => {
+    setModalState(false);
+
+    const updateProductName = productName || selectedItem.productName;
+    const updateCategory = selectedItemCategory;
+
+    const updateItemAmount =
+      itemAmount !== "" ? parseFloat(itemAmount) : selectedItem.itemAmount;
+    const updateFpItemAmount =
+      fpItemAmount !== ""
+        ? parseFloat(fpItemAmount)
+        : selectedItem.fpItemAmount;
+    const updateGrabItemAmount =
+      grabItemAmount !== ""
+        ? parseFloat(grabItemAmount)
+        : selectedItem.grabItemAmount;
+
+    await UpdateNonDrinks(
+      selectedItem,
+      updateProductName,
+      updateCategory,
+      updateItemAmount,
+      updateFpItemAmount,
+      updateGrabItemAmount
+    );
+
+    setProductName("");
+    setSelectedItemCategory("");
+    setItemAmount("");
+    setFpItemAmount("");
+    setGrabItemAmount("");
+  };
+
+  const handleCancelButton = () => {
+    setModalState(false);
+
+    setProductName("");
+    setSelectedItemCategory("");
+    setAmountSmall("");
+    setAmountMedium("");
+    setAmountLarge("");
+    setFpAmountSmall("");
+    setFpAmountMedium("");
+    setFpAmountLarge("");
+    setGrabAmountSmall("");
+    setGrabAmountMedium("");
+    setGrabAmountLarge("");
+  };
+
   return (
     <Modal visible={modalState} transparent={true}>
       <View style={styles.modalStyles}>
@@ -22,7 +86,9 @@ export default function NonDrinkModal({ modalState, setModalState, selectedItem 
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.headerContainer}>
-            <Text style={styles.headerText}>Edit Item: {selectedItem.productName}</Text>
+            <Text style={styles.headerText}>
+              Edit Item: {selectedItem.productName}
+            </Text>
             <AntDesign
               name="close"
               size={24}
@@ -50,40 +116,59 @@ export default function NonDrinkModal({ modalState, setModalState, selectedItem 
 
           <Text style={styles.labelText}>Category</Text>
 
-          <Picker style={styles.bigInput}>
+          <Picker
+            style={styles.picker}
+            selectedValue={selectedItemCategory || ""}
+            onValueChange={setSelectedItemCategory}
+          >
             {itemCategories.map((category, index) => (
-              <Picker.Item key={index} label={category} value={category} />
+              <Picker.Item
+                key={index}
+                label={category.itemCategoryDesc}
+                value={category.itemCategoryCode}
+              />
             ))}
           </Picker>
 
           <Text style={styles.priceLabelText}>Price</Text>
 
-          <TextInput style={styles.bigInput} value={"120"} />
+          <TextInput
+            style={styles.bigInput}
+            placeholder={selectedItem.itemAmount}
+            value={itemAmount || null}
+            onChangeText={setItemAmount}
+          />
 
           <Text style={styles.priceLabelText}>Foodpanda Rates</Text>
 
-          <TextInput style={styles.bigInput} value={"120"} />
+          <TextInput
+            style={styles.bigInput}
+            placeholder={selectedItem.fpItemAmount}
+            value={fpItemAmount || null}
+            onChangeText={setFpItemAmount}
+          />
 
           <Text style={styles.priceLabelText}>Grab Rates</Text>
 
-          <TextInput style={styles.bigInput} value={"120"} />
+          <TextInput
+            style={styles.bigInput}
+            placeholder={selectedItem.grabItemAmount}
+            value={grabItemAmount || null}
+            onChangeText={setGrabItemAmount}
+          />
 
           <View style={styles.bottomBorder}></View>
 
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.cancelButton}
-              onPress={() => {
-                setModalState(false);
-              }}
+              onPress={handleCancelButton}
             >
               <Text style={styles.cancelText}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.applyButton}
-              onPress={() => {
-                setModalState(false);
-              }}
+              onPress={handleApplyChanges}
             >
               <Text style={styles.applyText}>Apply Changes</Text>
             </TouchableOpacity>
@@ -202,5 +287,15 @@ const styles = StyleSheet.create({
   },
   applyText: {
     fontWeight: "600",
+  },
+
+  picker: {
+    height: 55,
+    borderColor: "#E5E4E2",
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: 5,
+    marginBottom: 10,
+    padding: 20,
   },
 });

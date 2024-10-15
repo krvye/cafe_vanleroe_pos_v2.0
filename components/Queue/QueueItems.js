@@ -159,7 +159,12 @@ export default function QueueItems({
               <View key={orderIndex} style={styles.queueItem}>
                 <View style={styles.queueItemDetailsContainer}>
                   <Text style={styles.queueItemTextStyles}>
-                    Order No. {order.orderNo} {order.orderTakenBy}
+                    Order No.
+                     {/* {order.orderNo} {order.orderTakenBy} */}
+                  </Text>
+                  <Text style={styles.queueItemTextStyles}>
+                    Order Taken By:
+                     {/* {order.orderNo} {order.orderTakenBy} */}
                   </Text>
                   {dineInCountdownTimer[orderIndex] === "00:00" ? (
                     <Text style={styles.queueItemRedStyle}>
@@ -416,13 +421,13 @@ const styles = StyleSheet.create({
   },
   queueItemTextStyles: {
     fontWeight: 500,
-    fontSize: 18,
+    fontSize: 15,
     marginLeft: 20,
     color: "#0e0e0e",
   },
   queueItemRedStyle: {
     fontWeight: 500,
-    fontSize: 18,
+    fontSize: 15,
     marginLeft: 20,
     color: "#F44336",
   },

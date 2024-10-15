@@ -24,6 +24,7 @@ export const InProgressTakeOutOrder = () => {
         const filteredInprogressOrder = inprogressTakeOutInfo.filter(
           (order) => {
             const currDate = new Date().toISOString().split("T")[0];
+            console.log("Current Date: ", currDate);
             return (
               order.orderStatus === "MAKE" &&
               order.consumeMethod === "TAKE" &&
