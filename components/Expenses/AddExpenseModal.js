@@ -23,7 +23,6 @@ export default function AddExpenseModal({
 }) {
   const { selectedBranch } = useBranches();
   const selectedBranchCode = selectedBranch ? selectedBranch.branchCode : null;
-  console.log("Expenses selected branch: ", selectedBranchCode);
 
   // useState for adding items handler
   const [addItem, setAddItem] = useState(false);
@@ -106,7 +105,7 @@ export default function AddExpenseModal({
     };
     setExpenseItems((prevItems) => [...prevItems, currentExpense]);
 
-    const allExpenses = [...expenseItems, currentExpense]; 
+    const allExpenses = [...expenseItems, currentExpense];
 
     // Iterate each expense item to store in firebase
     for (const expense of allExpenses) {
@@ -141,7 +140,10 @@ export default function AddExpenseModal({
   return (
     <Modal animationType="slide" transparent={true} visible={openAddExpense}>
       <View style={styles.container}>
-        <ScrollView style={styles.addExpenseContainer} showsHorizontalScrollIndicator={false}>
+        <ScrollView
+          style={styles.addExpenseContainer}
+          showsHorizontalScrollIndicator={false}
+        >
           <View style={styles.exitContainer}>
             <Pressable onPress={handleExitModal}>
               <AntDesign

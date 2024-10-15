@@ -18,7 +18,6 @@ export default function DrinksModal({
   setModalState,
   selectedItem,
 }) {
-  console.log("Selected Item: ", selectedItem);
   return (
     <Modal visible={modalState} transparent={true}>
       <View style={styles.modalStyles}>
@@ -27,7 +26,9 @@ export default function DrinksModal({
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.headerContainer}>
-            <Text style={styles.headerText}>Edit Item: {selectedItem.productName}</Text>
+            <Text style={styles.headerText}>
+              Edit Item: {selectedItem.productName}
+            </Text>
             <AntDesign
               name="close"
               size={24}

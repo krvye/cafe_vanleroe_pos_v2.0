@@ -38,10 +38,6 @@ export default function AddOrder({
   const [note, setNote] = useState("");
   const [addOnPrice, setAddOnPrice] = useState(0);
 
-  console.log("Total Single Item Price: ", itemPrice + addOnPrice);
-  console.log("Item Price: ", itemPrice);
-  console.log("Add On Price: ", addOnPrice);
-
   const productName = selectedItem.productName ? selectedItem.productName : "";
 
   useEffect(() => {
