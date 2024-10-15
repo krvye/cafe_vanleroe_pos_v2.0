@@ -12,6 +12,10 @@ import * as Print from "expo-print";
 
 import generateReceipt from "@utils/Home/generateReceipt";
 
+import { processDailySales } from "@services/firebase/Home/processDailySales";
+
+import { useBranches } from "../../context/BranchContext";
+
 export default function PaymentDetails({
   paymentDetailsState,
   setPaymentDetailsState,
@@ -20,8 +24,23 @@ export default function PaymentDetails({
   finalTotal,
   setPaymentDetails,
   paymentDetails,
+  foodService,
+  discount,
+  customDiscountCode,
+  retekessNumber,
+  orderNumber,
+  orderNote,
+  customerName,
+  timeElapsed,
+  orderDetails,
 }) {
   const [paidAmount, setPaidAmount] = useState(0);
+  const { selectedBranch } = useBranches();
+  const selectedBranchCode = selectedBranch ? selectedBranch.branchCode : null;
+
+  const dateToday = new Date().toISOString().split("T")[0];
+  const orderChange = 0;
+  const orderTakenBy = "Shalala";
 
   const printReceipt = async () => {
     const html = await generateReceipt();
@@ -30,6 +49,23 @@ export default function PaymentDetails({
 
   const handlePrintPress = () => {
     printReceipt();
+    processDailySales(
+      selectedBranchCode,
+      foodService,
+      discount,
+      customDiscountCode,
+      timeElapsed,
+      orderChange,
+      dateToday,
+      orderDetails,
+      foodService,
+      orderNumber,
+      orderNote,
+      orderTakenBy,
+      paymentDetails,
+      retekessNumber,
+      finalTotal
+    );
     setPaymentDetailsState(false);
   };
 

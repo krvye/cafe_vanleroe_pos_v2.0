@@ -19,7 +19,7 @@ export default function OrderDetails({
 
   // Initialize quantities for each order based on the orderDetails length
   const [quantities, setQuantities] = useState(
-    orderDetails.map((orderDetail) => orderDetail.quantity) // Initialize with the quantity for each item
+    orderDetails.map((orderDetail) => orderDetail.itemQuantity) // Initialize with the quantity for each item
   );
 
   const handleDecreaseQuantity = (index, order) => {
@@ -65,7 +65,7 @@ export default function OrderDetails({
             {orderDetails.length > 0 ? (
               orderDetails.map((order, index) => (
                 <View key={index} style={styles.orderItemContainer}>
-                  <Text style={styles.productName}>{order.productName}</Text>
+                  <Text style={styles.productName}>{order.itemName}</Text>
                   <View>
                     <Text style={styles.productDetails}>
                       Size: {order.itemSize}
@@ -81,9 +81,9 @@ export default function OrderDetails({
                       <Text style={styles.productDetails}>None</Text>
                     )}
                     <Text style={styles.productDetails}>
-                      Order Notes: {order.note}
+                      Order Notes: {order.itemNotes}
                     </Text>
-                    <Text style={styles.productPrice}>₱{order.totalPrice}</Text>
+                    <Text style={styles.productPrice}>₱{order.itemTotalAmount}</Text>
                   </View>
 
                   {/* Quantity Selector */}

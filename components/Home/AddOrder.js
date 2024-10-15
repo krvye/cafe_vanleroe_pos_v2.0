@@ -47,13 +47,16 @@ export default function AddOrder({
   const handleAddOrder = () => {
     // Create an order object with relevant details.
     const newOrder = {
-      productName: selectedItem.productName,
-      itemSize: itemSize,
-      itemPrice: itemPrice + addOnPrice,
-      quantity: quantity,
-      totalPrice: totalPrice,
       addOns: addOns, // Include selected add-ons in the order object
-      note: note,
+      itemCategory: selectedItem.categoryCode,
+      itemId: selectedItem.productId,
+      itemName: selectedItem.productName,
+      itemNotes: note,
+      itemPrice: itemPrice + addOnPrice,
+      itemQuantity: quantity,
+      itemSize: itemSize,
+      itemStatus: "MAKE",
+      itemTotalAmount: totalPrice,
     };
 
     // Update the order details by adding the new order.

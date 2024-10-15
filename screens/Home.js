@@ -13,6 +13,7 @@ export default function HomeScreen() {
   const [paymentDetailsState, setPaymentDetailsState] = useState(false);
   const [foodService, setFoodService] = useState("");
   const [discount, setDiscount] = useState(0);
+  const [customDiscountCode, setCustomDiscountCode] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [selectedCategoryCode, setSelectedCategoryCode] = useState(null);
   const [selectedItem, setSelectedItem] = useState("");
@@ -22,6 +23,13 @@ export default function HomeScreen() {
   const [finalTotal, setFinalTotal] = useState(0);
   const [paymentDetails, setPaymentDetails] = useState([]);
   const [orderDetails, setOrderDetails] = useState([]);
+  const [retekessNumber, setRetekessNumber] = useState("");
+  const [orderNumber, setOrderNumber] = useState("");
+  const [orderNote, setOrderNote] = useState("");
+  const [customerName, setCustomerName] = useState("");
+  const [timeElapsed, setTimeElapsed] = useState("");
+
+  console.log("Food Service", foodService);
 
   return (
     <View style={styles.container}>
@@ -58,6 +66,13 @@ export default function HomeScreen() {
         finalTotal={finalTotal}
         orderDetails={orderDetails}
         setOrderDetails={setOrderDetails}
+        customDiscountCode={customDiscountCode}
+        setCustomDiscountCode={setCustomDiscountCode}
+        setRetekessNumber={setRetekessNumber}
+        setOrderNumber={setOrderNumber}
+        setOrderNote={setOrderNote}
+        setCustomerName={setCustomerName}
+        setTimeElapsed={setTimeElapsed}
       />
       <PaymentDetails
         paymentDetailsState={paymentDetailsState}
@@ -67,6 +82,15 @@ export default function HomeScreen() {
         finalTotal={finalTotal}
         setPaymentDetails={setPaymentDetails}
         paymentDetails={paymentDetails}
+        foodService={foodService}
+        discount={discount}
+        customDiscountCode={customDiscountCode}
+        retekessNumber={retekessNumber}
+        orderNumber={orderNumber}
+        orderNote={orderNote}
+        customerName={customerName}
+        timeElapsed={timeElapsed}
+        orderDetails={orderDetails}
       />
     </View>
   );

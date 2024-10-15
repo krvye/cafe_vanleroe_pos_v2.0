@@ -29,6 +29,13 @@ export default function ViewOrderModal({
   finalTotal,
   orderDetails,
   setOrderDetails,
+  customDiscountCode,
+  setCustomDiscountCode,
+  setRetekessNumber,
+  setOrderNumber,
+  setOrderNote,
+  setCustomerName,
+  setTimeElapsed,
 }) {
   const discountCodes = retrieveDiscountCodes();
 
@@ -41,6 +48,11 @@ export default function ViewOrderModal({
           <CustomerDetails
             setModalState={setViewOrderState}
             foodService={foodService}
+            setRetekessNumber={setRetekessNumber}
+            setOrderNumber={setOrderNumber}
+            setOrderNote={setOrderNote}
+            setCustomerName={setCustomerName}
+            setTimeElapsed={setTimeElapsed}
           />
 
           <View style={styles.borderLine}></View>
@@ -55,6 +67,8 @@ export default function ViewOrderModal({
             setDiscount={setDiscount}
             subTotal={subTotal}
             discountCodes={discountCodes}
+            customDiscountCode={customDiscountCode}
+            setCustomDiscountCode={setCustomDiscountCode}
           />
 
           <PayNow
