@@ -13,7 +13,7 @@ import { AntDesign } from "@expo/vector-icons";
 import itemCategories from "@utils/Home/SidebarFakeData";
 import { Picker } from "@react-native-picker/picker";
 
-export default function DrinksModal({ modalState, setModalState }) {
+export default function NonDrinkModal({ modalState, setModalState, selectedItem }) {
   return (
     <Modal visible={modalState} transparent={true}>
       <View style={styles.modalStyles}>
@@ -22,7 +22,7 @@ export default function DrinksModal({ modalState, setModalState }) {
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.headerContainer}>
-            <Text style={styles.headerText}>Edit Item: Americano</Text>
+            <Text style={styles.headerText}>Edit Item: {selectedItem.productName}</Text>
             <AntDesign
               name="close"
               size={24}
@@ -37,7 +37,7 @@ export default function DrinksModal({ modalState, setModalState }) {
 
           <Image
             source={{
-              uri: "https://images.unsplash.com/photo-1509042239860-f550ce710b93",
+              uri: selectedItem.image,
             }}
             style={styles.productImage}
           />
@@ -46,7 +46,7 @@ export default function DrinksModal({ modalState, setModalState }) {
 
           <Text style={styles.labelText}>Item Name</Text>
 
-          <TextInput style={styles.bigInput} value={"Americano"} />
+          <TextInput style={styles.bigInput} value={selectedItem.productName} />
 
           <Text style={styles.labelText}>Category</Text>
 

@@ -27,12 +27,23 @@ export default function MenuScreen() {
         selectedCategoryCode={selectedCategoryCode}
         setSelectedItem={setSelectedItem}
       />
-      <DrinksModal
-        modalState={modalState}
-        setModalState={setModalState}
-        selectedItem={selectedItem}
-      />
-      {/* <NonDrinkModal modalState={modalState} setModalState={setModalState} /> */}
+      {selectedCategoryCode === "MCH" ||
+      selectedCategoryCode === "PST" ||
+      // selectedCategoryCode === "LTD" ||
+      selectedCategoryCode === "FOD" ||
+      selectedCategoryCode === "MLS" ? (
+        <NonDrinkModal
+          modalState={modalState}
+          setModalState={setModalState}
+          selectedItem={selectedItem}
+        />
+      ) : (
+        <DrinksModal
+          modalState={modalState}
+          setModalState={setModalState}
+          selectedItem={selectedItem}
+        />
+      )}
       <NewItemModal
         newItemState={newItemState}
         setNewItemState={setNewItemState}

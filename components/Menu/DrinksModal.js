@@ -18,6 +18,7 @@ export default function DrinksModal({
   setModalState,
   selectedItem,
 }) {
+  console.log("Selected Item: ", selectedItem);
   return (
     <Modal visible={modalState} transparent={true}>
       <View style={styles.modalStyles}>
