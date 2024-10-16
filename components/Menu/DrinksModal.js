@@ -135,6 +135,9 @@ export default function DrinksModal({
             <Text style={styles.headerText}>
               Edit Item: {selectedItem.productName}
             </Text>
+            <Text style={styles.headerText}>
+              Edit Item: {selectedItem.productName}
+            </Text>
             <AntDesign
               name="close"
               size={24}

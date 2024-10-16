@@ -16,9 +16,9 @@ export default function AmountDetails({
       {paymentDetails.map((detail) => (
         <View style={styles.amountContainer}>
           <Text style={styles.amountLabel}>
-            Payment Method - {detail.paymentMethod}
+            Payment Method - {detail.modeOfPayment}
           </Text>
-          <Text style={styles.amountDeducted}>-₱{detail.paidAmount}</Text>
+          <Text style={styles.amountDeducted}>-₱{detail.paymentAmount}</Text>
         </View>
       ))}
 

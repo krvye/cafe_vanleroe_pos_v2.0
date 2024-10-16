@@ -154,11 +154,6 @@ export default function SignInScreen({ navigation, route }) {
   // Handle Avatar Size
   const handleToggleAvatarSize = (emp, index) => {
     setSelectedAvatarIndex((prevIndex) => (prevIndex === index ? null : index));
-    console.log(
-      `EMPLOYEE ID: ${emp.employeeId} \n EMAIL ADDRESS: ${getCurrentUserEmail(
-        emp.employeeId
-      )}`
-    );
   };
 
   // useState for handling TIME ENTRIES

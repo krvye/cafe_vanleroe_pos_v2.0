@@ -8,6 +8,7 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import { light } from "@mui/material/styles/createPalette";
 import { useState } from "react";
+import { Alert } from "react-native";
 
 export default function InputAmount({
   setPaidAmount,
@@ -21,11 +22,15 @@ export default function InputAmount({
   };
 
   const handleAddPress = () => {
+    if (amount === "" || isNaN(parseFloat(amount))) {
+      Alert.alert("Invalid Input", "Please enter a valid amount.");
+      return;
+    }
     setAmount("");
     setPaidAmount((prev) => prev + parseFloat(amount));
     setPaymentDetails((prevDetails) => [
       ...prevDetails,
-      { paymentMethod: paymentMethod, paidAmount: parseFloat(amount) },
+      { modeOfPayment: paymentMethod, paymentAmount: parseFloat(amount) },
     ]);
   };
 

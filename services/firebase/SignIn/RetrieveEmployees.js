@@ -20,7 +20,6 @@ export const employeeInformation = () => {
           employeeInfoData.push({ doc_id: doc.id, ...doc.data() });
         });
         setEmployeeInfo(employeeInfoData);
-        console.log("EMPLOYEE INFORMATION: ", employeeInfoData);
       }
     );
     return () => subscribeEmployeeInfo();

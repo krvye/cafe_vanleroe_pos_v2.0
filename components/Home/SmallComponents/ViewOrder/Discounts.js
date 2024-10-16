@@ -9,12 +9,18 @@ import {
   useWindowDimensions,
 } from "react-native";
 
-export default function Discounts({ setDiscount, subTotal, discountCodes }) {
+export default function Discounts({
+  setDiscount,
+  subTotal,
+  discountCodes,
+  customDiscountCode,
+  setCustomDiscountCode,
+}) {
   const { height } = useWindowDimensions();
   const styles = makeStyles(height);
 
   const [selectedButton, setSelectedButton] = useState(null);
-  const [customDiscountCode, setCustomDiscountCode] = useState("");
+  
 
   const studentDiscount = 10.00000001;
 
