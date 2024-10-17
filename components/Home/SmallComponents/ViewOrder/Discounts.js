@@ -162,7 +162,7 @@ const makeStyles = (height) =>
     container: { marginTop: 20 },
     headerText: {
       fontSize: 20,
-      fontWeight: "bold",
+      fontWeight: "600",
       color: "#19191C",
     },
     discountContainer: {
@@ -189,7 +189,7 @@ const makeStyles = (height) =>
     },
     customDiscountLabel: {
       fontSize: 20,
-      fontWeight: "bold",
+      fontWeight: "600",
       color: "#19191C",
       paddingVertical: 10,
     },

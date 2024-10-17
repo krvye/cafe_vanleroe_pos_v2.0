@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   headerText: {
-    fontWeight: 600,
+    fontWeight: "600",
     fontSize: 20,
     textAlign: 'center',
     marginLeft: 25,
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   elapsedTimeText: {
     color: "#828487",
     fontSize: 20,
-    fontWeight: 500,
+    fontWeight: "500",
     marginLeft: 45,
   },
   orderItemContainer: {
@@ -195,18 +195,18 @@ const styles = StyleSheet.create({
   voidAllText: {
     color: "#B66619",
     fontSize: 16,
-    fontWeight: 600,
+    fontWeight: "600",
     textAlign: 'center',
   },
   allDoneText: {
     color: "#0e0e0e",
     fontSize: 16,
-    fontWeight: 600,
+    fontWeight: "600",
     textAlign: 'center',
   },
   orderItemRedStyle: {
     fontSize: 20,
-    fontWeight: 500,
+    fontWeight: "500",
     marginLeft: 45,
     color: "#F44336",
   },

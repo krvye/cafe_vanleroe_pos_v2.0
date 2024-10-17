@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#FFFFFF",
-    fontWeight: "bold",
+    fontWeight: "600",
     fontSize: 16,
   },
   modalOverlay: {
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "600",
     marginBottom: 20,
   },
   closeButton: {
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
   },
   closeButtonText: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "600",
     color: "black",
   },
   tableContainer: {
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   tableHeader: {
-    fontWeight: "bold",
+    fontWeight: "600",
     fontSize: 16,
     width: "30%", // Adjust width for a consistent layout
   },
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   categoryHeader: {
-    fontWeight: "bold",
+    fontWeight: "600",
     fontSize: 18,
     marginBottom: 10,
     marginTop: 20,

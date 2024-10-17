@@ -368,7 +368,7 @@ export default function SignInScreen({ navigation, route }) {
                 ]}
                 onPress={handleTimeIn}
               >
-                <Text style={{ color: "#fff", fontSize: 16, fontWeight: 500 }}>
+                <Text style={{ color: "#fff", fontSize: 16, fontWeight: "500" }}>
                   Time In
                 </Text>
               </TouchableOpacity>
@@ -384,7 +384,7 @@ export default function SignInScreen({ navigation, route }) {
                 onPress={handleTimeOut}
               >
                 <Text
-                  style={{ color: "#B66619", fontSize: 16, fontWeight: 500 }}
+                  style={{ color: "#B66619", fontSize: 16, fontWeight: "500" }}
                 >
                   Time Out
                 </Text>
@@ -399,7 +399,7 @@ export default function SignInScreen({ navigation, route }) {
                 ]}
                 onPress={handleBreakIn}
               >
-                <Text style={{ color: "#fff", fontSize: 16, fontWeight: 500 }}>
+                <Text style={{ color: "#fff", fontSize: 16, fontWeight: "500" }}>
                   Break In
                 </Text>
               </TouchableOpacity>
@@ -415,7 +415,7 @@ export default function SignInScreen({ navigation, route }) {
                 onPress={handleBreakOut}
               >
                 <Text
-                  style={{ color: "#B66619", fontSize: 16, fontWeight: 500 }}
+                  style={{ color: "#B66619", fontSize: 16, fontWeight: "500" }}
                 >
                   Break Out
                 </Text>
@@ -524,7 +524,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#0e0e0e",
     textAlign: "center",
-    fontWeight: 500,
+    fontWeight: "500",
   },
   buttonsContainer: {
     justifyContent: "center",

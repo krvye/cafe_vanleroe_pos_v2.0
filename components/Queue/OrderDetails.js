@@ -72,12 +72,12 @@ const styles = StyleSheet.create({
   orderItemText: {
     color: "#0e0e0e",
     fontSize: 20,
-    fontWeight: 400,
+    fontWeight: "400",
   },
   doneButtonText: {
     color: "#0e0e0e",
     fontSize: 15,
-    fontWeight: 600,
+    fontWeight: "600",
     textAlign: "center",
   },
   doneGreenButton: { 

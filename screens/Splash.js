@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   welcomeText: {
     fontSize: 100,
     color: "white",
-    fontWeight: 300,
+    fontWeight: "300",
     textAlign: "center",
   },
   selectBranchCon: {
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   selectBranchText: {
     fontSize: 20,
     textAlign: "center",
-    fontWeight: 400,
+    fontWeight: "300",
     color: "white",
   },
   branchContainer: {
@@ -219,6 +219,6 @@ const styles = StyleSheet.create({
   branchText: {
     fontSize: 18,
     color: "#0e0e0e",
-    fontWeight: 450,
+    fontWeight: "300",
   },
 });

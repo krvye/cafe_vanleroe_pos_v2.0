@@ -157,7 +157,7 @@ export default function AddExpenseModal({
 
           {/* Input Date */}
           <View style={styles.inputTitleCon}>
-            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+            <Text style={[styles.inputTitleText, { fontWeight: "500" }]}>
               Date:
             </Text>
           </View>
@@ -174,7 +174,7 @@ export default function AddExpenseModal({
 
           {/* Input Branch */}
           <View style={styles.inputTitleCon}>
-            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+            <Text style={[styles.inputTitleText, { fontWeight: "500" }]}>
               Branch:
             </Text>
           </View>
@@ -190,7 +190,7 @@ export default function AddExpenseModal({
 
           {/* Expense Type */}
           <View style={styles.inputTitleCon}>
-            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+            <Text style={[styles.inputTitleText, { fontWeight: "500" }]}>
               Expense Type:
             </Text>
           </View>
@@ -213,7 +213,7 @@ export default function AddExpenseModal({
 
           {/* Input Receipt/OR No. */}
           <View style={styles.inputTitleCon}>
-            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+            <Text style={[styles.inputTitleText, { fontWeight: "500" }]}>
               Receipt/OR No.:
             </Text>
           </View>
@@ -229,7 +229,7 @@ export default function AddExpenseModal({
 
           {/* Item Name */}
           <View style={styles.inputTitleCon}>
-            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+            <Text style={[styles.inputTitleText, { fontWeight: "500" }]}>
               Item Name:
             </Text>
           </View>
@@ -245,7 +245,7 @@ export default function AddExpenseModal({
 
           {/* Item Quantity */}
           <View style={styles.inputTitleCon}>
-            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+            <Text style={[styles.inputTitleText, { fontWeight: "500" }]}>
               QTY:
             </Text>
           </View>
@@ -261,7 +261,7 @@ export default function AddExpenseModal({
 
           {/* Item Price */}
           <View style={styles.inputTitleCon}>
-            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+            <Text style={[styles.inputTitleText, { fontWeight: "500" }]}>
               Item Price:
             </Text>
           </View>
@@ -277,7 +277,7 @@ export default function AddExpenseModal({
 
           {/* Receipt Total */}
           <View style={styles.inputTitleCon}>
-            <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+            <Text style={[styles.inputTitleText, { fontWeight: "500" }]}>
               Receipt Total:
             </Text>
           </View>
@@ -410,7 +410,7 @@ const styles = StyleSheet.create({
   addAllText: {
     fontSize: 15,
     color: "#FFFFFF",
-    fontWeight: 500,
+    fontWeight: "500",
     textAlign: "center",
   },
   cancelButton: {

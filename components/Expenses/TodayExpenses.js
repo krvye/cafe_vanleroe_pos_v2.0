@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     marginRight: "2%",
   },
   amountText: {
-    fontWeight: 500,
+    fontWeight: "500",
     fontSize: 23,
   },
   expenseText: {
@@ -82,6 +82,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#FFFFFF",
     fontSize: 15,
-    fontWeight: 500,
+    fontWeight: "500",
   },
 });

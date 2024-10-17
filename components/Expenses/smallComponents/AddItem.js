@@ -22,7 +22,7 @@ export default function AddItem({
   return (
     <View style={styles.container}>
       <View style={styles.inputTitleCon}>
-        <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+        <Text style={[styles.inputTitleText, { fontWeight: "500" }]}>
           Item Name:
         </Text>
       </View>
@@ -37,7 +37,7 @@ export default function AddItem({
       </View>
 
       <View style={styles.inputTitleCon}>
-        <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>QTY:</Text>
+        <Text style={[styles.inputTitleText, { fontWeight: "500" }]}>QTY:</Text>
       </View>
       <View style={styles.inputContainer}>
         <TextInput
@@ -50,7 +50,7 @@ export default function AddItem({
       </View>
 
       <View style={styles.inputTitleCon}>
-        <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+        <Text style={[styles.inputTitleText, { fontWeight: "500" }]}>
           Item Price:
         </Text>
       </View>
@@ -65,7 +65,7 @@ export default function AddItem({
       </View>
 
       <View style={styles.inputTitleCon}>
-        <Text style={[styles.inputTitleText, { fontWeight: 500 }]}>
+        <Text style={[styles.inputTitleText, { fontWeight: "500" }]}>
           Total Price:
         </Text>
       </View>

@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
   },
   headText: {
-    fontWeight: "bold",
+    fontWeight: "600",
     textAlign: "center",
     alignSelf: "center",
   },
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
   },
   text: {
-    fontWeight: "regular",
+    fontWeight: "500",
     textAlign: "center",
   },
   modalContainer: {
@@ -357,7 +357,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#fff",
-    fontWeight: "bold",
+    fontWeight: "600",
     textAlign: "center",
   },
 });

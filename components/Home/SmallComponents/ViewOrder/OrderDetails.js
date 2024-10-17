@@ -126,7 +126,7 @@ const makeStyles = (height) =>
     },
     headerText: {
       fontSize: 20,
-      fontWeight: "bold",
+      fontWeight: "600",
       color: "#19191C",
     },
     container: {

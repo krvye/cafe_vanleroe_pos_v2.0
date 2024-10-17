@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerText: {
-    fontWeight: 500,
+    fontWeight: "500",
     textAlign: "center",
   },
   dataText: {

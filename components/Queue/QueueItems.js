@@ -159,12 +159,10 @@ export default function QueueItems({
               <View key={orderIndex} style={styles.queueItem}>
                 <View style={styles.queueItemDetailsContainer}>
                   <Text style={styles.queueItemTextStyles}>
-                    Order No.
-                     {order.orderNo}
+                    Order No.: {order.orderNo}
                   </Text>
                   <Text style={styles.queueItemTextStyles}>
-                    Order Taken By:
-                     {order.orderTakenBy}
+                    Order Taken By: {order.orderTakenBy}
                   </Text>
                   {dineInCountdownTimer[orderIndex] === "00:00" ? (
                     <Text style={styles.queueItemRedStyle}>
@@ -215,7 +213,10 @@ export default function QueueItems({
               <View key={orderIndex} style={styles.queueItem}>
                 <View style={styles.queueItemDetailsContainer}>
                   <Text style={styles.queueItemTextStyles}>
-                    Order No. {order.orderNo} {order.orderTakenBy}
+                    Order No.: {order.orderNo}
+                  </Text>
+                  <Text style={styles.queueItemTextStyles}>
+                    Order Taken By: {order.orderTakenBy}
                   </Text>
                   {takeOutCountdownTimer[orderIndex] === "00:00" ? (
                     <Text style={styles.queueItemRedStyle}>
@@ -266,7 +267,10 @@ export default function QueueItems({
               <View key={orderIndex} style={styles.queueItem}>
                 <View style={styles.queueItemDetailsContainer}>
                   <Text style={styles.queueItemTextStyles}>
-                    Order No. {order.orderNo} {order.orderTakenBy}
+                    Order No.: {order.orderNo}
+                  </Text>
+                  <Text style={styles.queueItemTextStyles}>
+                    Order Taken By: {order.orderTakenBy}
                   </Text>
                   {grabFpCountdownTimer[orderIndex] === "00:00" ? (
                     <Text style={styles.queueItemRedStyle}>
@@ -317,7 +321,10 @@ export default function QueueItems({
               <View key={orderIndex} style={styles.queueItem}>
                 <View style={styles.queueItemDetailsContainer}>
                   <Text style={styles.queueItemTextStyles}>
-                    Order No. {order.orderNo} {order.orderTakenBy}
+                    Order No.: {order.orderNo}
+                  </Text>
+                  <Text style={styles.queueItemTextStyles}>
+                    Order Taken By: {order.orderTakenBy}
                   </Text>
                   {fbCountdownTimer[orderIndex] === "00:00" ? (
                     <Text style={styles.queueItemRedStyle}>
@@ -374,9 +381,9 @@ const styles = StyleSheet.create({
   queueItemsContainer: {
     marginTop: 10,
     width: "100%",
-    height: '100%',
+    height: "100%",
     flexDirection: "column",
-    alignItems: 'center',
+    alignItems: "center",
   },
   queueItem: {
     width: "90%",
@@ -416,24 +423,24 @@ const styles = StyleSheet.create({
   },
   ordermodeTextStyles: {
     marginLeft: 25,
-    fontWeight: "bold",
+    fontWeight: "600",
     fontSize: 20,
   },
   queueItemTextStyles: {
-    fontWeight: 400,
-    fontSize: 13,
+    fontWeight: "500",
+    fontSize: 15,
     marginLeft: 20,
     color: "#0e0e0e",
   },
   queueItemRedStyle: {
-    fontWeight: 400,
-    fontSize: 13,
+    fontWeight: "500",
+    fontSize: 15,
     marginLeft: 20,
     color: "#F44336",
   },
   buttonText: {
-    fontWeight: 500,
-    fontSize: 13,
+    fontWeight: "500",
+    fontSize: 15,
     textAlign: "center",
     color: "#0e0e0e",
   },
@@ -444,7 +451,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   voidButtonText: {
-    fontWeight: 600,
+    fontWeight: "600",
     fontSize: 15,
     textAlign: "center",
     color: "#B66619",
