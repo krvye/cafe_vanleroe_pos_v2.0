@@ -4,7 +4,7 @@ export default function AmountDetails({
   finalTotal,
   paymentMethod,
   paidAmount,
-  paymentDetails,
+  paymentDetails = [],
 }) {
   return (
     <View style={styles.container}>
@@ -13,14 +13,20 @@ export default function AmountDetails({
         <Text style={styles.amountText}>₱{finalTotal.toFixed(2)}</Text>
       </View>
 
-      {paymentDetails.map((detail) => (
+      {paymentDetails.length > 0 ? (
+        paymentDetails.map((detail, index) => (
+          <View key={index} style={styles.amountContainer}>
+            <Text style={styles.amountLabel}>
+              Payment Method - {detail.modeOfPayment}
+            </Text>
+            <Text style={styles.amountDeducted}>-₱{detail.paymentAmount}</Text>
+          </View>
+        ))
+      ) : (
         <View style={styles.amountContainer}>
-          <Text style={styles.amountLabel}>
-            Payment Method - {detail.modeOfPayment}
-          </Text>
-          <Text style={styles.amountDeducted}>-₱{detail.paymentAmount}</Text>
+          <Text style={styles.amountLabel}>No payment details available</Text>
         </View>
-      ))}
+      )}
 
       <View style={styles.amountContainer}>
         <Text style={styles.amountLabel}>Change</Text>

@@ -11,6 +11,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Items from "./SmallComponents/MenuItem/Items";
 import OrderModesButtons from "./SmallComponents/MenuItem/OrderModeButtons";
 import { Alert } from "react-native";
+import { useEffect } from "react";
 
 export default function MenuItems({
   setModalState,
@@ -33,14 +34,35 @@ export default function MenuItems({
   foodService,
   setOnsiteMode,
   orderDetails,
+  resetOrder,
 }) {
   const { fontScale, scale } = useWindowDimensions();
   const styles = makeStyles(scale, fontScale);
   const iconSize = 70 / scale;
 
-  console.log("Food Service", foodService);
+  console.log("resetOrder", resetOrder);
+
+  useEffect(() => {
+    if (resetOrder === true) {
+      setFoodService("");
+      setCustomerName("");
+      setOrderNote("");
+      setOrderNumber("");
+      setRetekessNumber("");
+      setTimeElapsed("");
+      setOrderDetails([]);
+      setCustomDiscountCode("");
+      setDiscount(0);
+      setFinalTotal(0);
+      setSubTotal(0);
+      setPaymentMethod("");
+      setPaymentDetails({});
+      setOnsiteMode("");
+    }
+  }, [resetOrder]);
 
   const handleCancelOrder = () => {
+    setFoodService("");
     setCustomerName("");
     setOrderNote("");
     setOrderNumber("");

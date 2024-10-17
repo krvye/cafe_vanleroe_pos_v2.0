@@ -14,6 +14,7 @@ export default function InputAmount({
   setPaidAmount,
   setPaymentDetails,
   paymentMethod,
+  referenceNumber,
 }) {
   const [amount, setAmount] = useState("");
 
@@ -35,12 +36,36 @@ export default function InputAmount({
       return;
     }
 
+    // Check if referenceNumber is required and empty
+    if (
+      (paymentMethod === "Gcash" || paymentMethod === "Maya") &&
+      !referenceNumber
+    ) {
+      Alert.alert(
+        "Reference Number Required",
+        "Please enter a reference number for the selected payment method."
+      );
+      return;
+    }
+
     setAmount("");
     setPaidAmount((prev) => prev + parseFloat(amount));
-    setPaymentDetails((prevDetails) => [
-      ...prevDetails,
-      { modeOfPayment: paymentMethod, paymentAmount: parseFloat(amount) },
-    ]);
+
+    if (paymentMethod === "Gcash" || paymentMethod === "Maya") {
+      setPaymentDetails((prevDetails) => [
+        ...prevDetails,
+        {
+          modeOfPayment: paymentMethod,
+          paymentAmount: parseFloat(amount),
+          refNum: referenceNumber,
+        },
+      ]);
+    } else {
+      setPaymentDetails((prevDetails) => [
+        ...prevDetails,
+        { modeOfPayment: paymentMethod, paymentAmount: parseFloat(amount) },
+      ]);
+    }
   };
 
   return (

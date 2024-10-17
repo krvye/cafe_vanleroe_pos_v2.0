@@ -39,15 +39,19 @@ export default function PaymentDetails({
   employeeId,
   subTotal,
   onsiteMode,
+  setResetOrder,
 }) {
   const [paidAmount, setPaidAmount] = useState(0);
+  const [referenceNumber, setReferenceNumber] = useState("");
   const orderModesData = retrieveOrderModes();
   const { selectedBranch } = useBranches();
   let consumeMethod = "";
 
   const orderModeCode = orderModesData.find(
-    (orderMode) => orderMode.orderModeDesc === foodService
+    (orderMode) => foodService === orderMode.orderModeDesc
   )?.orderModeCode;
+
+  console.log("orderModeCode", orderModeCode);
 
   if (!orderModeCode) {
     consumeMethod = "";
@@ -99,13 +103,19 @@ export default function PaymentDetails({
       finalTotal
     );
     setPaymentDetailsState(false);
+    setResetOrder(true);
   };
 
   return (
     <Modal visible={paymentDetailsState} transparent={true}>
       <View style={styles.background}>
         <ScrollView style={styles.container}>
-          <Header setModalState={setPaymentDetailsState} />
+          <Header
+            setModalState={setPaymentDetailsState}
+            foodService={foodService}
+            orderNumber={orderNumber}
+            retekessNumber={retekessNumber}
+          />
 
           <AmountDetails
             finalTotal={finalTotal}
@@ -117,12 +127,15 @@ export default function PaymentDetails({
           <PaymentMethod
             paymentMethod={paymentMethod}
             setPaymentMethod={setPaymentMethod}
+            setReferenceNumber={setReferenceNumber}
+            referenceNumber={referenceNumber}
           />
 
           <InputAmount
             setPaidAmount={setPaidAmount}
             setPaymentDetails={setPaymentDetails}
             paymentMethod={paymentMethod}
+            referenceNumber={referenceNumber}
           />
 
           {paidAmount >= finalTotal && (

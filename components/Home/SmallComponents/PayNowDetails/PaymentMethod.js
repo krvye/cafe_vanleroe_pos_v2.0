@@ -10,7 +10,12 @@ import {
 
 import { retrievePaymentMethods } from "@services/firebase/Home/retrievePaymentMethods";
 
-export default function PaymentMethod({ paymentMethod, setPaymentMethod }) {
+export default function PaymentMethod({
+  paymentMethod,
+  setPaymentMethod,
+  setReferenceNumber,
+  referenceNumber,
+}) {
   const [selectedButton, setSelectedButton] = useState(null);
 
   const paymentMethods = retrievePaymentMethods();
@@ -22,6 +27,7 @@ export default function PaymentMethod({ paymentMethod, setPaymentMethod }) {
     setPaymentMethod((prevMethod) =>
       prevMethod === selectedPaymentMethod ? "" : selectedPaymentMethod
     );
+    setReferenceNumber(""); // Reset the reference number when switching payment methods
   };
 
   const getButtonColor = (button) => {
@@ -34,26 +40,24 @@ export default function PaymentMethod({ paymentMethod, setPaymentMethod }) {
 
       <View style={styles.methodContainer}>
         {paymentMethods.map((paymentMethod) => (
-          <>
-            <Pressable
-              key={paymentMethod.id}
-              style={[
-                styles.imageContainer,
-                {
-                  backgroundColor: getButtonColor(
-                    paymentMethod.paymentMethodDesc
-                  ),
-                },
-              ]}
-              onPress={() => handlePress(paymentMethod.paymentMethodDesc)}
-            >
-              {/* <Image
-            style={styles.cashImage}
-            source={require("@assets/cash.png")}
-          /> */}
-              <Text>{paymentMethod.paymentMethodDesc}</Text>
-            </Pressable>
-          </>
+          <Pressable
+            key={paymentMethod.id}
+            style={[
+              styles.imageContainer,
+              {
+                backgroundColor: getButtonColor(
+                  paymentMethod.paymentMethodDesc
+                ),
+              },
+            ]}
+            onPress={() => handlePress(paymentMethod.paymentMethodDesc)}
+          >
+            {/* <Image
+              style={styles.cashImage}
+              source={require("@assets/cash.png")}
+            /> */}
+            <Text>{paymentMethod.paymentMethodDesc}</Text>
+          </Pressable>
         ))}
       </View>
 
@@ -62,6 +66,8 @@ export default function PaymentMethod({ paymentMethod, setPaymentMethod }) {
           style={styles.referenceInput}
           placeholder="Input Reference Number"
           placeholderTextColor={"#C2C2C2"}
+          value={referenceNumber}
+          onChangeText={setReferenceNumber}
         />
       )}
     </View>

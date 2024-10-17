@@ -1,7 +1,12 @@
 import { AntDesign } from "@expo/vector-icons";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-export default function Header({ setModalState }) {
+export default function Header({
+  setModalState,
+  foodService,
+  orderNumber,
+  retekessNumber,
+}) {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -14,7 +19,11 @@ export default function Header({ setModalState }) {
           <AntDesign name="close" size={24} color="black" />
         </Pressable>
       </View>
-      <Text style={styles.orderNoText}>Order #102</Text>
+      <Text style={styles.orderNoText}>
+        {foodService === "On-Site"
+          ? `Retekess # ${retekessNumber}`
+          : `Order # ${orderNumber}`}
+      </Text>
     </View>
   );
 }
