@@ -41,6 +41,7 @@ export default function ViewOrderModal({
   timeElapsed,
   orderNumber,
   orderNote,
+  setOnsiteMode,
 }) {
   const discountCodes = retrieveDiscountCodes();
 
@@ -63,6 +64,7 @@ export default function ViewOrderModal({
             timeElapsed={timeElapsed}
             orderNumber={orderNumber}
             orderNote={orderNote}
+            setOnsiteMode={setOnsiteMode}
           />
 
           <View style={styles.borderLine}></View>

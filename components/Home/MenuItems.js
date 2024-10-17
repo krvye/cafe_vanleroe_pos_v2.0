@@ -30,6 +30,7 @@ export default function MenuItems({
   setPaymentMethod,
   setPaymentDetails,
   foodService,
+  setOnsiteMode,
 }) {
   const { fontScale, scale } = useWindowDimensions();
   const styles = makeStyles(scale, fontScale);
@@ -50,6 +51,7 @@ export default function MenuItems({
     setSubTotal(0);
     setPaymentMethod("");
     setPaymentDetails({});
+    setOnsiteMode("");
   };
 
   return (

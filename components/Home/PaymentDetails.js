@@ -38,6 +38,7 @@ export default function PaymentDetails({
   orderDetails,
   employeeId,
   subTotal,
+  onsiteMode,
 }) {
   const [paidAmount, setPaidAmount] = useState(0);
   const orderModesData = retrieveOrderModes();
@@ -50,8 +51,10 @@ export default function PaymentDetails({
 
   if (!orderModeCode) {
     consumeMethod = "";
-  } else if (orderModeCode === "OS" || orderModeCode === "KI") {
+  } else if (onsiteMode === "Dine In") {
     consumeMethod = "DINE";
+  } else if (onsiteMode === "Take Out") {
+    consumeMethod = "TAKE";
   } else if (orderModeCode === "GB" || orderModeCode === " FP") {
     consumeMethod = "ONLN";
   } else {

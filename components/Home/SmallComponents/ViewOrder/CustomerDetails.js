@@ -1,4 +1,5 @@
 import { AntDesign } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function CustomerDetails({
@@ -14,6 +15,7 @@ export default function CustomerDetails({
   timeElapsed,
   orderNumber,
   orderNote,
+  setOnsiteMode,
 }) {
   // Sync with parent state when the values change
   const handleCustomerNameChange = (value) => {
@@ -36,6 +38,13 @@ export default function CustomerDetails({
     setTimeElapsed(value);
   };
 
+  const handleDineIn = () => {
+    setOnsiteMode("Dine In");
+  };
+
+  const handleTakeOut = () => {
+    setOnsiteMode("Take Out");
+  };
   return (
     <View>
       <View style={styles.headerContainer}>
@@ -84,6 +93,20 @@ export default function CustomerDetails({
         value={orderNote}
         onChangeText={handleOrderNoteChange}
       />
+
+      {foodService === "On-Site" && (
+        <View style={styles.onsiteButtonsContainer}>
+          <TouchableOpacity style={styles.onsiteButtons} onPress={handleDineIn}>
+            <Text>Dine In</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.onsiteButtons}
+            onPress={handleTakeOut}
+          >
+            <Text>Take Out</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }
@@ -106,5 +129,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderRadius: 60,
     marginTop: 15,
+  },
+
+  onsiteButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginVertical: 15,
+  },
+  onsiteButtons: {
+    backgroundColor: "#E4E4E4",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 60,
   },
 });

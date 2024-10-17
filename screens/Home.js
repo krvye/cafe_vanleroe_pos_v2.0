@@ -31,6 +31,7 @@ export default function HomeScreen({ route }) {
   const [orderNote, setOrderNote] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [timeElapsed, setTimeElapsed] = useState("");
+  const [onsiteMode, setOnsiteMode] = useState("");
 
   console.log("Food Service", foodService);
 
@@ -56,6 +57,7 @@ export default function HomeScreen({ route }) {
         setPaymentMethod={setPaymentMethod}
         setPaymentDetails={setPaymentDetails}
         foodService={foodService}
+        setOnsiteMode={setOnsiteMode}
       />
       <AddOrder
         modalState={modalState}
@@ -94,6 +96,7 @@ export default function HomeScreen({ route }) {
         timeElapsed={timeElapsed}
         orderNumber={orderNumber}
         orderNote={orderNote}
+        setOnsiteMode={setOnsiteMode}
       />
       <PaymentDetails
         paymentDetailsState={paymentDetailsState}
@@ -114,6 +117,7 @@ export default function HomeScreen({ route }) {
         orderDetails={orderDetails}
         employeeId={employeeId}
         subTotal={subTotal}
+        onsiteMode={onsiteMode}
       />
     </View>
   );
