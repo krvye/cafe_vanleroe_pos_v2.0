@@ -162,7 +162,7 @@ export default function QueueItems({
                     Order No.: {order.orderNo}
                   </Text>
                   <Text style={styles.queueItemTextStyles}>
-                    Order Taken By: {order.orderTakenBy}
+                    Retekess Number: {order.retekessNumber}
                   </Text>
                   {dineInCountdownTimer[orderIndex] === "00:00" ? (
                     <Text style={styles.queueItemRedStyle}>
@@ -216,7 +216,7 @@ export default function QueueItems({
                     Order No.: {order.orderNo}
                   </Text>
                   <Text style={styles.queueItemTextStyles}>
-                    Order Taken By: {order.orderTakenBy}
+                    Retekess Number: {order.retekessNumber}
                   </Text>
                   {takeOutCountdownTimer[orderIndex] === "00:00" ? (
                     <Text style={styles.queueItemRedStyle}>
@@ -270,7 +270,7 @@ export default function QueueItems({
                     Order No.: {order.orderNo}
                   </Text>
                   <Text style={styles.queueItemTextStyles}>
-                    Order Taken By: {order.orderTakenBy}
+                    Retekess Number: {order.retekessNumber}
                   </Text>
                   {grabFpCountdownTimer[orderIndex] === "00:00" ? (
                     <Text style={styles.queueItemRedStyle}>
@@ -324,7 +324,7 @@ export default function QueueItems({
                     Order No.: {order.orderNo}
                   </Text>
                   <Text style={styles.queueItemTextStyles}>
-                    Order Taken By: {order.orderTakenBy}
+                    Retekess Number: {order.retekessNumber}
                   </Text>
                   {fbCountdownTimer[orderIndex] === "00:00" ? (
                     <Text style={styles.queueItemRedStyle}>

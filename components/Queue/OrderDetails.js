@@ -5,16 +5,15 @@ import { useState } from "react";
 
 export default function OrderDetails({
   selectedOrder,
-  addOnsInfo,
+  // addOnsInfo,
   noteTemplatesInfo,
 }) {
-
   // Map add ons to return addOnDesc
-  const handleAddOns = (addOnCode) => {
-    const addOnData = addOnsInfo.find((item) => item.addOnCode === addOnCode);
+  // const handleAddOns = (addOnCode) => {
+  //   const addOnData = addOnsInfo.find((item) => item.addOnCode === addOnCode);
 
-    return addOnData ? addOnData.addOnDesc : " ";
-  };
+  //   return addOnData ? addOnData.addOnDesc : " ";
+  // };
 
   // Map Note templates to return noteTemplatesDesc
   const handleNoteTemplates = (noteTemplatesCode) => {
@@ -31,14 +30,24 @@ export default function OrderDetails({
         return (
           <View key={orderIndex} style={styles.orderItem}>
             <View style={styles.orderDetails}>
-              <Text style={styles.orderItemText}>{order.itemName} - {order.itemSize}</Text>
-              <Text style={styles.orderItemText}>
+              <Text style={[styles.orderItemText, {fontWeight: "500"}]}>
+                {order.itemName} - {order.itemSize}
+              </Text>
+              <Text style={[styles.orderItemText, {fontWeight: "500"}]}>
                 Quantity: {order.itemQuantity}
               </Text>
-              <Text style={styles.orderItemText}>
-                Add Ons: {handleAddOns(order.addOns)}
-              </Text>
-              <Text style={styles.orderItemText}>
+              <Text style={[styles.orderItemText, {fontWeight: "500"}]}>Add Ons:</Text>
+              {order.addOns.map((addOns, index) => {
+                return (
+                  <Text
+                    key={index}
+                    style={[styles.orderItemText, { marginLeft: 50 }]}
+                  >
+                    {addOns.desc}
+                  </Text>
+                );
+              })}
+              <Text style={[styles.orderItemText, {fontWeight: "500"}]}>
                 Notes: {handleNoteTemplates(order.itemNotes)}
               </Text>
             </View>
@@ -80,7 +89,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     textAlign: "center",
   },
-  doneGreenButton: { 
+  doneGreenButton: {
     height: "45%",
     width: "20%",
     backgroundColor: "#4CAF50",
@@ -89,5 +98,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginRight: 30,
     marginTop: 10,
-  }
+  },
 });

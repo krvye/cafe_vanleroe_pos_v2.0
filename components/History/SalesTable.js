@@ -13,7 +13,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 export default function SalesTable({
   salesInfo,
   orderModeInfo,
-  modeOfPaymentInfo,
+  // modeOfPaymentInfo,
   addOnsInfo,
 }) {
   const [visibleItems, setVisibleItems] = useState({});
@@ -34,19 +34,19 @@ export default function SalesTable({
   };
 
   // Map modeOfPaymentDesc from MODE_OF_PAYMENT
-  const getModeOfPayment = (modeOfPaymentCode) => {
-    const modeOfPaymentData = modeOfPaymentInfo.find(
-      (item) => item.paymentMethodCode === modeOfPaymentCode
-    );
+  // const getModeOfPayment = (modeOfPaymentCode) => {
+  //   const modeOfPaymentData = modeOfPaymentInfo.find(
+  //     (item) => item.paymentMethodCode === modeOfPaymentCode
+  //   );
 
-    return modeOfPaymentData ? modeOfPaymentData.paymentMethodDesc : "";
-  };
+  //   return modeOfPaymentData ? modeOfPaymentData.paymentMethodDesc : "";
+  // };
 
   // Map addOnsDesc from POS_ITEMS_ADDONS
-  const getAddOns = (addOnsCode) => {
-    const addOnsData = addOnsInfo.find((item) => item.addOnCode === addOnsCode);
-    return addOnsData ? addOnsData.addOnDesc : " ";
-  };
+  // const getAddOns = (addOnsCode) => {
+  //   const addOnsData = addOnsInfo.find((item) => item.addOnCode === addOnsCode);
+  //   return addOnsData ? addOnsData.addOnDesc : " ";
+  // };
 
   const renderItem = ({ item, index }) => {
     const orderedItems = Array.isArray(item.orderItems)
@@ -55,29 +55,31 @@ export default function SalesTable({
           .join("\n")
       : item.orderItems;
 
-    const orderAddOns = Array.isArray(item.orderItems)
-      ? item.orderItems.map(({ addOns }) => addOns)
-      : item.orderItems;
+    const orderAddOnsArr = [];
 
-    const orderAddOnsArr = []
-    for (const item of orderAddOns) {
-      orderAddOnsArr.push(item);
+    if (Array.isArray(item.orderItems)) {
+      item.orderItems.forEach((orderItem) => {
+        if (Array.isArray(orderItem.addOns)) {
+          orderItem.addOns.forEach((addOn) => {
+            orderAddOnsArr.push(addOn.desc);
+          });
+        }
+      });
+    } else {
+      orderAddOnsArr.push(item.orderItems);
     }
-
     console.log("Order Add ons array: ", orderAddOnsArr);
 
     const paymentMethods = item.paymentMethods
       .map((method) => method.modeOfPayment)
       .join(",");
 
+    console.log("payment methods: ", paymentMethods);
+
     return (
       <View style={styles.row}>
-        <Text style={[styles.dataText, { width: 200 }]}>
-          {item.orderNo}
-        </Text>
-        <Text style={[styles.dataText, { width: 200 }]}>
-          {getModeOfPayment(paymentMethods)}
-        </Text>
+        <Text style={[styles.dataText, { width: 200 }]}>{item.orderNo}</Text>
+        <Text style={[styles.dataText, { width: 200 }]}>{paymentMethods}</Text>
         <Text style={[styles.dataText, { width: 150 }]}>
           {getOrderMode(item.orderMode)}
         </Text>
@@ -97,8 +99,10 @@ export default function SalesTable({
             </Text>
             <Text style={[styles.dataText, { width: 170 }]}>
               {visibleItems[index]
-                ? orderAddOnsArr.map((order) => getAddOns(order)).join('\n')
-                : `${getAddOns(item.orderItems[0].addOns)} \n`}
+                ? orderAddOnsArr.join("\n")
+                : `${item.orderItems[0].addOns
+                    .map((addOn) => addOn.desc)
+                    .join("\n")} \n`}
             </Text>
           </>
         ) : (
@@ -106,9 +110,14 @@ export default function SalesTable({
             <Text style={[styles.dataText, { width: 270 }]}>
               {orderedItems}
             </Text>
-            <Text style={[styles.dataText, { width: 170 }]}>
-              {getAddOns(orderAddOns)}
-            </Text>
+            {orderAddOnsArr.map((addOnDesc, index) => {
+              console.log("add on: ", addOnDesc);
+              return (
+                <Text key={index} style={[styles.dataText, { width: 170 }]}>
+                  {addOnDesc}
+                </Text>
+              );
+            })}
           </>
         )}
 
@@ -143,9 +152,7 @@ export default function SalesTable({
       >
         <View style={styles.listContainer}>
           <View style={styles.header}>
-            <Text style={[styles.headerText, { width: 200 }]}>
-              Order No.
-            </Text>
+            <Text style={[styles.headerText, { width: 200 }]}>Order No.</Text>
             <Text style={[styles.headerText, { width: 200 }]}>
               Mode of Payment
             </Text>
