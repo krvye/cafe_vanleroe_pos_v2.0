@@ -16,6 +16,8 @@ import { processDailySales } from "@services/firebase/Home/processDailySales";
 
 import { useBranches } from "../../context/BranchContext";
 
+import { retrieveEmployeeName } from "@services/firebase/Home/retrieveEmployeeName";
+
 export default function PaymentDetails({
   paymentDetailsState,
   setPaymentDetailsState,
@@ -33,7 +35,11 @@ export default function PaymentDetails({
   customerName,
   timeElapsed,
   orderDetails,
+  employeeId,
+  subTotal,
 }) {
+  console.log("Order Details: ", orderDetails);
+
   const [paidAmount, setPaidAmount] = useState(0);
   const { selectedBranch } = useBranches();
   const selectedBranchCode = selectedBranch ? selectedBranch.branchCode : null;
@@ -42,8 +48,17 @@ export default function PaymentDetails({
   const orderChange = 0;
   const orderTakenBy = "Shalala";
 
+  const employeeName = retrieveEmployeeName(employeeId);
+
   const printReceipt = async () => {
-    const html = await generateReceipt();
+    const html = await generateReceipt(
+      orderNumber,
+      customerName,
+      orderDetails,
+      subTotal,
+      discount,
+      finalTotal
+    );
     await Print.printAsync({ html });
   };
 
@@ -68,8 +83,6 @@ export default function PaymentDetails({
     );
     setPaymentDetailsState(false);
   };
-
-  console.log(paidAmount);
 
   return (
     <Modal visible={paymentDetailsState} transparent={true}>

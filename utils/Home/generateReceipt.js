@@ -1,44 +1,22 @@
-// Generate a random order number
-const orderNumber = Math.floor(Math.random() * 10000);
+async function generateReceipt(
+  orderNumber,
+  name,
+  orderDetails, // Array of order details
+  subTotal,
+  discountTotal,
+  totAmount
+) {
+  // Initialize empty strings for items and prices
+  let receiptItemString = "";
+  let receiptItemPrice = "";
 
-// Random customer name from a list
-const names = [
-  "John Doe",
-  "Jane Smith",
-  "Alice Johnson",
-  "Chris Evans",
-  "Michael Brown",
-];
-const name = names[Math.floor(Math.random() * names.length)];
+  // Iterate over orderDetails array and append item names and prices to the strings
+  orderDetails.forEach((order) => {
+    receiptItemString += `<h1 style="font-size: 13px; font-family: Helvetica Neue; font-weight: normal;">${order.itemName}</h1>`;
+    receiptItemPrice += `<h1 style="font-size: 13px; font-family: Helvetica Neue; font-weight: normal; text-align: right;">P${order.itemTotalAmount}.00</h1>`;
+  });
 
-// Random receipt items and prices
-const items = [
-  { item: "Coffee", price: 3.5 },
-  { item: "Sandwich", price: 5.99 },
-  { item: "Cake", price: 4.25 },
-  { item: "Juice", price: 2.75 },
-  { item: "Salad", price: 4.99 },
-];
-
-const randomItem1 = items[Math.floor(Math.random() * items.length)];
-const randomItem2 = items[Math.floor(Math.random() * items.length)];
-
-const receiptItemString = `${randomItem1.item}, ${randomItem2.item}`;
-const receiptItemPrice = `${randomItem1.price.toFixed(
-  2
-)}, ${randomItem2.price.toFixed(2)}`;
-
-// Calculate the subtotal by adding the prices of the items
-const subTotal = (randomItem1.price + randomItem2.price).toFixed(2);
-
-// Generate a random discount between 5% and 20%
-const discountPercentage = Math.floor(Math.random() * (20 - 5 + 1)) + 5;
-const discountTotal = ((subTotal * discountPercentage) / 100).toFixed(2);
-
-// Calculate the total amount after discount
-const totAmount = (subTotal - discountTotal).toFixed(2);
-
-async function generateReceipt() {
+  // Return the HTML template with the dynamically generated item names and prices
   return `
         <html>
         <head>
@@ -54,7 +32,7 @@ async function generateReceipt() {
           } 
       </style>
       <script>
-        document.getElementById('username').innerHTML = "SUBTOTAL: " ;
+        document.getElementById('username').innerHTML = "SUBTOTAL: ";
       </script>
         <body style="text-align: center;">
           <div>
@@ -69,7 +47,6 @@ async function generateReceipt() {
             </h1>
           </div>
           <div>
-          
             <h1 style="font-size: 13px; font-family: Helvetica Neue; font-weight: normal; text-align: center;">Order Id: ${orderNumber}</h1>
             <h1 style="font-size: 13px; font-family: Helvetica Neue; font-weight: normal; text-align: center;">Customer Name: ${name}</h1>
             
@@ -78,12 +55,11 @@ async function generateReceipt() {
                 <th class = 'b'><h1 style="font-size: 13px; font-family: Helvetica Neue; font-weight: normal;">ITEM</h1></th>
                 <th class = 'c'><h1 style="font-size: 13px; font-family: Helvetica Neue; font-weight: normal;">PRICE</h1></th>
               </tr>
-              <!-- <tr >
-               <td class = 'b' ><h1 style="font-size: 13px; font-family: Helvetica Neue; font-weight: normal;">${receiptItemString}</h1></td>
-                <td class = 'c'><h1 style="font-size: 13px; font-family: Helvetica Neue; font-weight: normal;">${receiptItemPrice}</h1></td> 
-              </tr> -->
+              <tr>
+                <td class = 'b'>${receiptItemString}</td>
+                <td class = 'c'>${receiptItemPrice}</td>
+              </tr>
             </table>
-            <h1 style="font-size: 13px; font-family: Helvetica Neue; font-weight: normal; text-align: left;">${receiptItemString}</h1>
           </div>
           <div>
             <h1 style="font-size: 20px; font-family: Helvetica Neue; font-weight: normal;">

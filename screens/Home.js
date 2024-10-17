@@ -8,7 +8,7 @@ import ViewOrderModal from "@components/Home/ViewOrderModal";
 import PaymentDetails from "@components/Home/PaymentDetails";
 
 export default function HomeScreen({ route }) {
-  const { employeeId } = route.params; 
+  const { employeeId } = route.params;
   console.log("Employee: ", employeeId);
 
   const [modalState, setModalState] = useState(false);
@@ -95,6 +95,8 @@ export default function HomeScreen({ route }) {
         customerName={customerName}
         timeElapsed={timeElapsed}
         orderDetails={orderDetails}
+        employeeId={employeeId}
+        subTotal={subTotal}
       />
     </View>
   );
