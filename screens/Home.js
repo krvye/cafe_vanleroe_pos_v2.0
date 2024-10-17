@@ -7,7 +7,10 @@ import MenuItems from "@components/Home/MenuItems";
 import ViewOrderModal from "@components/Home/ViewOrderModal";
 import PaymentDetails from "@components/Home/PaymentDetails";
 
-export default function HomeScreen() {
+export default function HomeScreen({ route }) {
+  const { employeeId } = route.params; 
+  console.log("Employee: ", employeeId);
+
   const [modalState, setModalState] = useState(false);
   const [viewOrderState, setViewOrderState] = useState(false);
   const [paymentDetailsState, setPaymentDetailsState] = useState(false);
@@ -40,6 +43,7 @@ export default function HomeScreen() {
         setFoodService={setFoodService}
         selectedCategoryCode={selectedCategoryCode}
         setSelectedItem={setSelectedItem}
+        employeeId={employeeId}
       />
       <AddOrder
         modalState={modalState}

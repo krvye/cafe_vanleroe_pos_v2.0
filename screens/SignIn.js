@@ -143,7 +143,9 @@ export default function SignInScreen({ navigation, route }) {
           "You must clock in before proceeding with login."
         );
       } else {
-        navigation.navigate("TabNavigator");
+        navigation.navigate("TabNavigator", {
+          employeeId: selectedEmp.employeeId,
+        });
       }
     } else {
       Alert.alert("Notice", "Select your profile.");
@@ -368,7 +370,9 @@ export default function SignInScreen({ navigation, route }) {
                 ]}
                 onPress={handleTimeIn}
               >
-                <Text style={{ color: "#fff", fontSize: 16, fontWeight: "500" }}>
+                <Text
+                  style={{ color: "#fff", fontSize: 16, fontWeight: "500" }}
+                >
                   Time In
                 </Text>
               </TouchableOpacity>
@@ -399,7 +403,9 @@ export default function SignInScreen({ navigation, route }) {
                 ]}
                 onPress={handleBreakIn}
               >
-                <Text style={{ color: "#fff", fontSize: 16, fontWeight: "500" }}>
+                <Text
+                  style={{ color: "#fff", fontSize: 16, fontWeight: "500" }}
+                >
                   Break In
                 </Text>
               </TouchableOpacity>

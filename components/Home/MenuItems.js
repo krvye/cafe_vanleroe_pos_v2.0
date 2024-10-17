@@ -17,10 +17,15 @@ export default function MenuItems({
   setFoodService,
   selectedCategoryCode,
   setSelectedItem,
+  employeeId
 }) {
+
+  console.log("Employee id: ", employeeId);
+  
   const { fontScale, scale } = useWindowDimensions();
   const styles = makeStyles(scale, fontScale);
   const iconSize = 70 / scale;
+
 
   return (
     <ScrollView style={styles.container}>

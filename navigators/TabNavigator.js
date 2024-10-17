@@ -12,7 +12,9 @@ import { StatusBar } from "expo-status-bar";
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function TabNavigator() {
+export default function TabNavigator({ route }) {
+  const { employeeId } = route.params;
+
   return (
     <>
       <StatusBar backgroundColor="white" />
@@ -26,7 +28,11 @@ export default function TabNavigator() {
         }}
         tabBar={(props) => <CustomTabBar {...props} />}
       >
-        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen
+          name="Home"
+          component={HomeScreen}
+          initialParams={{ employeeId }} // Pass employeeId to HomeScreen
+        />
         <Tab.Screen name="Queue" component={QueueScreen} />
         <Tab.Screen name="History" component={HistoryScreen} />
         <Tab.Screen name="Inventory" component={InventoryScreen} />
