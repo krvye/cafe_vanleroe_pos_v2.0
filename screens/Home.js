@@ -122,6 +122,18 @@ export default function HomeScreen({ route }) {
         subTotal={subTotal}
         onsiteMode={onsiteMode}
         setResetOrder={setResetOrder}
+        setFoodService={setFoodService}
+        setCustomerName={setCustomerName}
+        setOrderNote={setOrderNote}
+        setOrderNumber={setOrderNumber}
+        setRetekessNumber={setRetekessNumber}
+        setTimeElapsed={setTimeElapsed}
+        setOrderDetails={setOrderDetails}
+        setCustomDiscountCode={setCustomDiscountCode}
+        setDiscount={setDiscount}
+        setFinalTotal={setFinalTotal}
+        setSubTotal={setSubTotal}
+        setOnsiteMode={setOnsiteMode}
       />
     </View>
   );

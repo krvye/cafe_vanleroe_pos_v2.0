@@ -42,24 +42,24 @@ export default function MenuItems({
 
   console.log("resetOrder", resetOrder);
 
-  useEffect(() => {
-    if (resetOrder === true) {
-      setFoodService("");
-      setCustomerName("");
-      setOrderNote("");
-      setOrderNumber("");
-      setRetekessNumber("");
-      setTimeElapsed("");
-      setOrderDetails([]);
-      setCustomDiscountCode("");
-      setDiscount(0);
-      setFinalTotal(0);
-      setSubTotal(0);
-      setPaymentMethod("");
-      setPaymentDetails({});
-      setOnsiteMode("");
-    }
-  }, [resetOrder]);
+  // useEffect(() => {
+  //   if (resetOrder === true) {
+  //     setFoodService("");
+  //     setCustomerName("");
+  //     setOrderNote("");
+  //     setOrderNumber("");
+  //     setRetekessNumber("");
+  //     setTimeElapsed("");
+  //     setOrderDetails([]);
+  //     setCustomDiscountCode("");
+  //     setDiscount(0);
+  //     setFinalTotal(0);
+  //     setSubTotal(0);
+  //     setPaymentMethod("");
+  //     setPaymentDetails({});
+  //     setOnsiteMode("");
+  //   }
+  // }, [resetOrder]);
 
   const handleCancelOrder = () => {
     setFoodService("");

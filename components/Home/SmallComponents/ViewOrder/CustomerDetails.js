@@ -2,6 +2,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Alert } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { useState } from "react";
 
 export default function CustomerDetails({
   setModalState,
@@ -18,6 +19,8 @@ export default function CustomerDetails({
   orderNote,
   setOnsiteMode,
 }) {
+  const [selectedMode, setSelectedMode] = useState(null);
+
   // Sync with parent state when the values change
   const handleCustomerNameChange = (value) => {
     setCustomerName(value);
@@ -51,12 +54,15 @@ export default function CustomerDetails({
   };
 
   const handleDineIn = () => {
+    setSelectedMode("Dine In");
     setOnsiteMode("Dine In");
   };
 
   const handleTakeOut = () => {
+    setSelectedMode("Take Out");
     setOnsiteMode("Take Out");
   };
+
   return (
     <View>
       <View style={styles.headerContainer}>
@@ -114,14 +120,31 @@ export default function CustomerDetails({
 
       {foodService === "On-Site" && (
         <View style={styles.onsiteButtonsContainer}>
-          <TouchableOpacity style={styles.onsiteButtons} onPress={handleDineIn}>
-            <Text>Dine In</Text>
+          <TouchableOpacity
+            style={[
+              styles.onsiteButtons,
+              selectedMode === "Dine In" && styles.selectedButton,
+            ]}
+            onPress={handleDineIn}
+          >
+            <Text
+              style={selectedMode === "Dine In" ? styles.selectedText : null}
+            >
+              Dine In
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.onsiteButtons}
+            style={[
+              styles.onsiteButtons,
+              selectedMode === "Take Out" && styles.selectedButton,
+            ]}
             onPress={handleTakeOut}
           >
-            <Text>Take Out</Text>
+            <Text
+              style={selectedMode === "Take Out" ? styles.selectedText : null}
+            >
+              Take Out
+            </Text>
           </TouchableOpacity>
         </View>
       )}
@@ -148,7 +171,6 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     marginTop: 15,
   },
-
   onsiteButtonsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -159,5 +181,11 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 60,
+  },
+  selectedButton: {
+    backgroundColor: "#FFD700", // Example color for selected state
+  },
+  selectedText: {
+    color: "#FFFFFF", // Change text color when selected
   },
 });

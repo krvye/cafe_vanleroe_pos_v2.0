@@ -40,6 +40,18 @@ export default function PaymentDetails({
   subTotal,
   onsiteMode,
   setResetOrder,
+  setFoodService,
+  setCustomerName,
+  setOrderNote,
+  setOrderNumber,
+  setRetekessNumber,
+  setTimeElapsed,
+  setOrderDetails,
+  setCustomDiscountCode,
+  setDiscount,
+  setFinalTotal,
+  setSubTotal,
+  setOnsiteMode,
 }) {
   const [paidAmount, setPaidAmount] = useState(0);
   const [referenceNumber, setReferenceNumber] = useState("");
@@ -102,8 +114,22 @@ export default function PaymentDetails({
       retekessNumber,
       finalTotal
     );
-    setPaymentDetailsState(false);
     setResetOrder(true);
+    setFoodService("");
+    setCustomerName("");
+    setOrderNote("");
+    setOrderNumber("");
+    setRetekessNumber("");
+    setTimeElapsed("");
+    setOrderDetails([]);
+    setCustomDiscountCode("");
+    setDiscount(0);
+    setFinalTotal(0);
+    setSubTotal(0);
+    setPaymentMethod("");
+    setPaymentDetails({});
+    setOnsiteMode("");
+    setPaymentDetailsState(false);
   };
 
   return (
