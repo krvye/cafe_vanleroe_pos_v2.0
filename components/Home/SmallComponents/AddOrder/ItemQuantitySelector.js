@@ -9,11 +9,13 @@ export default function ItemQuantitySelector({
   setItemPrice,
   quantity,
   setQuantity,
+  setUnavailableSize,
 }) {
   useEffect(() => {
     // Calculate initial price based on the default quantity and selected properties.
     const basePrice = getProductPrice();
     const initialPrice = basePrice * quantity;
+    setUnavailableSize(basePrice === 0);
     setItemPrice(basePrice);
   }, [selectedItem, foodService, itemSize]);
 

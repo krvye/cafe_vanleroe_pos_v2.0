@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
@@ -10,36 +9,30 @@ export default function CustomerDetails({
   setOrderNote,
   setCustomerName,
   setTimeElapsed,
+  customerName,
+  retekessNumber,
+  timeElapsed,
+  orderNumber,
+  orderNote,
 }) {
-  const [customerName, setLocalCustomerName] = useState("");
-  const [retekessNumber, setLocalRetekessNumber] = useState("");
-  const [orderNumber, setLocalOrderNumber] = useState("");
-  const [orderNote, setLocalOrderNote] = useState("");
-  const [timeElapsed, setLocalTimeElapsed] = useState("");
-
   // Sync with parent state when the values change
   const handleCustomerNameChange = (value) => {
-    setLocalCustomerName(value);
     setCustomerName(value);
   };
 
   const handleRetekessNumberChange = (value) => {
-    setLocalRetekessNumber(value);
     setRetekessNumber(value);
   };
 
   const handleOrderNumberChange = (value) => {
-    setLocalOrderNumber(value);
     setOrderNumber(value);
   };
 
   const handleOrderNoteChange = (value) => {
-    setLocalOrderNote(value);
     setOrderNote(value);
   };
 
   const handleTimeElapsedChange = (value) => {
-    setLocalTimeElapsed(value);
     setTimeElapsed(value);
   };
 

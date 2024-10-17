@@ -1,4 +1,6 @@
+import React from "react";
 import {
+  Alert,
   Image,
   ScrollView,
   StyleSheet,
@@ -13,6 +15,7 @@ export default function Items({
   setModalState,
   selectedCategoryCode,
   setSelectedItem,
+  foodService,
 }) {
   const styles = makeStyles(useWindowDimensions().height);
 
@@ -21,6 +24,16 @@ export default function Items({
   const filteredItems = selectedCategoryCode
     ? itemData.filter((item) => item.categoryCode === selectedCategoryCode)
     : itemData;
+
+  const handleItemPress = (item) => {
+    if (!foodService) {
+      Alert.alert("Alert", "Choose order mode first");
+      return;
+    }
+
+    setModalState(true);
+    setSelectedItem(item);
+  };
 
   return (
     <ScrollView
@@ -32,10 +45,7 @@ export default function Items({
         <TouchableOpacity
           style={styles.productContainer}
           key={index}
-          onPress={() => {
-            setModalState(true);
-            setSelectedItem(item);
-          }}
+          onPress={() => handleItemPress(item)}
         >
           <Image source={{ uri: item.image }} style={styles.productImage} />
           <Text style={styles.productName}>{item.productName}</Text>

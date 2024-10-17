@@ -17,15 +17,40 @@ export default function MenuItems({
   setFoodService,
   selectedCategoryCode,
   setSelectedItem,
-  employeeId
+  setCustomerName,
+  setOrderNote,
+  setOrderNumber,
+  setRetekessNumber,
+  setTimeElapsed,
+  setOrderDetails,
+  setCustomDiscountCode,
+  setDiscount,
+  setFinalTotal,
+  setSubTotal,
+  setPaymentMethod,
+  setPaymentDetails,
+  foodService,
 }) {
-
-  console.log("Employee id: ", employeeId);
-  
   const { fontScale, scale } = useWindowDimensions();
   const styles = makeStyles(scale, fontScale);
   const iconSize = 70 / scale;
 
+  console.log("Food Service", foodService);
+
+  const handleCancelOrder = () => {
+    setCustomerName("");
+    setOrderNote("");
+    setOrderNumber("");
+    setRetekessNumber("");
+    setTimeElapsed("");
+    setOrderDetails([]);
+    setCustomDiscountCode("");
+    setDiscount(0);
+    setFinalTotal(0);
+    setSubTotal(0);
+    setPaymentMethod("");
+    setPaymentDetails({});
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -34,9 +59,13 @@ export default function MenuItems({
         setModalState={setModalState}
         selectedCategoryCode={selectedCategoryCode}
         setSelectedItem={setSelectedItem}
+        foodService={foodService}
       />
       <View style={styles.orderButtonContainer}>
-        <TouchableOpacity style={styles.cancelOrderButton}>
+        <TouchableOpacity
+          style={styles.cancelOrderButton}
+          onPress={handleCancelOrder}
+        >
           <MaterialCommunityIcons name="cash" size={iconSize} color="white" />
           <Text style={styles.orderButtonText}>Cancel Order</Text>
         </TouchableOpacity>

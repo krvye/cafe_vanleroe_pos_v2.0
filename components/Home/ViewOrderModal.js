@@ -36,6 +36,11 @@ export default function ViewOrderModal({
   setOrderNote,
   setCustomerName,
   setTimeElapsed,
+  customerName,
+  retekessNumber,
+  timeElapsed,
+  orderNumber,
+  orderNote,
 }) {
   const discountCodes = retrieveDiscountCodes();
 
@@ -53,6 +58,11 @@ export default function ViewOrderModal({
             setOrderNote={setOrderNote}
             setCustomerName={setCustomerName}
             setTimeElapsed={setTimeElapsed}
+            customerName={customerName}
+            retekessNumber={retekessNumber}
+            timeElapsed={timeElapsed}
+            orderNumber={orderNumber}
+            orderNote={orderNote}
           />
 
           <View style={styles.borderLine}></View>
@@ -78,6 +88,11 @@ export default function ViewOrderModal({
             discount={discount}
             setFinalTotal={setFinalTotal}
             finalTotal={finalTotal}
+            foodService={foodService}
+            customerName={customerName}
+            retekessNumber={retekessNumber}
+            timeElapsed={timeElapsed}
+            orderNumber={orderNumber}
           />
         </KeyboardAvoidingView>
       </ScrollView>

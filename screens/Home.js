@@ -43,7 +43,19 @@ export default function HomeScreen({ route }) {
         setFoodService={setFoodService}
         selectedCategoryCode={selectedCategoryCode}
         setSelectedItem={setSelectedItem}
-        employeeId={employeeId}
+        setCustomerName={setCustomerName}
+        setOrderNote={setOrderNote}
+        setOrderNumber={setOrderNumber}
+        setRetekessNumber={setRetekessNumber}
+        setTimeElapsed={setTimeElapsed}
+        setOrderDetails={setOrderDetails}
+        setCustomDiscountCode={setCustomDiscountCode}
+        setDiscount={setDiscount}
+        setFinalTotal={setFinalTotal}
+        setSubTotal={setSubTotal}
+        setPaymentMethod={setPaymentMethod}
+        setPaymentDetails={setPaymentDetails}
+        foodService={foodService}
       />
       <AddOrder
         modalState={modalState}
@@ -77,6 +89,11 @@ export default function HomeScreen({ route }) {
         setOrderNote={setOrderNote}
         setCustomerName={setCustomerName}
         setTimeElapsed={setTimeElapsed}
+        customerName={customerName}
+        retekessNumber={retekessNumber}
+        timeElapsed={timeElapsed}
+        orderNumber={orderNumber}
+        orderNote={orderNote}
       />
       <PaymentDetails
         paymentDetailsState={paymentDetailsState}

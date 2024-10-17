@@ -17,6 +17,7 @@ import { processDailySales } from "@services/firebase/Home/processDailySales";
 import { useBranches } from "../../context/BranchContext";
 
 import { retrieveEmployeeName } from "@services/firebase/Home/retrieveEmployeeName";
+import { retrieveOrderModes } from "@services/firebase/Home/retrieveOrderModes";
 
 export default function PaymentDetails({
   paymentDetailsState,
@@ -38,10 +39,25 @@ export default function PaymentDetails({
   employeeId,
   subTotal,
 }) {
-  console.log("Order Details: ", orderDetails);
-
   const [paidAmount, setPaidAmount] = useState(0);
+  const orderModesData = retrieveOrderModes();
   const { selectedBranch } = useBranches();
+  let consumeMethod = "";
+
+  const orderModeCode = orderModesData.find(
+    (orderMode) => orderMode.orderModeDesc === foodService
+  )?.orderModeCode;
+
+  if (!orderModeCode) {
+    consumeMethod = "";
+  } else if (orderModeCode === "OS" || orderModeCode === "KI") {
+    consumeMethod = "DINE";
+  } else if (orderModeCode === "GB" || orderModeCode === " FP") {
+    consumeMethod = "ONLN";
+  } else {
+    consumeMethod = "DELI";
+  }
+
   const selectedBranchCode = selectedBranch ? selectedBranch.branchCode : null;
 
   const dateToday = new Date().toISOString().split("T")[0];
@@ -64,14 +80,14 @@ export default function PaymentDetails({
     printReceipt();
     processDailySales(
       selectedBranchCode,
-      foodService,
+      consumeMethod,
       discount,
       customDiscountCode,
       timeElapsed,
       orderChange,
       dateToday,
       orderDetails,
-      foodService,
+      orderModeCode,
       orderNumber,
       orderNote,
       orderTakenBy,

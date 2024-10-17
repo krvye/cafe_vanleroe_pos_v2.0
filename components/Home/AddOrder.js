@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  Alert, // Import Alert here
   Image,
   KeyboardAvoidingView,
   Modal,
@@ -37,6 +38,7 @@ export default function AddOrder({
   const [addOns, setAddOns] = useState([]);
   const [note, setNote] = useState("");
   const [addOnPrice, setAddOnPrice] = useState(0);
+  const [unavailableSize, setUnavailableSize] = useState(false);
 
   const productName = selectedItem.productName ? selectedItem.productName : "";
 
@@ -45,6 +47,12 @@ export default function AddOrder({
   }, [itemPrice, addOnPrice, quantity]);
 
   const handleAddOrder = () => {
+    // Check if the selected size is unavailable
+    if (unavailableSize) {
+      Alert.alert("Size Unavailable", "The selected size is unavailable.");
+      return;
+    }
+
     // Create an order object with relevant details.
     const newOrder = {
       addOns: addOns, // Include selected add-ons in the order object
@@ -118,6 +126,7 @@ export default function AddOrder({
               setItemPrice={setItemPrice}
               quantity={quantity}
               setQuantity={setQuantity}
+              setUnavailableSize={setUnavailableSize}
             />
 
             <AddOns setAddOns={setAddOns} setAddOnPrice={setAddOnPrice} />

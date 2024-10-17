@@ -22,10 +22,19 @@ export default function InputAmount({
   };
 
   const handleAddPress = () => {
+    if (!paymentMethod) {
+      Alert.alert(
+        "Payment Method Required",
+        "Please select a payment method first."
+      );
+      return;
+    }
+
     if (amount === "" || isNaN(parseFloat(amount))) {
       Alert.alert("Invalid Input", "Please enter a valid amount.");
       return;
     }
+
     setAmount("");
     setPaidAmount((prev) => prev + parseFloat(amount));
     setPaymentDetails((prevDetails) => [

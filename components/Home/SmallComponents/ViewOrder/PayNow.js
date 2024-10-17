@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function PayNow({
   setViewOrderState,
@@ -8,10 +8,54 @@ export default function PayNow({
   discount,
   setFinalTotal,
   finalTotal,
+  foodService,
+  customerName,
+  retekessNumber,
+  timeElapsed,
+  orderNumber,
 }) {
   useEffect(() => {
     setFinalTotal(subTotal - discount);
   }, [subTotal, discount, setFinalTotal]);
+
+  const handlePayNowPress = () => {
+    // Check if finalTotal is empty, NaN, or undefined
+    if (!finalTotal || isNaN(finalTotal)) {
+      Alert.alert("Error", "No order yet!.");
+      return;
+    }
+
+    // Check if customerName is empty
+    if (!customerName) {
+      Alert.alert("Error", "Customer name is required.");
+      return;
+    }
+
+    // Check if foodService is "On-Site" and retekessNumber or timeElapsed is empty
+    if (foodService === "On-Site" && (!retekessNumber || !timeElapsed)) {
+      Alert.alert(
+        "Error",
+        "Retekess number and time elapsed are required for On-Site orders."
+      );
+      return;
+    }
+
+    // Check if foodService is "Foodpanda" or "Grab" and orderNumber is empty
+    if (
+      (foodService === "Foodpanda" || foodService === "Grab") &&
+      !orderNumber
+    ) {
+      Alert.alert(
+        "Error",
+        "Order number is required for Foodpanda/Grab orders."
+      );
+      return;
+    }
+
+    // If all checks pass, proceed to payment details
+    setViewOrderState(false);
+    setPaymentDetailsState(true);
+  };
 
   return (
     <View style={styles.container}>
@@ -30,13 +74,7 @@ export default function PayNow({
         <Text style={styles.amountLabel}>Total</Text>
         <Text style={styles.totalAmount}>₱{finalTotal.toFixed(2)}</Text>
       </View>
-      <TouchableOpacity
-        style={styles.payNowButton}
-        onPress={() => {
-          setViewOrderState(false);
-          setPaymentDetailsState(true);
-        }}
-      >
+      <TouchableOpacity style={styles.payNowButton} onPress={handlePayNowPress}>
         <Text style={styles.payNowText}>Pay Now</Text>
       </TouchableOpacity>
     </View>

@@ -3,7 +3,7 @@ import { db } from "../firebaseConfig";
 
 export async function processDailySales(
   branchCode,
-  foodService,
+  consumeMethod,
   discount,
   customDiscountCode,
   elapsedTime,
@@ -20,18 +20,18 @@ export async function processDailySales(
 ) {
   dailySalesData = {
     branchCode: branchCode,
-    consumeMethod: foodService,
+    consumeMethod: consumeMethod,
     discountAmount: discount,
     discountCode: customDiscountCode,
     elapsedTime: elapsedTime,
     orderChange: orderChange,
     orderDate: orderDate,
     orderItems: orderItems,
-    orderMode: foodService,
+    orderMode: orderMode,
     orderNo: orderNo,
     orderNote: orderNote,
     orderStatus: "MAKE",
-    orderTakenBy: "Shalala",
+    orderTakenBy: orderTakenBy,
     paymentMethods: paymentMethods,
     retekessNumber: retekessNumber,
     totalAmount: totalAmount,
