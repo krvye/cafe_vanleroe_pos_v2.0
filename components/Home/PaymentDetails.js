@@ -46,9 +46,7 @@ export default function PaymentDetails({
 
   const dateToday = new Date().toISOString().split("T")[0];
   const orderChange = 0;
-  const orderTakenBy = "Shalala";
-
-  const employeeName = retrieveEmployeeName(employeeId);
+  const orderTakenBy = retrieveEmployeeName(employeeId);
 
   const printReceipt = async () => {
     const html = await generateReceipt(
