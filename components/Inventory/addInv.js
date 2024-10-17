@@ -1,5 +1,3 @@
-// addInv.js
-
 import React, { useState, useEffect } from "react";
 import {
   Modal,
@@ -25,8 +23,7 @@ export default function AddInv({ modalVisible, setModalVisible, branchesInfo }) 
   const selectedBranchCode = selectedBranch ? selectedBranch.branchCode : null; 
   const [itemsByCategory, setItemsByCategory] = useState({});
   const [selectedItems, setSelectedItems] = useState([]);
-  const [branchCode, setBranchCode] = useState("");
-  
+  const [categoryDescMap, setCategoryDescMap] = useState({}); // New state for category descriptions
 
   // Handle input changes for formData
   const handleInputChange = (name, value) => {
@@ -40,7 +37,6 @@ export default function AddInv({ modalVisible, setModalVisible, branchesInfo }) 
         (item) => item.itemName === itemName
       );
 
-      // Update existing item input or add a new one
       if (existingItemIndex >= 0) {
         const updatedItem = {
           ...prevSelectedItems[existingItemIndex],
@@ -60,9 +56,10 @@ export default function AddInv({ modalVisible, setModalVisible, branchesInfo }) 
     });
   };
 
-  // Fetch items from Firestore and group them by category
+  // Fetch items and category descriptions from Firestore
   useEffect(() => {
-    const fetchItems = async () => {
+    const fetchItemsAndCategories = async () => {
+      // Fetch items
       const itemsCollection = collection(firestore, "INVENTORY_ITEMS_DESC");
       const snapshot = await getDocs(itemsCollection);
       const items = snapshot.docs.map((doc) => doc.data());
@@ -74,9 +71,20 @@ export default function AddInv({ modalVisible, setModalVisible, branchesInfo }) 
         return acc;
       }, {});
       setItemsByCategory(grouped);
+
+      // Fetch category descriptions
+      const categoryCollection = collection(firestore, "ITEM_CATEGORY_DESC");
+      const categorySnapshot = await getDocs(categoryCollection);
+      const categoryMap = categorySnapshot.docs.reduce((acc, doc) => {
+        const data = doc.data();
+        acc[data.itemCategoryCode] = data.itemCategoryDesc;
+        return acc;
+      }, {});
+      setCategoryDescMap(categoryMap);
     };
-    fetchItems();
+    fetchItemsAndCategories();
   }, []);
+
 
   const handleAddInventory = async () => {
     const currentDate = new Date();
@@ -89,65 +97,91 @@ export default function AddInv({ modalVisible, setModalVisible, branchesInfo }) 
     const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
     const formattedSeconds = seconds < 10 ? '0' + seconds : seconds;
     const timeChecked = `${hours}:${formattedMinutes}:${formattedSeconds}`; // Get time in 12-hour format (HH:MM AM/PM)
-  
 
     try {
-      // Retrieve employee ID using lastName
-      let employeeId = null;
-      if (formData.lastName) {
-        const employeeQuery = query(
-          collection(firestore, "EMPLOYEE_INFORMATION"),
-          where("lastName", "==", formData.lastName)
-        );
-        const employeeSnapshot = await getDocs(employeeQuery);
-        if (!employeeSnapshot.empty) {
-          employeeId = employeeSnapshot.docs[0].data().employeeId; // Get the first employeeId found
-        }
-      }
-
-      // Loop through each selected item and save to Firestore
-      await Promise.all(
-        selectedItems.map(async (item) => {
-          const inventoryData = {
-            timeChecked, // Current time
-            branchCode: selectedBranchCode,
-            dateChecked, // Current date
-            ...(employeeId && { employeeId }), // Save employeeId instead of first and last name
-            inventoryTimeType: formData.timeChecked, // Save selected time type (AM/PM)
-          };
-
-          // Check itemCategory in itemsByCategory to determine itemType, itemCategory, and itemCategoryCode
-          const itemCategoryData = Object.values(itemsByCategory).flat().find(i => i.itemName === item.itemName);
-          
-          if (itemCategoryData) {
-            const { itemType, itemCategory, itemCategoryCode } = itemCategoryData;
-
-            // Add itemType, itemCategory, and itemCategoryCode to inventory data
-            inventoryData.itemType = itemType;
-            inventoryData.itemCategory = itemCategory;
-            inventoryData.itemCategoryCode = itemCategoryCode;
-
-            if (itemType === "BLK") {
-              inventoryData.blkStockQty = item.stockQty || 0; // Store stock qty in blkStockQty or 0 if not provided
-              inventoryData.blkDisplayQty = item.displayQty || 0; // Store display qty in blkDisplayQty or 0 if not provided
-            } else if (itemType === "CTB") {
-              inventoryData.ctbStockQty = item.stockQty || 0; // Store stock qty in ctbStockQty or 0 if not provided
-              inventoryData.ctbDisplayQty = item.displayQty || 0; // Store display qty in ctbDisplayQty or 0 if not provided
+        // Retrieve employee ID using lastName
+        let employeeId = null;
+        if (formData.lastName) {
+            const employeeQuery = query(
+                collection(firestore, "EMPLOYEE_INFORMATION"),
+                where("lastName", "==", formData.lastName)
+            );
+            const employeeSnapshot = await getDocs(employeeQuery);
+            if (!employeeSnapshot.empty) {
+                employeeId = employeeSnapshot.docs[0].data().employeeId; // Get the first employeeId found
             }
-          }
+        }
 
-          // Write the data to Firestore
-          await addDoc(collection(firestore, "POS_INVENTORY_ITEMS"), inventoryData);
-          console.log("Inventory record added:", inventoryData);
-        })
-      );
+        // Loop through each selected item and save to Firestore
+        await Promise.all(
+            selectedItems.map(async (item) => {
+                const inventoryData = {
+                    timeChecked, // Current time
+                    branchCode: selectedBranchCode,
+                    dateChecked, // Current date
+                    ...(employeeId && { employeeId }), // Save employeeId instead of first and last name
+                    inventoryTimeType: formData.timeChecked, // Save selected time type (AM/PM)
+                };
+
+                // Check itemCategory in itemsByCategory to determine itemType, itemCategory, and itemCategoryCode
+                const itemCategoryData = Object.values(itemsByCategory).flat().find(i => i.itemName === item.itemName);
+                
+                if (itemCategoryData) {
+                    const { itemType, itemCategory, itemCategoryCode } = itemCategoryData;
+
+                    // Add itemType, itemCategory, and itemCategoryCode to inventory data
+                    inventoryData.itemType = itemType;
+                    inventoryData.itemCategory = itemCategory;
+                    inventoryData.itemCategoryCode = itemCategoryCode;
+
+                    if (itemType === "BLK") {
+                        inventoryData.blkStockQty = item.stockQty || 0; // Store stock qty in blkStockQty or 0 if not provided
+                        inventoryData.blkDisplayQty = item.displayQty || 0; // Store display qty in blkDisplayQty or 0 if not provided
+                    } else if (itemType === "CTB") {
+                        inventoryData.ctbStockQty = item.stockQty || 0; // Store stock qty in ctbStockQty or 0 if not provided
+                        inventoryData.ctbDisplayQty = item.displayQty || 0; // Store display qty in ctbDisplayQty or 0 if not provided
+                    }
+
+                    // Determine itemStatus based on stockQty
+                    let itemStatus = "EMPTY";
+                    if (item.stockQty > 21) {
+                        itemStatus = "FULL";
+                    } else if (item.stockQty >= 11 && item.stockQty <= 20) {
+                        itemStatus = "HALF";
+                    } else if (item.stockQty >= 1 && item.stockQty <= 10) {
+                        itemStatus = "AE";
+                    }
+
+                    // Save to ADMIN_INVENTORY_ITEMS collection
+                    const adminInventoryData = {
+                        latestDateChecked: dateChecked,
+                        latestEmployeeChecked: employeeId,
+                        branchCode: selectedBranchCode,
+                        itemName: item.itemName,
+                        itemType: itemType,
+                        itemCategory: itemCategory,
+                        itemStatus: itemStatus, // Add the itemStatus field
+                        ...(item.stockQty && { stockQty: item.stockQty }),
+                        ...(item.displayQty && { displayQty: item.displayQty })
+                    };
+
+                    await addDoc(collection(firestore, "ADMIN_INVENTORY_ITEMS"), adminInventoryData);
+                    console.log("Admin inventory record added:", adminInventoryData);
+                }
+
+                // Write the data to Firestore
+                await addDoc(collection(firestore, "POS_INVENTORY_ITEMS"), inventoryData);
+                console.log("Inventory record added:", inventoryData);
+            })
+        );
     } catch (error) {
-      console.error("Error adding inventory record:", error);
+        console.error("Error adding inventory record:", error);
     }
 
     setModalVisible(false); // Close the modal after adding
     setSelectedItems([]); // Clear selected items after submission
-  };
+};
+
 
   return (
     <Modal
@@ -168,7 +202,6 @@ export default function AddInv({ modalVisible, setModalVisible, branchesInfo }) 
               <Text style={styles.closeButtonText}>X</Text>
             </TouchableOpacity>
 
-            {/* Employee Name Inputs */}
             <View style={styles.tableRow}>
               <Text style={styles.tableHeader}>First Name</Text>
               <TextInput
@@ -189,7 +222,6 @@ export default function AddInv({ modalVisible, setModalVisible, branchesInfo }) 
               />
             </View>
 
-            {/* Time Checked Dropdown */}
             <View style={styles.tableRow}>
               <Text style={styles.tableHeader}>Time Checked</Text>
               <Picker
@@ -211,66 +243,67 @@ export default function AddInv({ modalVisible, setModalVisible, branchesInfo }) 
               <Text style={styles.tableHeader}>Display</Text>
             </View>
 
-            {/* Grouped Items by Category */}
+            {/* Grouped Items by Category with Category Description */}
             {Object.keys(itemsByCategory).map((categoryCode) => (
-                  <View key={categoryCode}>
-                    {/* Display Category Header */}
-                    <Text style={styles.categoryHeader}>{categoryCode}</Text>
+              <View key={categoryCode}>
+                {/* Display Category Description if available */}
+                <Text style={styles.categoryHeader}>
+                  {categoryDescMap[categoryCode] || categoryCode}
+                </Text>
 
-                    {/* Items under this category */}
-                    {itemsByCategory[categoryCode].map((item, index) => (
-                      <View key={index} style={styles.tableRow}>
-                        <View style={styles.tableCell}>
-                          <Text style={styles.itemNameText}>{item.itemName}</Text>
-                        </View>
+                {itemsByCategory[categoryCode].map((item, index) => (
+                  <View key={index} style={styles.tableRow}>
+                    <View style={styles.tableCell}>
+                      <Text style={styles.itemNameText}>{item.itemName}</Text>
+                    </View>
 
-                        {item.itemType === "BLK" ? (
-                          <>
-                            <TextInput
-                              style={styles.input}
-                              placeholder="Stock Quantity"
-                              keyboardType="numeric"
-                              onChangeText={(text) =>
-                                handleItemInputChange(item.itemName, "stockQty", text)
-                              }
-                            />
-                            <Picker
-                              selectedValue={selectedItems.find(i => i.itemName === item.itemName)?.displayQty}
-                              onValueChange={(value) =>
-                                handleItemInputChange(item.itemName, "displayQty", value)
-                              }
-                            >
-                                <Picker.Item label="Select Status" value=" " />
-                              <Picker.Item label="FULL" value="FULL" />
-                              <Picker.Item label="HALF" value="HALF" />
-                              <Picker.Item label="AE" value="AE" />
-                              <Picker.Item label="EMPTY" value="EMPTY" />
-                            </Picker>
-                          </>
-                        ) : item.itemType === "CTB" ? (
-                          <>
-                            <TextInput
-                              style={styles.input}
-                              placeholder="Stock Quantity"
-                              keyboardType="numeric"
-                              onChangeText={(text) =>
-                                handleItemInputChange(item.itemName, "stockQty", text)
-                              }
-                            />
-                            <TextInput
-                              style={styles.input}
-                              placeholder="Display Quantity"
-                              keyboardType="numeric"
-                              onChangeText={(text) =>
-                                handleItemInputChange(item.itemName, "displayQty", text)
-                              }
-                            />
-                          </>
-                        ) : null}
-                      </View>
-                    ))}
+                    {item.itemType === "BLK" ? (
+                      <>
+                        <TextInput
+                          style={styles.input}
+                          placeholder="Stock Quantity"
+                          keyboardType="numeric"
+                          onChangeText={(text) =>
+                            handleItemInputChange(item.itemName, "stockQty", text)
+                          }
+                        />
+                        <Picker
+                          selectedValue={selectedItems.find(i => i.itemName === item.itemName)?.displayQty}
+                          onValueChange={(value) =>
+                            handleItemInputChange(item.itemName, "displayQty", value)
+                          }
+                        >
+                          <Picker.Item label="Select Status" value=" " />
+                          <Picker.Item label="Full" value="FULL" />
+                          <Picker.Item label="Half" value="HALF" />
+                          <Picker.Item label="AlmostEmpty" value="AE" />
+                          <Picker.Item label="Empty" value="EMPTY" />
+                        </Picker>
+                      </>
+                    ) : item.itemType === "CTB" ? (
+                      <>
+                        <TextInput
+                          style={styles.input}
+                          placeholder="Stock Quantity"
+                          keyboardType="numeric"
+                          onChangeText={(text) =>
+                            handleItemInputChange(item.itemName, "stockQty", text)
+                          }
+                        />
+                        <TextInput
+                          style={styles.input}
+                          placeholder="Display Quantity"
+                          keyboardType="numeric"
+                          onChangeText={(text) =>
+                            handleItemInputChange(item.itemName, "displayQty", text)
+                          }
+                        />
+                      </>
+                    ) : null}
                   </View>
                 ))}
+              </View>
+            ))}
 
             <View style={styles.buttonContainer}>
               <TouchableOpacity
