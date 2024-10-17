@@ -11,6 +11,7 @@ import { Alert } from "react-native";
 
 export const UpdateNonDrinks = async (
   selectedItem,
+  updateImageUrl,
   updateProductName,
   updateCategory, 
   updateItemAmount, 
@@ -35,6 +36,7 @@ export const UpdateNonDrinks = async (
     
     menuDocSnapshot.forEach(async (doc) => {
       updateDoc(doc.ref, {
+        image: updateImageUrl,
         productName: updateProductName, 
         itemAmount: updateItemAmount, 
         fpItemAmount: updateFpItemAmount, 

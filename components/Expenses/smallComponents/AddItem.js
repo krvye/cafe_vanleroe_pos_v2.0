@@ -1,5 +1,5 @@
 import { StyleSheet, View, TextInput, Text, Pressable } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function AddItem({
   index,
@@ -18,6 +18,7 @@ export default function AddItem({
     }
     console.log("Item Added!");
   };
+
 
   return (
     <View style={styles.container}>

@@ -16,6 +16,10 @@ import { UpdateNonDrinks } from "../../services/firebase/Menu/updateNonDrinks";
 import { Picker } from "@react-native-picker/picker";
 import { useState } from "react";
 
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { imgDB } from "../../services/firebase/firebaseConfig";
+import { launchImageLibrary } from "react-native-image-picker";
+
 export default function NonDrinkModal({
   modalState,
   setModalState,
@@ -23,15 +27,75 @@ export default function NonDrinkModal({
 }) {
   itemCategories = retrieveItemCategory();
 
+  const [imageUrl, setImageUrl] = useState(null);
+  const [localImageUri, setLocalImageUri] = useState(null);
   const [productName, setProductName] = useState("");
   const [selectedItemCategory, setSelectedItemCategory] = useState("");
   const [itemAmount, setItemAmount] = useState("");
   const [fpItemAmount, setFpItemAmount] = useState("");
   const [grabItemAmount, setGrabItemAmount] = useState("");
 
+
+  const handleUploadPhoto = () => {
+    const options = {
+      mediaType: "photo",
+      quality: 1,
+    };
+
+    launchImageLibrary(options, (response) => {
+      if (response.didCancel) {
+        console.log("User cancelled image picker");
+        return;
+      } else if (response.errorCode) {
+        console.log("Image Picker Error: ", response.errorMessage);
+        return;
+      } else if (response.assets && response.assets.length > 0) {
+        const file = response.assets[0];
+
+        // Set the local image URI for preview
+        setLocalImageUri(file.uri);
+
+        // Check if the file size exceeds 1MB (1MB = 1048576 bytes)
+        const maxFileSize = 1048576; // 1MB in bytes
+        if (file.fileSize > maxFileSize) {
+          Alert.alert("File size exceeds 1MB. Please select a smaller image.");
+          return;
+        }
+
+        // Define the Firebase Storage reference
+        const fileName = file.fileName;
+        const storageRef = ref(imgDB, `PRF/${fileName}`);
+
+        // Upload the file to Firebase Storage
+        fetch(file.uri)
+          .then((res) => res.blob()) // Convert image URI to blob for Firebase upload
+          .then((blob) => {
+            uploadBytes(storageRef, blob)
+              .then((snapshot) => {
+                console.log("Image uploaded successfully");
+
+                // Get the download URL of the uploaded image
+                getDownloadURL(snapshot.ref)
+                  .then((downloadURL) => {
+                    setImageUrl(downloadURL); // Set the Firebase image URL for display
+                    console.log("Download URL:", downloadURL);
+                  })
+                  .catch((error) => {
+                    console.error("Error getting download URL:", error);
+                  });
+              })
+              .catch((error) => {
+                console.error("Error uploading image:", error);
+              });
+          });
+      }
+    });
+  };
+
   const handleApplyChanges = async () => {
     setModalState(false);
 
+    const updateImageUrl = imageUrl || selectedItem.image;
     const updateProductName = productName || selectedItem.productName;
     const updateCategory = selectedItemCategory;
 
@@ -47,6 +111,7 @@ export default function NonDrinkModal({
         : selectedItem.grabItemAmount;
 
     await UpdateNonDrinks(
+      updateImageUrl,
       selectedItem,
       updateProductName,
       updateCategory,
@@ -55,6 +120,8 @@ export default function NonDrinkModal({
       updateGrabItemAmount
     );
 
+    setLocalImageUri("");
+    setImageUrl("");
     setProductName("");
     setSelectedItemCategory("");
     setItemAmount("");
@@ -65,6 +132,8 @@ export default function NonDrinkModal({
   const handleCancelButton = () => {
     setModalState(false);
 
+    setLocalImageUri("");
+    setImageUrl("");
     setProductName("");
     setSelectedItemCategory("");
     setAmountSmall("");
@@ -93,20 +162,20 @@ export default function NonDrinkModal({
               name="close"
               size={24}
               color="black"
-              onPress={() => {
-                setModalState(false);
-              }}
+              onPress={handleCancelButton}
             />
           </View>
 
           <View style={styles.bottomBorder}></View>
 
+          <TouchableOpacity onPress={handleUploadPhoto}>
           <Image
             source={{
-              uri: selectedItem.image,
+              uri: imageUrl || localImageUri || selectedItem.image,
             }}
             style={styles.productImage}
           />
+          </TouchableOpacity>
 
           <View style={styles.bottomBorder}></View>
 

@@ -11,6 +11,7 @@ import {
 import { Alert } from "react-native";
 
 export const StoreNonDrinks = async (
+  imageUrl,
   incrementedProductId,
   productName,
   itemAmount,
@@ -22,6 +23,7 @@ export const StoreNonDrinks = async (
   console.log("Category here: ", selectedCategory);
   const db = getFirestore(app);
   if (
+    !imageUrl || 
     !productName ||
     !itemAmount ||
     !fpItemAmount ||
@@ -52,8 +54,7 @@ export const StoreNonDrinks = async (
 
       if (menuDocSnapshot.empty) {
         await addDoc(POS_MENU_COLLECTION, {
-          image:
-            "https://firebasestorage.googleapis.com/v0/b/cafe-vanleroe-system-test.appspot.com/o/MENU_ITEMS%2Foriginal_logo.jpg?alt=media&token=9bf623f9-4c87-4136-87b5-c6cccfda8a54",
+          image: imageUrl, 
           productId: incrementedProductId,
           productName: productName,
           categoryCode: selectedCategory,

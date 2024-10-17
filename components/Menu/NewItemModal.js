@@ -17,6 +17,10 @@ import { StoreDrinks } from "../../services/firebase/Menu/storeDrinks";
 import { StoreNonDrinks } from "../../services/firebase/Menu/storeNonDrinks";
 import { useState } from "react";
 
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { imgDB } from "../../services/firebase/firebaseConfig";
+import { launchImageLibrary } from "react-native-image-picker";
+
 export default function DrinksModal({ newItemState, setNewItemState }) {
   const itemCategories = retrieveItemCategory();
 
@@ -25,6 +29,8 @@ export default function DrinksModal({ newItemState, setNewItemState }) {
 
   const [productName, setProductName] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [imageUrl, setImageUrl] = useState(null);
+  const [localImageUri, setLocalImageUri] = useState(null);
   // Drinks
   const [amountSmall, setAmountSmall] = useState("");
   const [amountMedium, setAmountMedium] = useState("");
@@ -52,6 +58,62 @@ export default function DrinksModal({ newItemState, setNewItemState }) {
     return `${prefix}${paddedIncrementedValue}`;
   }
 
+  const handleUploadPhoto = () => {
+    const options = {
+      mediaType: "photo",
+      quality: 1,
+    };
+
+    launchImageLibrary(options, (response) => {
+      if (response.didCancel) {
+        console.log("User cancelled image picker");
+        return;
+      } else if (response.errorCode) {
+        console.log("Image Picker Error: ", response.errorMessage);
+        return;
+      } else if (response.assets && response.assets.length > 0) {
+        const file = response.assets[0];
+
+        // Set the local image URI for preview
+        setLocalImageUri(file.uri);
+
+        // Check if the file size exceeds 1MB (1MB = 1048576 bytes)
+        const maxFileSize = 1048576; // 1MB in bytes
+        if (file.fileSize > maxFileSize) {
+          Alert.alert("File size exceeds 1MB. Please select a smaller image.");
+          return;
+        }
+
+        // Define the Firebase Storage reference
+        const fileName = file.fileName;
+        const storageRef = ref(imgDB, `PRF/${fileName}`);
+
+        // Upload the file to Firebase Storage
+        fetch(file.uri)
+          .then((res) => res.blob()) // Convert image URI to blob for Firebase upload
+          .then((blob) => {
+            uploadBytes(storageRef, blob)
+              .then((snapshot) => {
+                console.log("Image uploaded successfully");
+
+                // Get the download URL of the uploaded image
+                getDownloadURL(snapshot.ref)
+                  .then((downloadURL) => {
+                    setImageUrl(downloadURL); // Set the Firebase image URL for display
+                    console.log("Download URL:", downloadURL);
+                  })
+                  .catch((error) => {
+                    console.error("Error getting download URL:", error);
+                  });
+              })
+              .catch((error) => {
+                console.error("Error uploading image:", error);
+              });
+          });
+      }
+    });
+  };
+
   const handleApplyChanges = async () => {
     setNewItemState(false);
     const filteredMenu = allMenu.filter(
@@ -67,6 +129,7 @@ export default function DrinksModal({ newItemState, setNewItemState }) {
 
     if (itemType === "Drinks") {
       await StoreDrinks(
+        imageUrl,
         incrementedProductId,
         productName,
         amountSmall,
@@ -92,6 +155,7 @@ export default function DrinksModal({ newItemState, setNewItemState }) {
       setGrabAmountLarge("");
     } else {
       await StoreNonDrinks(
+        imageUrl,
         incrementedProductId,
         productName,
         itemAmount,
@@ -103,7 +167,8 @@ export default function DrinksModal({ newItemState, setNewItemState }) {
       setFpItemAmount("");
       setGrabItemAmount("");
     }
-
+    setImageUrl("");
+    setLocalImageUri("");
     setProductName("");
     setSelectedCategory("");
   };
@@ -127,6 +192,8 @@ export default function DrinksModal({ newItemState, setNewItemState }) {
       setGrabItemAmount("");
     }
 
+    setImageUrl("");
+    setLocalImageUri("");
     setProductName("");
     setSelectedCategory("");
   };
@@ -144,20 +211,22 @@ export default function DrinksModal({ newItemState, setNewItemState }) {
               name="close"
               size={24}
               color="black"
-              onPress={() => {
-                setNewItemState(false);
-              }}
+              onPress={handleCancelButton}
             />
           </View>
 
           <View style={styles.bottomBorder}></View>
 
-          <Image
-            source={{
-              uri: "https://images.unsplash.com/photo-1509042239860-f550ce710b93",
-            }}
-            style={styles.productImage}
-          />
+          <TouchableOpacity onPress={handleUploadPhoto}>
+            <Image
+              source={{
+                uri:
+                  imageUrl || localImageUri || 
+                  "https://images.unsplash.com/photo-1509042239860-f550ce710b93",
+              }}
+              style={styles.productImage}
+            />
+          </TouchableOpacity>
 
           <View style={styles.bottomBorder}></View>
 

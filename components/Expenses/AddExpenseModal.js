@@ -93,6 +93,11 @@ export default function AddExpenseModal({
 
   // Handler for adding all expense items
   const handleAddAllItems = async () => {
+    if (itemName && itemQTY && itemPrice && receiptTotal) {
+      // Add the last unsubmitted item if it exists
+      handleAddItem(itemName, itemQTY, itemPrice, receiptTotal);
+    }
+    
     const currentExpense = {
       dateChecked: currDate,
       branchCode: selectedBranchCode,
