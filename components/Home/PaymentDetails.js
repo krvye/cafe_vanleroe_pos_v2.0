@@ -64,7 +64,7 @@ export default function PaymentDetails({
   const selectedBranchCode = selectedBranch ? selectedBranch.branchCode : null;
 
   const dateToday = new Date().toISOString().split("T")[0];
-  const orderChange = 0;
+  const orderChange = paidAmount - finalTotal;
   const orderTakenBy = retrieveEmployeeName(employeeId);
 
   const printReceipt = async () => {

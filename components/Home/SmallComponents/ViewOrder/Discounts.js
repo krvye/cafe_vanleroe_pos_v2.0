@@ -20,32 +20,29 @@ export default function Discounts({
   const styles = makeStyles(height);
 
   const [selectedButton, setSelectedButton] = useState(null);
-  
 
   const studentDiscount = 10.00000001;
 
   const handlePress = (button) => {
-    setSelectedButton((prevButton) => (prevButton === button ? 0 : button));
-    if (button === "senior" || button === "20") {
-      setDiscount((prevButton) =>
-        prevButton === 0.2 ? 0 : (subTotal * 0.2).toFixed(2)
-      );
-    } else if (button === "student") {
-      setDiscount((prevButton) =>
-        prevButton === studentDiscount ? 0 : studentDiscount.toFixed(2)
-      );
-    } else if (button === "10") {
-      setDiscount((prevButton) =>
-        prevButton === 0.1 ? 0 : (subTotal * 0.1).toFixed(2)
-      );
-    } else if (button === "30") {
-      setDiscount((prevButton) =>
-        prevButton === 0.3 ? 0 : (subTotal * 0.3).toFixed(2)
-      );
-    } else if (button === "40") {
-      setDiscount((prevButton) =>
-        prevButton === 0.4 ? 0 : (subTotal * 0.4).toFixed(2)
-      );
+    if (selectedButton === button) {
+      // If the same button is pressed again, reset the discount to 0
+      setSelectedButton(null);
+      setDiscount(0);
+    } else {
+      // Update the selected button and apply the corresponding discount
+      setSelectedButton(button);
+
+      if (button === "senior" || button === "20") {
+        setDiscount((subTotal * 0.2).toFixed(2));
+      } else if (button === "student") {
+        setDiscount(studentDiscount.toFixed(2));
+      } else if (button === "10") {
+        setDiscount((subTotal * 0.1).toFixed(2));
+      } else if (button === "30") {
+        setDiscount((subTotal * 0.3).toFixed(2));
+      } else if (button === "40") {
+        setDiscount((subTotal * 0.4).toFixed(2));
+      }
     }
   };
 
@@ -56,10 +53,8 @@ export default function Discounts({
 
     if (foundDiscount) {
       const discountAmount = foundDiscount.discountAmount;
-      setDiscount((prevButton) =>
-        prevButton === discountAmount ? 0 : discountAmount.toFixed(2)
-      );
       setSelectedButton(customDiscountCode);
+      setDiscount(discountAmount.toFixed(2));
     } else {
       alert("Invalid discount code.");
       setSelectedButton(null);

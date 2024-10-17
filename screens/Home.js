@@ -58,6 +58,7 @@ export default function HomeScreen({ route }) {
         setPaymentDetails={setPaymentDetails}
         foodService={foodService}
         setOnsiteMode={setOnsiteMode}
+        orderDetails={orderDetails}
       />
       <AddOrder
         modalState={modalState}

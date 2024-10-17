@@ -10,6 +10,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import Items from "./SmallComponents/MenuItem/Items";
 import OrderModesButtons from "./SmallComponents/MenuItem/OrderModeButtons";
+import { Alert } from "react-native";
 
 export default function MenuItems({
   setModalState,
@@ -31,6 +32,7 @@ export default function MenuItems({
   setPaymentDetails,
   foodService,
   setOnsiteMode,
+  orderDetails,
 }) {
   const { fontScale, scale } = useWindowDimensions();
   const styles = makeStyles(scale, fontScale);
@@ -74,7 +76,14 @@ export default function MenuItems({
         <TouchableOpacity
           style={styles.viewOrderButton}
           onPress={() => {
-            setViewOrderState(true);
+            if (orderDetails.length === 0) {
+              Alert.alert(
+                "No items in the order",
+                "Please add items to your order before viewing."
+              );
+            } else {
+              setViewOrderState(true);
+            }
           }}
         >
           <MaterialCommunityIcons name="cash" size={iconSize} color="white" />

@@ -1,4 +1,5 @@
 import { AntDesign } from "@expo/vector-icons";
+import { Alert } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
@@ -34,8 +35,19 @@ export default function CustomerDetails({
     setOrderNote(value);
   };
 
-  const handleTimeElapsedChange = (value) => {
-    setTimeElapsed(value);
+  const handleTimeElapsedChange = (text) => {
+    // Validate the input format against MM:SS
+    const regex = /^(?:([0-5][0-9]):([0-5][0-9]))?$/; // MM:SS format
+    setTimeElapsed(text);
+    if (text.length === 5) {
+      if (regex.test(text) || text === "") {
+        return;
+      } else {
+        // Show an alert if the format is incorrect
+        setTimeElapsed("");
+        Alert.alert("Invalid Format", "Please enter time in MM:SS format.");
+      }
+    }
   };
 
   const handleDineIn = () => {
@@ -68,12 +80,16 @@ export default function CustomerDetails({
             style={styles.customerInput}
             value={retekessNumber}
             onChangeText={handleRetekessNumberChange}
+            keyboardType="numeric"
+            maxLength={3}
           />
           <TextInput
-            placeholder="Time Elapsed"
+            placeholder="Time Elapsed (HH:MM)"
             style={styles.customerInput}
             value={timeElapsed}
             onChangeText={handleTimeElapsedChange}
+            keyboardType="number-pad" // Use number pad for time input
+            maxLength={5} // Limit to HH:MM format
           />
         </>
       )}
@@ -84,6 +100,8 @@ export default function CustomerDetails({
           style={styles.customerInput}
           value={orderNumber}
           onChangeText={handleOrderNumberChange}
+          keyboardType="numeric"
+          maxLength={3}
         />
       )}
 
