@@ -13,13 +13,14 @@ export const UpdateNonDrinks = async (
   selectedItem,
   updateImageUrl,
   updateProductName,
-  updateCategory, 
-  updateItemAmount, 
+  updateCategory,
+  updateItemAmount,
   updateFpItemAmount,
   updateGrabItemAmount
 ) => {
   const db = getFirestore(app);
   console.log(`Product Name: ${updateProductName}`);
+  console.log("Product ID: ", selectedItem.productId);
 
   if (!updateCategory) {
     Alert.alert("Choose a category!");
@@ -33,16 +34,16 @@ export const UpdateNonDrinks = async (
       where("productId", "==", selectedItem.productId)
     );
     const menuDocSnapshot = await getDocs(menuDocQuery);
-    
+
     menuDocSnapshot.forEach(async (doc) => {
       updateDoc(doc.ref, {
         image: updateImageUrl,
-        productName: updateProductName, 
-        itemAmount: updateItemAmount, 
-        fpItemAmount: updateFpItemAmount, 
-        grabItemAmount: updateGrabItemAmount
-      })
-    })
+        productName: updateProductName,
+        itemAmount: updateItemAmount,
+        fpItemAmount: updateFpItemAmount,
+        grabItemAmount: updateGrabItemAmount,
+      });
+    });
     console.log("Updated successfully!");
   } catch (error) {
     console.log("Error updating or adding non drinks: ", error);

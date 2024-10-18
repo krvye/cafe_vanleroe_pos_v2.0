@@ -95,6 +95,8 @@ export default function NonDrinkModal({
   const handleApplyChanges = async () => {
     setModalState(false);
 
+    console.log("selected item: ", selectedItem);
+
     const updateImageUrl = imageUrl || selectedItem.image;
     const updateProductName = productName || selectedItem.productName;
     const updateCategory = selectedItemCategory;
@@ -111,8 +113,8 @@ export default function NonDrinkModal({
         : selectedItem.grabItemAmount;
 
     await UpdateNonDrinks(
-      updateImageUrl,
       selectedItem,
+      updateImageUrl,
       updateProductName,
       updateCategory,
       updateItemAmount,
@@ -136,15 +138,9 @@ export default function NonDrinkModal({
     setImageUrl("");
     setProductName("");
     setSelectedItemCategory("");
-    setAmountSmall("");
-    setAmountMedium("");
-    setAmountLarge("");
-    setFpAmountSmall("");
-    setFpAmountMedium("");
-    setFpAmountLarge("");
-    setGrabAmountSmall("");
-    setGrabAmountMedium("");
-    setGrabAmountLarge("");
+    setItemAmount("");
+    setFpItemAmount("");
+    setGrabItemAmount("");
   };
 
   return (

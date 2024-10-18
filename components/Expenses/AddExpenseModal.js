@@ -71,8 +71,8 @@ export default function AddExpenseModal({
       receiptNumber: receiptNumber,
       itemName: itemName,
       itemQTY: itemQTY,
-      itemPrice: itemPrice,
-      receiptTotal: receiptTotal,
+      itemPrice: parseFloat(itemPrice),
+      receiptTotal: parseFloat(receiptTotal),
     };
 
     setExpenseItems((prevItems) => [...prevItems, expenses]);

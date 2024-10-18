@@ -1,13 +1,14 @@
 import { StyleSheet, Pressable, View, Text } from "react-native";
-import { useState } from "react";
+// import { useState } from "react";
 
 // import Entypo from '@expo/vector-icons/Entypo';
 
 export default function OrderDetails({
   selectedOrder,
   // addOnsInfo,
-  noteTemplatesInfo,
+  // noteTemplatesInfo,
 }) {
+  // console.log("Selected order: ", selectedOrder);
   // Map add ons to return addOnDesc
   // const handleAddOns = (addOnCode) => {
   //   const addOnData = addOnsInfo.find((item) => item.addOnCode === addOnCode);
@@ -16,13 +17,13 @@ export default function OrderDetails({
   // };
 
   // Map Note templates to return noteTemplatesDesc
-  const handleNoteTemplates = (noteTemplatesCode) => {
-    const noteTemplateData = noteTemplatesInfo.find(
-      (item) => item.noteId === noteTemplatesCode
-    );
+  // const handleNoteTemplates = (noteTemplatesCode) => {
+  //   const noteTemplateData = noteTemplatesInfo.find(
+  //     (item) => item.noteId === noteTemplatesCode
+  //   );
 
-    return noteTemplateData ? noteTemplateData.noteDesc : " ";
-  };
+  //   return noteTemplateData ? noteTemplateData.noteDesc : " ";
+  // };
 
   return (
     <>
@@ -30,13 +31,18 @@ export default function OrderDetails({
         return (
           <View key={orderIndex} style={styles.orderItem}>
             <View style={styles.orderDetails}>
-              <Text style={[styles.orderItemText, {fontWeight: "500"}]}>
-                {order.itemName} - {order.itemSize}
+              <Text style={[styles.orderItemText, { fontWeight: "500" }]}>
+                {order.itemSize === ""
+                  ? `${order.itemName}`
+                  : `${order.itemName} - ${order.itemSize}`}
               </Text>
-              <Text style={[styles.orderItemText, {fontWeight: "500"}]}>
-                Quantity: {order.itemQuantity}
+              <Text style={[styles.orderItemText, { fontWeight: "500" }]}>
+                Quantity:{" "}
+                <Text style={[styles.orderItemText]}>{order.itemQuantity}</Text>
               </Text>
-              <Text style={[styles.orderItemText, {fontWeight: "500"}]}>Add Ons:</Text>
+              <Text style={[styles.orderItemText, { fontWeight: "500" }]}>
+                Add Ons:
+              </Text>
               {order.addOns.map((addOns, index) => {
                 return (
                   <Text
@@ -47,8 +53,11 @@ export default function OrderDetails({
                   </Text>
                 );
               })}
-              <Text style={[styles.orderItemText, {fontWeight: "500"}]}>
-                Notes: {handleNoteTemplates(order.itemNotes)}
+              <Text style={[styles.orderItemText, { fontWeight: "500" }]}>
+                Notes:{" "}
+                <Text style={styles.orderItemText}>
+                  {selectedOrder.orderNote}
+                </Text>
               </Text>
             </View>
           </View>
