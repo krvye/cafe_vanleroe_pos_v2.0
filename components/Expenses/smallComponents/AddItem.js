@@ -1,20 +1,28 @@
 import { StyleSheet, View, TextInput, Text, Pressable } from "react-native";
-import { useState, useEffect } from "react";
+// import { useState} from "react";
 
 export default function AddItem({
   index,
   handleRemoveItem,
   handleAddItem,
   itemLength,
+  addedItemName, 
+  setAddedItemName,
+  addedItemQTY,
+  setAddedItemQTY,
+  addedItemPrice,
+  setAddedItemPrice,
+  addedReceiptTotal,
+  setAddedReceiptTotal
 }) {
-  const [itemName, setItemName] = useState("");
-  const [itemQTY, setItemQTY] = useState("");
-  const [itemPrice, setItemPrice] = useState("");
-  const [receiptTotal, setReceiptTotal] = useState("");
+  // const [itemName, setItemName] = useState("");
+  // const [itemQTY, setItemQTY] = useState("");
+  // const [itemPrice, setItemPrice] = useState("");
+  // const [receiptTotal, setReceiptTotal] = useState("");
 
   const addItem = () => {
-    if (itemName && itemQTY && itemPrice && receiptTotal) {
-      handleAddItem(itemName, itemQTY, itemPrice, receiptTotal);
+    if (addedItemName && addedItemQTY && addedItemPrice && addedReceiptTotal) {
+      handleAddItem(addedItemName, addedItemQTY, addedItemPrice, addedReceiptTotal);
     }
     console.log("Item Added!");
   };
@@ -32,8 +40,8 @@ export default function AddItem({
           style={[styles.input, styles.inputTitleText]}
           placeholder="Item Name"
           placeholderTextColor={"gray"}
-          value={itemName}
-          onChangeText={setItemName}
+          value={addedItemName}
+          onChangeText={setAddedItemName}
         />
       </View>
 
@@ -45,8 +53,8 @@ export default function AddItem({
           style={[styles.input, styles.inputTitleText]}
           placeholder="Quantity"
           placeholderTextColor={"gray"}
-          value={itemQTY.toString()}
-          onChangeText={(value) => setItemQTY(Number(value))}
+          value={addedItemQTY.toString()}
+          onChangeText={(value) => setAddedItemQTY(Number(value))}
         />
       </View>
 
@@ -60,8 +68,8 @@ export default function AddItem({
           style={[styles.input, styles.inputTitleText]}
           placeholder="Item Price"
           placeholderTextColor={"gray"}
-          value={itemPrice}
-          onChangeText={setItemPrice}
+          value={addedItemPrice}
+          onChangeText={setAddedItemPrice}
         />
       </View>
 
@@ -75,8 +83,8 @@ export default function AddItem({
           style={[styles.input, styles.inputTitleText]}
           placeholder="Total Price"
           placeholderTextColor={"gray"}
-          value={receiptTotal}
-          onChangeText={setReceiptTotal}
+          value={addedReceiptTotal}
+          onChangeText={setAddedReceiptTotal}
         />
       </View>
 

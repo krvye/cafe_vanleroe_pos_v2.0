@@ -44,6 +44,11 @@ export default function AddExpenseModal({
   const [itemPrice, setItemPrice] = useState("");
   const [receiptTotal, setReceiptTotal] = useState("");
 
+  const [addedItemName, setAddedItemName] = useState("");
+  const [addedItemQTY, setAddedItemQTY] = useState("");
+  const [addedItemPrice, setAddedItemPrice] = useState("");
+  const [addedReceiptTotal, setAddedReceiptTotal] = useState("");
+
   // Exit modal and cancel button
   const handleExitModal = () => {
     setBranchCode("");
@@ -93,23 +98,40 @@ export default function AddExpenseModal({
 
   // Handler for adding all expense items
   const handleAddAllItems = async () => {
-    if (itemName && itemQTY && itemPrice && receiptTotal) {
-      // Add the last unsubmitted item if it exists
-      handleAddItem(itemName, itemQTY, itemPrice, receiptTotal);
+    let currentExpense;
+
+    if (
+      addedItemName === "" &&
+      addedItemQTY === "" &&
+      addedItemPrice === "" &&
+      addedReceiptTotal === ""
+    ) {
+      currentExpense = {
+        dateChecked: currDate,
+        branchCode: selectedBranchCode,
+        expenseTypeCd: expenseType,
+        receiptNumber: receiptNumber,
+        itemName: itemName,
+        itemQTY: itemQTY,
+        itemPrice: parseFloat(itemPrice),
+        receiptTotal: parseFloat(receiptTotal),
+      };
+    } else {
+      currentExpense = {
+        dateChecked: currDate,
+        branchCode: selectedBranchCode,
+        expenseTypeCd: expenseType,
+        receiptNumber: receiptNumber,
+        itemName: addedItemName,
+        itemQTY: addedItemQTY,
+        itemPrice: parseFloat(addedItemPrice),
+        receiptTotal: parseFloat(addedReceiptTotal),
+      };
     }
-    
-    const currentExpense = {
-      dateChecked: currDate,
-      branchCode: selectedBranchCode,
-      expenseTypeCd: expenseType,
-      receiptNumber: receiptNumber,
-      itemName: itemName,
-      itemQTY: itemQTY,
-      itemPrice: parseFloat(itemPrice),
-      receiptTotal: parseFloat(receiptTotal),
-    };
+
     setExpenseItems((prevItems) => [...prevItems, currentExpense]);
 
+    console.log("Current expense: ", currentExpense);
     const allExpenses = [...expenseItems, currentExpense];
 
     // Iterate each expense item to store in firebase
@@ -305,6 +327,14 @@ export default function AddExpenseModal({
                 handleRemoveItem={handleRemoveItem}
                 handleAddItem={handleAddItem}
                 itemLength={expenseItems.length}
+                addedItemName={addedItemName}
+                setAddedItemName={setAddedItemName}
+                addedItemQTY={addedItemQTY}
+                setAddedItemQTY={setAddedItemQTY}
+                addedItemPrice={addedItemPrice}
+                setAddedItemPrice={setAddedItemPrice}
+                addedReceiptTotal={addedReceiptTotal}
+                setAddedReceiptTotal={setAddedReceiptTotal}
               />
             ))
           ) : (
