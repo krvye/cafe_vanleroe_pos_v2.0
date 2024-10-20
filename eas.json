@@ -1,7 +1,4 @@
 {
-  "cli": {
-    "version": ">= 9.1.0"
-  },
   "build": {
     "development": {
       "developmentClient": true,
